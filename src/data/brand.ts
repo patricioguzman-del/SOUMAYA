@@ -1,5 +1,5 @@
 // Soumaya's details, in one place. Every page, the letter, WhatsApp and search data read from here.
-// PLACEHOLDERS: replace email, phone, whatsapp and domain with her confirmed details before launch.
+// PLACEHOLDERS still to confirm: email and domain.
 export const brand={
  name:'Soumaya',
  fullName:'Soumaya',
@@ -7,9 +7,9 @@ export const brand={
  tagline:{en:'PRIVATE REAL ESTATE · IBIZA',es:'INMOBILIARIA PRIVADA · IBIZA',fr:'IMMOBILIER PRIVÉ · IBIZA'},
  domain:'https://soumaya.example', // placeholder: her domain
  email:'hello@soumaya.example', // placeholder
- phone:'+34 600 000 000', // placeholder
- phoneHref:'+34600000000', // placeholder
- whatsapp:'34600000000', // placeholder, digits only
+ phone:'+33 6 22 71 00 71',
+ phoneHref:'+33622710071',
+ whatsapp:'33622710071', // digits only
  languages:{en:'French, English, Spanish and Arabic',es:'Francés, inglés, español y árabe',fr:'Français, anglais, espagnol et arabe'},
  role:{en:'Personal property advisor, Ibiza',es:'Asesora inmobiliaria personal, Ibiza',fr:'Conseillère immobilière personnelle, Ibiza'}
 } as const;
