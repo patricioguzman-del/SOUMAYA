@@ -1418,7 +1418,7 @@ h1 em,h2 em{font-style:italic}
 .meet-band .meet-text{padding:0;gap:var(--space-lg)}
 .meet-band .meet-text .eyebrow{margin:0}
 .meet-band .meet-text h2{font-size:clamp(2.5rem,4vw,3.5rem)}
-.meet-band .meet-text p{font-size:var(--text-base);max-width:48ch}
+.meet-band .meet-text p:not(.eyebrow){font-size:var(--text-base);max-width:48ch}
 @media(max-width:760px){.meet-band{grid-template-columns:1fr}.meet-band .meet-photo{max-width:22rem}}
 /* The island band is now light, so the page ends calmly. */
 .perspective-band{background:var(--stone);color:var(--ink)}
