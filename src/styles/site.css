@@ -1455,3 +1455,4 @@ h1 em,h2 em{font-style:italic}
 @media(max-width:860px){.hero-portrait{height:46svh}}
 .hero-house img{object-position:center}
 .meet-band .meet-portrait img{object-position:center 30%}
+.meet-band .meet-text p.eyebrow{font-size:.6875rem;max-width:none}
