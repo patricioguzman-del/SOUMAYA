@@ -1,0 +1,8 @@
+---
+// One arrow rule for every link: → another page, ↓ further down this page,
+// ↗ leaves the website (email, phone or another site). Pass `arrow` for ↑ or ←.
+interface Props{href:string;class?:string;arrow?:'↑'|'←';[attribute:string]:unknown;}
+const {href,class:className,arrow,...attributes}=Astro.props;
+const direction=arrow??(/^(https?:|mailto:|tel:)/.test(href)?'↗':href.startsWith('#')?'↓':'→');
+---
+<a href={href} class={className} {...attributes}>{direction==='←'&&<span aria-hidden="true">←</span>}<slot/>{direction!=='←'&&<span aria-hidden="true">{direction}</span>}</a>

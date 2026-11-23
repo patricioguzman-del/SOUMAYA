@@ -1,0 +1,14 @@
+---
+// The standard facts, always in this order: bedrooms, bathrooms, built area, plot.
+// Set as one quiet line, as before ("5 bedrooms · 6 bathrooms · 661.55 m² built · 15,005 m² plot").
+// The featured card stacks them one per line; the order never changes.
+import type {Language} from '../lib/routes';import type {Listing} from '../lib/listings';
+import {ui} from '../data/ui';import {number} from '../lib/format';
+interface Props{lang:Language;listing:Listing;}
+const {lang,listing:p}=Astro.props;const t=ui[lang];const c=p[lang];
+const built=(c as {builtShort?:string}).builtShort??t.builtShort;
+// Card areas are rounded to whole metres; the property page keeps the exact figure.
+// A plot of 0 means the figure is not yet known, so it is left out rather than shown as nothing.
+const facts=[`${p.bedrooms} ${t.factBedrooms.toLowerCase()}`,`${p.bathrooms} ${t.factBathrooms.toLowerCase()}`,`${number(Math.round(p.builtArea),lang)} m² ${built}`,...(p.plotArea?[`${number(Math.round(p.plotArea),lang)} m² ${t.plotShort}`]:[])];
+---
+<p class="facts">{facts.map((fact,i)=><Fragment><span class="fact">{fact}</span>{i<facts.length-1&&' '}</Fragment>)}</p>

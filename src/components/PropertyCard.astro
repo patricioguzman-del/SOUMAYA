@@ -1,0 +1,17 @@
+---
+import type {Language} from '../lib/routes';import {factsOf,facadeOf,hrefOf,type Listing} from '../lib/listings';import {ui} from '../data/ui';import {money} from '../lib/format';import Photo from './Photo.astro';import ArrowLink from './ArrowLink.astro';import PropertyFacts from './PropertyFacts.astro';
+interface Props{lang:Language;listing:Listing;compact?:boolean;label?:string;order?:number;}
+const {lang,listing:p,compact=false,label,order}=Astro.props;const t=ui[lang];const c=p[lang];const href=hrefOf(p,lang);const Heading=compact?'h3':'h2';
+const f=factsOf(p);const facade=facadeOf(p,lang);
+const status=f.status==='under-offer'?t.statusUnderOffer:f.status==='sold'?t.statusSold:undefined;
+// On the collection page each card carries its facts, so the search can filter and sort without a server.
+const search=order===undefined?{}:{'data-search-item':'','data-area':f.area??'','data-price':f.price,'data-beds':f.bedrooms,'data-built':f.builtArea,'data-plot':f.plotArea,'data-order':order};
+---
+<article class={compact?"compact-property":"featured-property"} {...search}>
+ <a href={href} class="property-image" tabindex="-1" aria-hidden="true"><Photo image={facade.image} imageClass="property-photo" alt={facade.alt} sizes={compact?"(max-width:760px) 90vw, 45vw":"(max-width:760px) 100vw, 65vw"}/></a>
+ <div class="property-caption">
+  <div class="property-heading">{!compact&&label&&<p class="eyebrow">{label.toUpperCase()}</p>}{status&&<p class="status">{status}</p>}<div class="property-title"><Heading><a href={href}>{c.name}</a></Heading></div><p class="place">{c.location}</p></div>
+  <div class="property-facts"><p class="price">{money(f.price,lang)}</p><PropertyFacts lang={lang} listing={p}/><p class="ref card-ref">{t.refLabel} {f.ref}</p></div>
+  <ArrowLink class="text-link" href={href}>{t.discover}</ArrowLink>
+ </div>
+</article>

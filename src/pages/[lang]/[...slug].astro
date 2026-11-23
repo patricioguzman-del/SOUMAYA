@@ -1,0 +1,47 @@
+---
+import Site from '../../layouts/Site.astro';import Home from '../../components/Home.astro';import PropertyStory from '../../components/PropertyStory.astro';import Services from '../../components/Services.astro';import ContactPage from '../../components/ContactPage.astro';import ArrowLink from '../../components/ArrowLink.astro';import Photo from '../../components/Photo.astro';import Enquiry from '../../components/Enquiry.astro';import Living from '../../components/Living.astro';import Area from '../../components/Area.astro';import Collection from '../../components/Collection.astro';import LegalPage from '../../components/LegalPage.astro';import {legal} from '../../data/legal';
+import {route,resolvePage,propertyReference,areaReference,areaSlugs,languages,type AreaId,type Language,type Page} from '../../lib/routes';import {areaById} from '../../data/ibiza';import {listings,hrefOf} from '../../lib/listings';import {ui} from '../../data/ui';import {homepage} from '../../data/homepage';import {brand} from '../../data/brand';
+// Every page is generated at build time: each language's pages, each listing and each area.
+// Unknown addresses fall through to src/pages/404.astro.
+export async function getStaticPaths(){
+ const pages:Exclude<Page,'property'|'area'>[]=['home','properties','services','about','living','contact','legal','privacy','cookies'];
+ const all=await listings.all();
+ return languages.flatMap(lang=>[...pages.map(page=>route(lang,page)),...all.map(listing=>hrefOf(listing,lang)),...(Object.keys(areaSlugs) as AreaId[]).map(id=>route(lang,'area',id))]
+  .map(path=>({params:{lang,slug:path.slice(lang.length+2).replace(/\/$/,'')||undefined}})));
+}
+const lang=Astro.params.lang as Language;const slug=Astro.params.slug||'';const page=resolvePage(lang,slug)!;const t=ui[lang];
+const properties=await listings.all();const reference=propertyReference(lang,slug);const areaId=areaReference(lang,slug);const area=areaId?areaById(areaId)[lang]:undefined;const listing=reference?await listings.find(reference):undefined;
+// The next available home, in collection order, closes each property page.
+const forSale=properties.filter(property=>property.status==='for-sale');const nextListing=listing&&forSale.length>1?forSale[(forSale.findIndex(property=>property.reference===listing.reference)+1)%forSale.length]:undefined;
+const homeTitle={en:'Private real estate in Ibiza',es:'Inmobiliaria privada en Ibiza',fr:'Immobilier privé à Ibiza'}[lang];
+const forSaleIn={en:'Home for sale in Ibiza',es:'Casa en venta en Ibiza',fr:'Maison à vendre à Ibiza'}[lang];
+const title=page==='home'?homeTitle:page==='property'&&listing?`${listing[lang].name} · ${forSaleIn}`:page==='area'&&area?`${area.title} · ${t.living}`:page==='services'?t.servicesTitle:page==='legal'||page==='privacy'||page==='cookies'?legal[lang][page].title:page==='about'?t.meetHeading:t[page as 'properties'|'living'|'contact'];
+const description=page==='property'&&listing?listing[lang].summary:page==='area'&&area?area.text:page==='about'?t.aboutMeta:page==='services'?t.servicesMeta:page==='legal'||page==='privacy'||page==='cookies'?legal[lang][page].meta:page==='living'?t.livingMeta:page==='properties'?t.collectionIntro:page==='contact'?t.contactMeta:t.intro;
+const heroImage=listing?.heroImage??(areaId?areaById(areaId).image:page==='living'?'ibiza-cover':page==='home'||page==='about'?homepage.portrait:undefined);
+---
+<Site reference={listing?.reference??areaId} heroImage={heroImage} galleryTitle={listing?`${listing[lang].name} · Ibiza`:undefined} lang={lang} page={page} title={title} description={description} bodyClass={page==='property'?'property-story':page==='home'?'home-editorial':''}>
+{page==='home'&&<Home lang={lang} properties={properties}/>}
+{page==='services'&&<Services lang={lang}/>}
+{(page==='legal'||page==='privacy'||page==='cookies')&&<LegalPage lang={lang} id={page}/>}
+{page==='property'&&listing&&lang==='fr'&&listing.frenchPending&&<p class="language-note wrap" lang="fr">{t.frenchPending}</p>}
+{page==='property'&&listing&&<PropertyStory lang={lang} listing={listing} next={nextListing}/>}
+{page==='properties'&&<Collection lang={lang} properties={properties}/>}
+{page==='living'&&<Living lang={lang}/>}
+{page==='area'&&areaId&&<Area lang={lang} id={areaId}/>}
+{page==='about'&&<section class="about-page wrap" aria-labelledby="about-title">
+ <div class="about-story">
+  <Photo image={homepage.portrait} class="about-portrait" alt={({en:'Portrait of Soumaya',es:'Retrato de Soumaya',fr:'Portrait de Soumaya'})[lang]} eager sizes="(max-width:760px) 90vw, 40vw"/>
+  <div>
+   <p class="eyebrow">{t.meetHeading.toUpperCase()}</p>
+   <h1 id="about-title">{t.aboutHeading}</h1>
+   <p class="lead">{t.aboutCopy}</p><p>{t.aboutExperience}</p>
+   <section class="about-copy-section"><h2>{t.adviceHeading}</h2><p>{t.aboutAdvice}</p></section>
+   <section class="about-copy-section"><h2>{t.discretionHeading}</h2><p>{t.aboutDiscretion}</p></section>
+   <section class="about-copy-section"><h2>{t.aftercareHeading}</h2><p>{t.aboutAftercare}</p><ArrowLink class="small-link" href={route(lang,'services')}>{t.services}</ArrowLink></section>
+   <p class="signature">{brand.fullName}</p><p class="role">{t.founderRole}<br/>{t.languages}</p>
+  </div>
+ </div>
+</section>}
+{page==='about'&&<Enquiry lang={lang} alone/>}
+{page==='contact'&&<ContactPage lang={lang}/>}
+</Site>

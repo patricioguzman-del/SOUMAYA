@@ -1,0 +1,53 @@
+---
+// Renders one shared chapter layout. Art direction comes from the listing data
+// (layout, variant and photo order), never from per-property components.
+import Photo from './Photo.astro';
+import type {Block} from '../lib/listings';
+import type {Language} from '../lib/routes';
+type PhotoProps={image:string;alt:string;caption:string;plate?:string;zoom:true;lang:Language};
+interface Props{block:Block;headingId:string;say:(key?:string)=>string;photo:(key:string)=>PhotoProps;}
+const {block,headingId,say,photo}=Astro.props;
+const {layout,variant,photos}=block;
+const [main,second,third]=photos.map(photo);
+const label=say(block.label);const heading=say(block.heading);const text=(block.text||[]).map(say);const note=say(block.note);
+const hasCopy=Boolean(heading||text.length);
+const rowSizes=photos.length>3?'(max-width:760px) 45vw, 25vw':'(max-width:760px) 90vw, 30vw';
+---
+{layout==='intro'&&<div class="block block-intro">
+ <Photo {...main} class="intro-photo"/>
+ <div class="block-copy">{label&&<p class="chapter-label">{label}</p>}<h2 id={headingId}>{heading}</h2>{text.map(paragraph=><p>{paragraph}</p>)}{note&&<p class="quiet-line">{note}</p>}</div>
+</div>}
+
+{layout==='spread'&&<div class:list={['block','block-spread',variant&&`block-spread--${variant}`]}>
+ {variant==='heading-first'&&<div class="spread-caption"><div>{label&&<p class="chapter-label">{label}</p>}<h2 id={headingId}>{heading}</h2></div><div>{text.map(paragraph=><p>{paragraph}</p>)}</div></div>}
+ <Photo {...main} class="spread-photo" sizes="90vw"/>
+ {variant!=='heading-first'&&hasCopy&&<div class="spread-caption"><div>{label&&<p class="chapter-label">{label}</p>}<h2 id={headingId}>{heading}</h2></div><div>{text.map(paragraph=><p>{paragraph}</p>)}</div></div>}
+</div>}
+
+{layout==='montage'&&<div class:list={['block','block-montage',variant&&`block-montage--${variant}`]}>
+ {variant==='copy-first'&&<div class="block-copy">{label&&<p class="chapter-label">{label}</p>}<h2 id={headingId}>{heading}</h2>{text.map(paragraph=><p>{paragraph}</p>)}</div>}
+ <Photo {...main} class="montage-a"/><Photo {...second} class="montage-b"/><Photo {...third} class="montage-c"/>
+ {variant!=='copy-first'&&<div class="block-copy">{label&&<p class="chapter-label">{label}</p>}<h2 id={headingId}>{heading}</h2>{text.map(paragraph=><p>{paragraph}</p>)}</div>}
+</div>}
+
+{layout==='suite'&&<div class:list={['block','block-suite',variant&&`block-suite--${variant}`]}>
+ <Photo {...main} class="suite-photo"/>
+ <div class="suite-aside"><Photo {...second} class="suite-detail"/><div class="block-copy">{label&&<p class="chapter-label">{label}</p>}<h2 id={headingId}>{heading}</h2>{text.map(paragraph=><p>{paragraph}</p>)}</div></div>
+</div>}
+
+{layout==='row'&&<div class="block block-row" data-count={photos.length}>
+ <div class="row-heading"><div>{label&&<p class="chapter-label">{label}</p>}<h2 id={headingId}>{heading}</h2></div>{text.map(paragraph=><p>{paragraph}</p>)}</div>
+ <div class="row-photos">{photos.map(key=><Photo {...photo(key)} sizes={rowSizes}/>)}</div>
+</div>}
+
+{layout==='pair'&&<div class:list={['block','block-pair',variant&&`block-pair--${variant}`,{'block-pair--detail':second&&variant!=='detail-first'}]}>
+ {variant!=='reverse'&&<Photo {...main} class="pair-photo"/>}
+ <div class="pair-copy">
+  {variant==='detail-first'&&second&&<Photo {...second} class="pair-detail"/>}
+  <div class="block-copy">{label&&<p class="chapter-label">{label}</p>}<h2 id={headingId}>{heading}</h2>{text.map(paragraph=><p>{paragraph}</p>)}</div>
+  {variant!=='detail-first'&&second&&<Photo {...second} class="pair-detail"/>}
+ </div>
+ {variant==='reverse'&&<Photo {...main} class="pair-photo"/>}
+</div>}
+
+{layout==='duo'&&<div class="block block-duo"><Photo {...main}/><Photo {...second}/></div>}

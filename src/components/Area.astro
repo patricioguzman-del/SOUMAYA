@@ -1,0 +1,33 @@
+---
+// One area of Living in Ibiza: its photograph beside the title, then life there and what to weigh
+// beside the map with this area marked, the homes in the collection there, the areas either side, the close and the letter.
+import Photo from './Photo.astro';import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';import IslandMap from './IslandMap.astro';import PropertyCard from './PropertyCard.astro';
+import {areas,areaById,island} from '../data/ibiza';import {route,type AreaId,type Language} from '../lib/routes';import {listings} from '../lib/listings';
+interface Props{lang:Language;id:AreaId;}
+const {lang,id}=Astro.props;const area=areaById(id);const a=area[lang];const c=island[lang];
+const i=areas.indexOf(area);const previous=areas[(i-1+areas.length)%areas.length];const next=areas[(i+1)%areas.length];
+const homes=(await listings.all()).filter(listing=>listing.status==='for-sale'&&area.homes.includes(listing.reference));
+---
+<section class="opener area-opener wrap" aria-labelledby="area-title">
+ <div class="opener-title"><ArrowLink href={`${route(lang,'living')}#areas`} class="text-link back" arrow="←">{c.area.back}</ArrowLink><p class="area-kicker"><span class="area-number">{area.number}</span> {a.places}</p><h1 id="area-title">{a.title}</h1><p class="lead">{a.text}</p></div>
+ <Photo image={area.image} alt={a.alt} class="opener-photo" imageClass="opener-image" eager sizes="(max-width:760px) 100vw, 62vw"/>
+</section>
+
+<section class="area-body wrap" aria-labelledby="life-title">
+ <IslandMap lang={lang} current={id} caption={`${c.area.count(area.number,String(areas.length).padStart(2,'0'))} · ${c.orientation.caption}`}/>
+ <div class="area-text">
+  <p class="area-label" id="life-title">{c.area.life}</p><p class="area-life">{a.life}</p><p class="caption">{c.area.drives}</p>
+  <p class="area-label">{c.area.choosing}</p><p class="area-advice">{a.note}</p>
+ </div>
+</section>
+
+{homes.length>0&&<section class="area-homes wrap" aria-labelledby="homes-title"><h2 id="homes-title">{c.area.homes}</h2><div class="property-grid">{homes.map(listing=><PropertyCard lang={lang} listing={listing} compact/>)}</div></section>}
+
+<nav class="area-steps wrap" aria-label={({en:'Other areas',es:'Otras zonas',fr:'Autres zones'})[lang]}>
+ <a href={route(lang,'area',previous.id)} rel="prev"><span class="area-label">← {c.area.previous}</span><span class="area-step-title">{previous[lang].title}</span></a>
+ <a href={route(lang,'area',next.id)} rel="next"><span class="area-label">{c.area.next} →</span><span class="area-step-title">{next[lang].title}</span></a>
+</nav>
+
+{/* The close (chosen 16 October 2026, option A): its heading and sentence on the grid, then the letter, as on Living in Ibiza. */}
+<section class="area-close wrap" aria-labelledby="close-title"><h2 id="close-title">{c.close.heading}</h2><p>{c.close.body}</p></section>
+<Enquiry lang={lang} alone/>

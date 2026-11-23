@@ -1,0 +1,11 @@
+---
+// The legal notice, privacy and cookie pages (20 October 2026): one plain, measured column, the date it was last
+// updated under the title, then each section as a heading and its paragraphs. Words in src/data/legal.ts.
+import {legal,company,type LegalId} from '../data/legal';import type {Language} from '../lib/routes';
+interface Props{lang:Language;id:LegalId;}
+const {lang,id}=Astro.props;const page=legal[lang][id];
+---
+<article class="content-page legal-page wrap" aria-labelledby="legal-title">
+ <header class="page-intro"><h1 id="legal-title">{page.title}</h1><p>{page.intro}</p><p class="legal-updated">{({en:'Last updated',es:'Última actualización',fr:'Dernière mise à jour'})[lang]}: {company.updated[lang]}</p></header>
+ {page.sections.map(([heading,paragraphs])=><section class="legal-section"><h2>{heading}</h2>{paragraphs.map(paragraph=><p>{paragraph}</p>)}</section>)}
+</article>

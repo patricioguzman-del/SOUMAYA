@@ -1,0 +1,57 @@
+{
+ "ibiza-heart": {
+  "width": 2400,
+  "height": 3200,
+  "tone": "#8d8b8c"
+ },
+ "area-east-street": {
+  "width": 2400,
+  "height": 1800,
+  "tone": "#908485"
+ },
+ "area-north-benirras": {
+  "width": 2400,
+  "height": 1351,
+  "tone": "#7AA6CC"
+ },
+ "area-west-hort": {
+  "width": 2400,
+  "height": 1600,
+  "tone": "#8AA192"
+ },
+ "ibiza-town": {
+  "width": 1920,
+  "height": 1080,
+  "tone": "#617787"
+ },
+ "area-south-cubells": {
+  "width": 2400,
+  "height": 1465,
+  "tone": "#529AD7"
+ },
+ "ibiza-cover": {
+  "width": 2400,
+  "height": 1136,
+  "tone": "#597487"
+ },
+ "ibiza-cover-phone": {
+  "width": 1526,
+  "height": 1908,
+  "tone": "#496B83"
+ },
+ "soumaya-portrait": {
+  "width": 480,
+  "height": 446,
+  "tone": "#977d69"
+ },
+ "soumaya-interior": {
+  "width": 202,
+  "height": 208,
+  "tone": "#90785f"
+ },
+ "soumaya-coast": {
+  "width": 370,
+  "height": 121,
+  "tone": "#aa9681"
+ }
+}

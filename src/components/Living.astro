@@ -1,0 +1,42 @@
+---
+// Living in Ibiza: the island in overview. Opener, preface, the map beside the six areas
+// (each its own page, see Area.astro), then the practical questions that apply wherever you look, and the letter.
+import Photo from './Photo.astro';import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';import IslandMap from './IslandMap.astro';
+import {areas,island} from '../data/ibiza';import {ui} from '../data/ui';import {route,type Language} from '../lib/routes';
+interface Props{lang:Language;}
+const {lang}=Astro.props;const c=island[lang];const t=ui[lang];
+---
+<section class="opener living-opener wrap" aria-labelledby="living-title">
+ <div class="opener-title"><h1 id="living-title">{c.statement}</h1><p class="lead">{c.lede}</p><ArrowLink class="text-link" href="#areas">{c.explore}</ArrowLink></div>
+ <Photo image="ibiza-cover" phone="ibiza-cover-phone" alt={c.coverAlt} class="opener-photo" imageClass="opener-image" eager sizes="(max-width:760px) 100vw, 62vw"/>
+</section>
+
+<section class="living-preface wrap" aria-labelledby="preface-title">
+ <div><h2 id="preface-title">{c.preface.heading}</h2>{c.preface.body.map(paragraph=><p>{paragraph}</p>)}</div>
+</section>
+
+<section class="areas wrap" id="areas" aria-labelledby="areas-title">
+ {/* The list is the keyboard and screen-reader path to the six areas; the map beside it is for pointer and touch,
+      and still lights up as the list is followed (audit of 21 October 2026). */}
+ <IslandMap lang={lang} caption={c.orientation.caption} keyboard={false}/>
+ <div class="areas-index">
+  <h2 id="areas-title">{c.orientation.heading}</h2><p class="areas-intro">{c.orientation.body}</p>
+  <ol class="area-list">{areas.map(area=><li><a href={route(lang,'area',area.id)} data-area={area.id}><span class="area-number">{area.number}</span><span><span class="area-title">{area[lang].title}</span><span class="area-places">{area[lang].places}</span></span><span class="area-arrow" aria-hidden="true">→</span></a></li>)}</ol>
+ </div>
+</section>
+
+{/* The practical questions (chosen 16 October 2026, option A): the heading and its sentence on columns 1–4, the three
+     answers open on 6–11 between hairlines, then the letter, as on the other pages. */}
+<section class="living-answers wrap" aria-labelledby="practical-title">
+ <div><h2 id="practical-title">{t.livingPageHeading}</h2><p>{t.livingPageIntro}</p></div>
+ <dl>{([[t.journeys,t.journeysCopy],[t.seasons,t.seasonsCopy],[t.privacy,t.privacyCopy]] as const).map(([question,answer])=><div><dt>{question}</dt><dd>{answer}</dd></div>)}</dl>
+</section>
+<Enquiry lang={lang} alone/>
+
+
+<script>
+// Pointing at an area in the list lights its marker on the map, and the other way round.
+const pair=(id:string,on:boolean)=>document.querySelectorAll(`[data-area="${id}"]`).forEach(el=>el.classList.toggle('is-lit',on));
+document.querySelectorAll<HTMLElement>('.areas [data-area]').forEach(el=>{const id=el.dataset.area!;
+ for(const [type,on] of [['pointerenter',true],['pointerleave',false],['focus',true],['blur',false]] as const)el.addEventListener(type,()=>pair(id,on));});
+</script>

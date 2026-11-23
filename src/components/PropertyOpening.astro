@@ -1,0 +1,41 @@
+---
+import Photo from './Photo.astro';
+import type {Language} from '../lib/routes';import {route} from '../lib/routes';
+import type {Listing} from '../lib/listings';
+import {money,number} from '../lib/format';
+import {ui} from '../data/ui';
+import ArrowLink from './ArrowLink.astro';
+import dimensions from '../data/auba/images.json';
+interface Props {lang:Language;listing:Listing;hero:{image:string;alt:string;caption:string;plate?:string;zoom:true;lang:Language};}
+const {lang,listing:p,hero}=Astro.props;const t=ui[lang];const c=p[lang];
+// A home whose built figure needs a note (basement included, two houses) marks its label with an asterisk.
+const note=c.areaNote||'';
+// Homes shown in renderings rather than photographs say so (imageNote), beside the area note (as on GOULD).
+const imageNote=(c as {imageNote?:string}).imageNote||'';
+const builtLabel=((c as {builtLabel?:string}).builtLabel??t.factBuilt)+(note?'*':'');
+const energy=(p.energyRating||t.energyPending.toLowerCase());
+// The cover's own shape, so it can be sized by the screen's height without cropping.
+const size=(dimensions as Record<string,{width:number;height:number}>)[hero.image];const ratio=size?(size.width/size.height).toFixed(4):'1.5';
+---
+{/* The first screen (chosen 16 October 2026, option A): side by side, as on the homepage. On the left the back link,
+     the name and place, then the essentials (price, the four facts, Enquire, notes); on the right the whole
+     photograph at its own shape, running off the window's edge and never taller than the screen. Phones: the
+     photograph first, edge to edge and uncropped, then the same column. */}
+<section class="opener property-opener wrap" aria-labelledby="property-title" style={`--r:${ratio}`}>
+ <div class="opener-title">
+  <a class="back-link" href={route(lang,'properties')}><span aria-hidden="true">←</span> {t.back}</a>
+  <h1 id="property-title">{c.name}</h1><p class="place">{c.location}</p>
+  <div class="glance">
+   <div class="glance-price"><p class="glance-label">{t.askingPrice}</p><p class="glance-figure">{money(p.price,lang)}</p></div>
+   <dl class="property-essential">
+    <div><dt>{t.factBedrooms}</dt><dd>{p.bedrooms}</dd></div>
+    <div><dt>{t.factBathrooms}</dt><dd>{p.bathrooms}</dd></div>
+    <div><dt>{builtLabel}</dt><dd>{number(p.builtArea,lang)}<span class="unit">m²</span></dd></div>
+    {p.plotArea>0&&<div><dt>{t.plot}</dt><dd>{number(p.plotArea,lang)}<span class="unit">m²</span></dd></div>}
+   </dl>
+   <ArrowLink href="#contact" class="button solid">{t.enquire}</ArrowLink>
+   <div class="glance-notes">{note&&<p>* {note}</p>}{imageNote&&<p>{imageNote}</p>}<p class="property-meta">{t.refLabel} <span class="meta-value ref-value">{p.ref}</span><span class="meta-dot" aria-hidden="true">·</span>{t.energyLabel} <span class="meta-value">{energy}</span></p></div>
+  </div>
+ </div>
+ <Photo {...hero} caption={undefined} plate={undefined} class="opener-photo" imageClass="opener-image" eager sizes="(max-width:760px) 100vw, 64vw"/>
+</section>

@@ -1,0 +1,15 @@
+---
+// Contact page: Soumaya's short signed note beside the visitor's letter to her, on one warm band.
+import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';
+import {ui} from '../data/ui';import type {Language} from '../lib/routes';import {whatsappLink} from '../lib/enquiry';import {brand} from '../data/brand';
+interface Props{lang:Language;}
+const {lang}=Astro.props;const t=ui[lang];
+---
+<Enquiry lang={lang}>
+ <div class="contact-note" slot="aside">
+  <div class="contact-head"><h1>{t.start}</h1></div>
+  <div class="contact-body"><p class="contact-intro">{t.contactIntro} {t.contactNote}</p>
+  <p class="signature">{brand.fullName}</p><p class="role">{t.founderRole}</p>
+  <div class="contact-direct-line"><p class="caption">{t.directLabel}</p><ArrowLink href={`tel:${brand.phoneHref}`}>{brand.phone}</ArrowLink><ArrowLink href={whatsappLink(lang)} target="_blank" rel="noopener">WhatsApp</ArrowLink><ArrowLink href={`mailto:${brand.email}`}>{brand.email}</ArrowLink></div></div>
+ </div>
+</Enquiry>

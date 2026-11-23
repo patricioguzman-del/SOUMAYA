@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "trailingSlash": true,
+  "functions": {
+    "api/enquiry.mjs": {
+      "includeFiles": "src/**"
+    }
+  }
+}

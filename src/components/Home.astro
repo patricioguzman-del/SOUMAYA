@@ -1,0 +1,52 @@
+---
+// The homepage, after Soumaya's brand board: a portrait opener, three curated homes, Meet Soumaya beside
+// A tailored approach, the island band, and a private conversation.
+import Photo from './Photo.astro';import ArrowLink from './ArrowLink.astro';import ServiceIcon from './ServiceIcon.astro';
+import {money} from '../lib/format';import {ui} from '../data/ui';import {route,type Language} from '../lib/routes';
+import {facadeOf,hrefOf,type Listing} from '../lib/listings';import {homepage} from '../data/homepage';
+interface Props{lang:Language;properties:Listing[];}
+const {lang,properties}=Astro.props;const t=ui[lang];
+const available=properties.filter(property=>property.status==='for-sale');
+const chosen=homepage.featured.map(reference=>available.find(property=>property.reference===reference)).filter((listing):listing is Listing=>Boolean(listing));
+const featured=[...chosen,...available.filter(listing=>!chosen.includes(listing))].slice(0,3);
+const place=(listing:Listing)=>listing[lang].location.split('·')[0].trim();
+---
+<section class="hero" aria-labelledby="home-title">
+ <Photo image={homepage.portrait} class="hero-portrait" imageClass="hero-image" alt={({en:'Portrait of Soumaya',es:'Retrato de Soumaya',fr:'Portrait de Soumaya'})[lang]} eager sizes="(max-width:760px) 100vw, 46vw"/>
+ <div class="hero-copy">
+  <p class="eyebrow">{t.homeEyebrow}</p>
+  <h1 id="home-title">{t.homeTitle}</h1>
+  <p class="hero-lead">{t.homeLead}</p>
+  <div class="hero-buttons"><ArrowLink class="button solid" href={route(lang,'properties')}>{t.explore}</ArrowLink><a class="button" href={route(lang,'about')}>{t.meet}</a></div>
+ </div>
+</section>
+
+<section class="curated wrap" aria-labelledby="curated-title">
+ <div class="section-head"><h2 id="curated-title">{t.selected}</h2><ArrowLink class="small-link" href={route(lang,'properties')}>{t.viewAll}</ArrowLink></div>
+ <div class="curated-grid">{featured.map(listing=>{const facade=facadeOf(listing,lang);const href=hrefOf(listing,lang);return <article class="curated-card">
+  <a href={href} class="curated-image" tabindex="-1" aria-hidden="true"><Photo image={facade.image} alt={facade.alt} imageClass="curated-photo" sizes="(max-width:760px) 92vw, 30vw"/></a>
+  <p class="curated-meta">{place(listing)} <span aria-hidden="true">·</span> {listing[lang].name}</p>
+  <h3 class="curated-price"><a href={href}>{money(listing.price,lang)}<span class="visually-hidden"> · {listing[lang].name}</span></a></h3>
+ </article>;})}</div>
+</section>
+
+<section class="meet-approach" aria-label={`${t.meetHeading} · ${t.approachHeading}`}>
+ <div class="meet">
+  <div class="meet-text"><h2>{t.meetHeading}</h2><p>{t.meetCopy}</p><ArrowLink class="small-link" href={route(lang,'about')}>{t.myStory}</ArrowLink></div>
+  <Photo image={homepage.interior} alt="" class="meet-photo" sizes="(max-width:760px) 60vw, 22vw"/>
+ </div>
+ <div class="approach">
+  <h2>{t.approachHeading}</h2>
+  <ul class="approach-list">{t.serviceList.map(([title],i)=><li><a href={`${route(lang,'services')}#service-${i+1}`}><ServiceIcon index={i}/><span>{title}</span></a></li>)}</ul>
+ </div>
+</section>
+
+<section class="perspective-band" aria-labelledby="perspective-title">
+ <Photo image={homepage.perspective} alt="" class="perspective-photo" sizes="(max-width:760px) 100vw, 55vw"/>
+ <div class="perspective-copy"><p class="eyebrow">{t.perspectiveEyebrow}</p><h2 id="perspective-title">{t.perspectiveHeading}</h2><p>{t.perspectiveCopy}</p><ArrowLink class="small-link" href={route(lang,'living')}>{t.perspectiveLink}</ArrowLink></div>
+</section>
+
+<section class="private-conversation wrap" aria-labelledby="private-title">
+ <p class="eyebrow">{t.privateEyebrow}</p><h2 id="private-title">{t.privateHeading}</h2><p>{t.privateCopy}</p>
+ <ArrowLink class="button solid" href={route(lang,'contact')}>{t.getInTouch}</ArrowLink>
+</section>

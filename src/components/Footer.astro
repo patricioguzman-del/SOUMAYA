@@ -1,0 +1,16 @@
+---
+// The footer: the wordmark and line, the pages, the ways to get in touch, then the year, the legal pages and the languages.
+import {route,languages,type Language,type Page} from '../lib/routes';import {ui} from '../data/ui';import ArrowLink from './ArrowLink.astro';import {whatsappLink} from '../lib/enquiry';import {legal} from '../data/legal';import {brand} from '../data/brand';
+interface Props{lang:Language;page:Page;reference?:string;}
+const {lang,page,reference}=Astro.props;const t=ui[lang];
+const nav=['properties','services','about','living','contact'] as const;
+const year=new Date().getFullYear();
+---
+<footer class="footer">
+ <div class="wrap footer-grid">
+  <div class="footer-brand"><a class="wordmark" href={route(lang,'home')}>{brand.wordmark}</a><p class="eyebrow">{t.tagline}</p><p>{t.footer}</p></div>
+  <nav class="footer-pages" aria-label={({en:'Pages',es:'Páginas',fr:'Pages'})[lang]}>{nav.map(item=><a href={route(lang,item)}>{t[item]}</a>)}</nav>
+  <div class="footer-contact" role="group" aria-label={t.contact}><a href={`mailto:${brand.email}`}>{brand.email}</a><a href={`tel:${brand.phoneHref}`}>{brand.phone}</a><a href={whatsappLink(lang)} target="_blank" rel="noopener">WhatsApp <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-last"><p>© {year} {brand.name}. {t.rights}</p><nav class="footer-legal" aria-label="Legal">{(['legal','privacy','cookies'] as const).map(item=><a href={route(lang,item)}>{legal[lang][item].title}</a>)}</nav><div class="footer-last-links"><span class="footer-language">{languages.map((code,i)=><Fragment>{i>0&&' / '}<a href={route(code,page,reference)} lang={code} hreflang={code} aria-current={code===lang?'true':undefined}>{code.toUpperCase()}</a></Fragment>)}</span><ArrowLink class="text-link" href="#main" arrow="↑">{t.top}</ArrowLink></div></div>
+ </div>
+</footer>

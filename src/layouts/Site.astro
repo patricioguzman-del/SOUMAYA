@@ -1,0 +1,76 @@
+---
+import '@fontsource/cormorant-garamond/400.css';import '@fontsource/cormorant-garamond/500.css';import '@fontsource/cormorant-garamond/400-italic.css';
+import '@fontsource/manrope/400.css';import '@fontsource/manrope/500.css';import '@fontsource/manrope/600.css';import '@fontsource/manrope/700.css';
+import '../styles/site.css';import Header from '../components/Header.astro';import Footer from '../components/Footer.astro';
+import {route,languages,type Language,type Page} from '../lib/routes';import {brand} from '../data/brand';import {listings} from '../lib/listings';import {agent,listingData,breadcrumbs,breadcrumbData,jsonLd} from '../lib/structured-data';import {locale} from '../lib/format';import own from '../data/images-own.json';import {ui} from '../data/ui';
+interface Props {lang:Language;page:Page;title:string;description:string;bodyClass?:string;notFound?:boolean;reference?:string;heroImage?:string;galleryTitle?:string;}
+const {lang,page,title,description,bodyClass='',reference,heroImage='soumaya-coast',galleryTitle=brand.name}=Astro.props;
+const live=import.meta.env.PUBLIC_SITE_LIVE==='true'&&!Astro.props.notFound;const canonical=new URL(route(lang,page,reference),Astro.site!);// Link previews: the page's photograph (its 1600px version).
+const ogImage=heroImage in own?`/media/${heroImage}-1600.webp`:`/images/${heroImage}-1600.webp`;
+// Structured data: Soumaya on every page, the listing on a public home's page, and breadcrumbs (not on the 404).
+// Visit counts: Vercel Web Analytics, cookieless, on the live site only (17 November 2026; privacy and cookie pages say so).
+const counting=import.meta.env.PUBLIC_SITE_LIVE==='true';
+const listing=page==='property'&&reference?await listings.find(reference):undefined;
+const crumbName=listing?listing[lang].name:page==='area'?title.split(' · ')[0]:title;
+const crumbs=Astro.props.notFound?[]:breadcrumbs(lang,page,crumbName,{home:{en:'Home',es:'Inicio',fr:'Accueil'}[lang],properties:ui[lang].properties,living:ui[lang].living},reference);
+const structured=jsonLd([agent(lang),...(listing?[listingData(listing,lang,ogImage)]:[]),...(crumbs.length?[breadcrumbData(crumbs)]:[])]);
+---
+<!doctype html><html lang={lang}><head><meta charset="UTF-8"/><script is:inline>/* Photographs fade in once loaded. Runs first, before any image, so no load event is missed; without JavaScript photographs simply appear. */document.documentElement.classList.add('js');function soumaya(e){var t=e.target;if(t.tagName==='IMG')t.setAttribute('data-loaded','')}document.addEventListener('load',soumaya,true);document.addEventListener('error',soumaya,true);document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('img[data-fade]').forEach(function(i){if(i.complete)i.setAttribute('data-loaded','')})});</script><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/><meta name="theme-color" content="#F5F2EC"/><meta name="description" content={description}/><meta name="robots" content={live?'index,follow':'noindex,nofollow'}/><title>{title} | {brand.name}</title>{!Astro.props.notFound&&<><link rel="canonical" href={canonical}/>{languages.map(code=><link rel="alternate" hreflang={code} href={new URL(route(code,page,reference),Astro.site!)}/>)}<link rel="alternate" hreflang="x-default" href={new URL(route('en',page,reference),Astro.site!)}/></>}<meta property="og:title" content={`${title} | ${brand.name}`}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:site_name" content={brand.name}/><meta property="og:locale" content={locale(lang).replace('-','_')}/>{languages.filter(code=>code!==lang).map(code=><meta property="og:locale:alternate" content={locale(code).replace('-','_')}/>)}{!Astro.props.notFound&&<meta property="og:url" content={canonical}/>}<meta property="og:image" content={new URL(ogImage,Astro.site!)}/><meta name="twitter:card" content="summary_large_image"/><script type="application/ld+json" set:html={structured}/>{counting&&<script is:inline>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>}{counting&&<script is:inline defer src="/_vercel/insights/script.js"></script>}<link rel="icon" href="/favicon.ico" sizes="32x32"/><link rel="icon" type="image/svg+xml" href="/favicon.svg"/><link rel="apple-touch-icon" href="/apple-touch-icon.png"/></head><body class={bodyClass}><Header lang={lang} page={page} reference={reference}/><main id="main"><slot/></main><Footer lang={lang} page={page} reference={reference}/>
+{page==='property'&&<dialog class="image-dialog" aria-label={{en:'Property photographs',es:'Fotografías de la propiedad',fr:'Photographies de la propriété'}[lang]}><div class="dialog-top"><p class="gallery-label">{galleryTitle}</p><button type="button" data-gallery-close>{ui[lang].close} <span aria-hidden="true">×</span></button></div><img alt="" data-gallery-image/><div class="dialog-bottom"><button type="button" data-gallery-prev aria-label={{en:'Previous photograph',es:'Fotografía anterior',fr:'Photographie précédente'}[lang]}>←</button><p data-gallery-counter class="image-counter" aria-live="polite"></p><button type="button" data-gallery-next aria-label={{en:'Next photograph',es:'Siguiente fotografía',fr:'Photographie suivante'}[lang]}>→</button></div></dialog>}
+<script>
+const menu=document.querySelector<HTMLButtonElement>('.menu-toggle')!;const nav=document.querySelector<HTMLElement>('#navigation')!;
+// While the menu covers the page, the page behind is inert: keyboard focus and screen readers stay in the
+// menu. Opening moves focus to its first page; closing returns everything as it was.
+const behind=()=>[document.querySelector('main'),document.querySelector('body > .footer'),document.querySelector('.skip')].filter(Boolean) as HTMLElement[];
+function closeMenu(){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label',menu.dataset.open!);behind().forEach(el=>el.inert=false);}
+menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';nav.classList.toggle('is-open',open);menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?menu.dataset.close!:menu.dataset.open!);behind().forEach(el=>el.inert=open);if(open)nav.querySelector<HTMLElement>('a')?.focus();});
+nav.addEventListener('click',event=>{if((event.target as HTMLElement).closest('a'))closeMenu();});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menu.getAttribute('aria-expanded')==='true'){closeMenu();menu.focus();}});
+// From 1000px the pages are inline and Menu is hidden: a menu left open while the window widens closes with it.
+matchMedia('(min-width:1000px)').addEventListener('change',event=>{if(event.matches&&menu.getAttribute('aria-expanded')==='true')closeMenu();});
+// The header slides away while reading down and returns on any scroll up, so the menu is never far.
+// Kept in view at the top of the page, while the menu is open, and when it holds keyboard focus.
+// Property pages keep it in place: their section bar has the top of the screen.
+const header=document.querySelector<HTMLElement>('.header')!;
+if(!document.body.classList.contains('property-story')){
+ let last=scrollY;let ticking=false;
+ const update=()=>{ticking=false;const y=scrollY;
+  if(y<=header.offsetHeight||nav.classList.contains('is-open')||header.contains(document.activeElement))header.classList.remove('is-tucked');
+  else if(Math.abs(y-last)>6)header.classList.toggle('is-tucked',y>last);
+  last=y;};
+ addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(update);}},{passive:true});
+ header.addEventListener('focusin',()=>header.classList.remove('is-tucked'));
+}
+// Visit counts: which way a visitor gets in touch, and from which page. Does nothing until analytics loads (live site only).
+document.addEventListener('click',event=>{const link=(event.target as HTMLElement).closest('a');const href=link?.getAttribute('href')??'';
+ const name=href.startsWith('https://wa.me/')?'WhatsApp':href.startsWith('tel:')?'Phone':href.startsWith('mailto:')?'Email':undefined;
+ if(name)(window as any).va?.('event',{name,data:{page:location.pathname}});},{capture:true});
+const dialog=document.querySelector<HTMLDialogElement>('.image-dialog');
+if(dialog){
+ const image=dialog.querySelector<HTMLImageElement>('[data-gallery-image]')!;const items=[...document.querySelectorAll<HTMLButtonElement>('[data-gallery-src]')];let index=0;let trigger:HTMLButtonElement|undefined;
+ function show(i:number){index=(i+items.length)%items.length;const item=items[index];const cap=item.dataset.galleryCaption;image.src=item.dataset.gallerySrc!;image.alt=cap!;dialog!.querySelector('[data-gallery-counter]')!.textContent=cap?`${cap}  ·  ${index+1} / ${items.length}`:`${index+1} / ${items.length}`;}
+ items.forEach((item,i)=>item.addEventListener('click',()=>{trigger=item;show(i);dialog.showModal();document.body.style.overflow='hidden';}));
+ for(const btn of document.querySelectorAll<HTMLButtonElement>('[data-open-gallery]'))btn.addEventListener('click',()=>{trigger=btn;show(0);dialog.showModal();document.body.style.overflow='hidden';});
+ dialog.querySelector('[data-gallery-close]')!.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{document.body.style.overflow='';trigger?.focus({preventScroll:true});});
+ dialog.querySelector('[data-gallery-prev]')!.addEventListener('click',()=>show(index-1));dialog.querySelector('[data-gallery-next]')!.addEventListener('click',()=>show(index+1));
+ dialog.addEventListener('keydown',event=>{if(event.key==='ArrowRight'){event.preventDefault();show(index+1);}if(event.key==='ArrowLeft'){event.preventDefault();show(index-1);}});
+ // Touch: the photograph follows the finger. A long drag or a quick flick moves to the next or
+ // previous photograph; a downward swipe closes the viewer. Ignored while pinch-zoomed or with two fingers.
+ let drag:{id:number;x:number;y:number;time:number}|undefined;let fingers=0;
+ const reset=()=>{image.classList.add('is-settling');image.style.transform='';image.style.opacity='';drag=undefined;};
+ image.addEventListener('transitionend',()=>image.classList.remove('is-settling'));
+ image.addEventListener('pointerdown',event=>{if(event.pointerType==='mouse')return;fingers++;if(fingers>1){reset();return;}if((visualViewport?.scale??1)>1.01)return;image.classList.remove('is-settling');drag={id:event.pointerId,x:event.clientX,y:event.clientY,time:event.timeStamp};});
+ image.addEventListener('pointermove',event=>{if(!drag||event.pointerId!==drag.id)return;const dx=event.clientX-drag.x,dy=event.clientY-drag.y;image.style.transform=Math.abs(dx)>=Math.abs(dy)?`translateX(${dx}px)`:`translateY(${Math.max(0,dy)}px)`;if(Math.abs(dy)>Math.abs(dx))image.style.opacity=String(Math.max(.4,1-Math.max(0,dy)/400));});
+ const release=(event:PointerEvent)=>{fingers=Math.max(0,fingers-1);if(!drag||event.pointerId!==drag.id)return;const dx=event.clientX-drag.x,dy=event.clientY-drag.y,speed=Math.abs(dx)/Math.max(1,event.timeStamp-drag.time);
+  const horizontal=Math.abs(dx)>Math.abs(dy);
+  if(event.type!=='pointercancel'&&horizontal&&Math.abs(dx)>16&&(Math.abs(dx)>window.innerWidth*.18||speed>.11)){
+   // The next photograph fades in at the centre rather than sliding back from the dragged side.
+   drag=undefined;image.classList.remove('is-settling');image.style.transform='';image.style.opacity='0';show(index+(dx<0?1:-1));
+   requestAnimationFrame(()=>{image.classList.add('is-settling');image.style.opacity='';});return;
+  }
+  reset();
+  if(event.type!=='pointercancel'&&!horizontal&&dy>100)dialog.close();
+ };
+ image.addEventListener('pointerup',release);image.addEventListener('pointercancel',release);
+}
+</script></body></html>

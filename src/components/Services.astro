@@ -1,0 +1,33 @@
+---
+// Services: the four ways Soumaya helps, then how a sale runs, the discreet option, and the letter.
+// Only services she offers; no promised prices or timescales.
+import Photo from './Photo.astro';import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';import ServiceIcon from './ServiceIcon.astro';
+import {ui} from '../data/ui';import {type Language} from '../lib/routes';import {homepage} from '../data/homepage';
+interface Props{lang:Language;}
+const {lang}=Astro.props;const t=ui[lang];
+---
+<section class="opener services-opener wrap" aria-labelledby="services-title">
+ <div class="opener-title"><p class="eyebrow">{t.tagline}</p><h1 id="services-title">{t.servicesHeading}</h1><p class="lead">{t.servicesIntro}</p><ArrowLink class="small-link" href="#contact">{t.servicesStart}</ArrowLink></div>
+ <Photo image={homepage.interior} class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
+</section>
+
+<section class="service-list wrap" aria-label={t.servicesTitle}>
+ {t.serviceList.map(([title,text,intent],i)=><article class="service-item" id={`service-${i+1}`}>
+  <p class="service-number">{String(i+1).padStart(2,'0')}</p><ServiceIcon index={i}/>
+  <h2>{title}</h2><p>{text}</p>
+  <ArrowLink class="small-link" href="#contact" data-intent={intent}>{t.servicesStart}</ArrowLink>
+ </article>)}
+</section>
+
+<section class="steps-section sell-steps wrap" aria-labelledby="steps-heading">
+ <div><p class="eyebrow">{t.sellHeading.replace(/\.$/,"").toUpperCase()}</p><h2 id="steps-heading">{t.sellStepsHeading}</h2><p>{t.sellIntro}</p></div>
+ <ol class="steps">{t.sellSteps.map(([title,text],i)=><li><span class="step-number" aria-hidden="true">{i+1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
+</section>
+
+<section class="private-band sell-discreet" aria-labelledby="discreet-heading"><div class="wrap private-band-inner"><h2 id="discreet-heading">{t.sellDiscreetHeading}</h2><div><p>{t.sellDiscreetCopy}</p><ArrowLink class="small-link" href="#contact" data-discreet={t.discreetLine} data-intent="sell">{t.sellStart}</ArrowLink></div></div></section>
+
+<Enquiry lang={lang} heading={t.start} alone/>
+<script>
+// A service's link sets the letter's first line ("I would like to buy / sell / rent").
+document.querySelectorAll<HTMLElement>('[data-intent]').forEach(link=>link.addEventListener('click',()=>{const select=document.querySelector<HTMLSelectElement>('#intent');if(select)select.value=link.dataset.intent!;}));
+</script>

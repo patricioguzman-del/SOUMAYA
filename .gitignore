@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.vercel/
+# Synced from AUBA on every build (scripts/sync-auba.mjs). Never edit or commit.
+public/images/
+src/data/auba/

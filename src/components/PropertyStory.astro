@@ -1,0 +1,74 @@
+---
+import Photo from './Photo.astro';import Enquiry from './Enquiry.astro';import PropertyOpening from './PropertyOpening.astro';import ChapterBlock from './ChapterBlock.astro';import ArrowLink from './ArrowLink.astro';import PropertyFacts from './PropertyFacts.astro';import {money,number} from '../lib/format';import IslandMap from './IslandMap.astro';import {areas} from '../data/ibiza';import {route} from '../lib/routes';import {whatsappLink} from '../lib/enquiry';import {tr} from '../lib/i18n';
+import {ui} from '../data/ui';import type {Language} from '../lib/routes';import {chaptersOf,areaOf,facadeOf,hrefOf,type Listing} from '../lib/listings';
+interface Props{lang:Language;listing:Listing;next?:Listing;}
+const {lang,listing:p,next}=Astro.props;const t=ui[lang];const c=p[lang];
+const copy=c as unknown as Record<string,unknown>;const strings=t as unknown as Record<string,string>;
+const say=(key?:string)=>key?String(copy[key]??strings[key]??''):'';
+const captions=c.captions as unknown as Record<string,string>;const alts=(copy.alts||{}) as Record<string,string>;
+const chapters=chaptersOf(p);
+// Plates: photographs are numbered in reading order, as in a monograph (01, 02 …), the setting last.
+const order=[...new Set([...chapters.flatMap(chapter=>chapter.blocks.flatMap(block=>block.photos)),p.settingPhoto])];
+const plateOf=(key:string)=>{const i=order.indexOf(key);return i<0?undefined:String(i+1).padStart(2,'0');};
+const photo=(key:string)=>({image:p.imagePrefix+key,alt:alts[key]||captions[key],caption:captions[key],plate:plateOf(key),zoom:true as const,lang});
+const nav=[...chapters.filter(chapter=>chapter.id&&chapter.nav).map(chapter=>[chapter.id!,say(chapter.nav)]),['details',t.details]];
+// Enquiries name the home with its reference, so every message can be matched to the listing.
+const enquiryName=`${c.name} (${p.ref})`;
+// The details, as one plain table in a fixed order (only the rows a home has).
+const area=areas.find(item=>item.id===areaOf(p.reference));
+const pool=(p as {poolArea?:number}).poolArea;
+const builtLabel=((c as {builtLabel?:string}).builtLabel??t.built)+(c.areaNote?'*':'');
+const details:[string,string][]=[
+ [t.askingPrice,money(p.price,lang)],
+ [t.factBedrooms,String(p.bedrooms)],[t.factBathrooms,String(p.bathrooms)],
+ [builtLabel,`${number(p.builtArea,lang)} m²`],...(p.plotArea?[[t.plot,`${number(p.plotArea,lang)} m²`] as [string,string]]:[]),
+ ...(pool?[[tr(lang,{en:'Pool',es:'Piscina',fr:'Piscine'}),`${number(pool,lang)} m²`] as [string,string]]:[]),
+ ...(p.architect?[[tr(lang,{en:'Architecture',es:'Arquitectura',fr:'Architecture'}),p.architect] as [string,string]]:[]),
+ [t.energyLabel,p.energyRating||t.energyPending],[tr(lang,{en:'Reference',es:'Referencia',fr:'Référence'}),p.ref]];
+// Features already shown in the table (architect, pool size) are not repeated in the list.
+const features=c.features.filter(feature=>!(p.architect&&feature.includes(p.architect))&&!(pool&&feature.includes(`${pool} m²`)&&/pool|piscina/i.test(feature)));
+const areaLink=area?tr(lang,{en:'Living in '+area.en.title.replace(/^The /,'the '),es:'Vivir en '+area.es.title.replace(/^El /,'el '),fr:'Vivre à '+area.fr.title.replace(/^(Le|L’) ?/,'')}):'';
+const heroKey=p.heroImage.slice(p.imagePrefix.length);
+const hero=photo(heroKey);const price=money(p.price,lang);
+const photoCount=new Set([heroKey,...order]).size;
+// The next home closes the page (chosen 16 October 2026, N2): its photograph whole beside the name, price and a link.
+const nextHref=next?hrefOf(next,lang):'';
+---
+<PropertyOpening lang={lang} listing={p} hero={hero}/>
+{/* Once the figures scroll away, the section bar also carries the name and price. */}
+<div class="chapter-bar" data-chapter-bar><nav class="chapter-nav wrap" aria-label={`${tr(lang,{en:'Explore',es:'Explorar',fr:'Explorer'})} ${c.name}`}><p class="bar-identity" aria-hidden="true"><span>{c.name}</span><span>{price}</span></p>{nav.map(([id,label])=><a class="chapter-link" href={`#${id}`}>{label}</a>)}<button type="button" class="chapter-photos" data-open-gallery>{tr(lang,{en:'Photographs',es:'Fotografías',fr:'Photographies'})} ({photoCount})</button><ArrowLink href="#contact">{t.enquireShort}</ArrowLink></nav></div>
+{chapters.map((chapter,i)=><section id={chapter.id} class:list={['chapter',{'chapter--band':chapter.band}]} aria-labelledby={`chapter-${i}-${chapter.blocks.findIndex(block=>block.heading)}`}><div class="chapter-blocks wrap">{chapter.blocks.map((block,j)=><ChapterBlock block={block} headingId={`chapter-${i}-${j}`} say={say} photo={photo}/>)}</div></section>)}
+<section id="details" class="property-features wrap" aria-labelledby="features-heading"><div><h2 id="features-heading">{t.featureHeading}</h2><p class="features-note">{t.plans}</p><ArrowLink class="text-link" href="#contact" data-request-plans>{t.requestPlans}</ArrowLink><ul class="feature-list">{features.map(feature=><li>{feature}</li>)}</ul></div><div class="details-columns"><dl class="details-table">{details.map(([label,value])=><div><dt>{label}</dt><dd>{value}</dd></div>)}</dl>{c.areaNote&&<p class="details-note">* {c.areaNote}</p>}</div></section>
+<section class="property-setting wrap" aria-labelledby="setting-heading"><div><p class="chapter-label">{t.setting}</p><h2 id="setting-heading">{c.settingHeading}</h2><p>{c.setting}</p><div class="setting-links"><ArrowLink class="text-link" href="#contact">{t.locationLink}</ArrowLink>{area&&<ArrowLink class="text-link" href={route(lang,'area',area.id)}>{areaLink}</ArrowLink>}</div>{area&&<IslandMap lang={lang} current={area.id}/>}</div><Photo {...photo(p.settingPhoto)}/></section>
+<Enquiry lang={lang} property={enquiryName}/>
+{next&&<section class="next-property wrap" aria-labelledby="next-heading">
+ <a class="next-photo-link" href={nextHref} tabindex="-1" aria-hidden="true"><Photo image={facadeOf(next,lang).image} alt="" class="next-photo" sizes="(max-width:760px) 100vw, 50vw"/></a>
+ <div class="next-text"><p class="next-label">{t.nextProperty}</p><h2 id="next-heading" class="next-name"><a href={nextHref}>{next[lang].name}</a></h2><p class="place">{next[lang].location}</p><p class="next-price">{money(next.price,lang)}</p><PropertyFacts lang={lang} listing={next}/><ArrowLink class="text-link" href={nextHref}>{t.discover}</ArrowLink></div>
+</section>}
+{/* Phones: the same essentials within thumb reach, hidden near the enquiry and footer. */}
+<div class="property-bar" data-property-bar><p><span>{c.name}</span><span>{price}</span></p><div class="property-bar-actions"><ArrowLink class="button" href={whatsappLink(lang,enquiryName)} target="_blank" rel="noopener">WhatsApp</ArrowLink><ArrowLink class="button solid" href="#contact">{t.enquireShort}</ArrowLink></div></div>
+<script>
+// One scroll check (at most once per frame) drives both bars and the current chapter.
+// Position checks, unlike crossing events, stay correct when a link jumps across the page.
+const bar=document.querySelector<HTMLElement>('[data-chapter-bar]');
+const phoneBar=document.querySelector<HTMLElement>('[data-property-bar]');
+const glance=document.querySelector('.glance');const contact=document.querySelector('#contact');
+const links=[...document.querySelectorAll<HTMLAnchorElement>('.chapter-link')];
+const targets=links.map(link=>document.querySelector<HTMLElement>(link.hash));
+let queued=false;
+function update(){
+ queued=false;
+ const past=Boolean(glance&&glance.getBoundingClientRect().bottom<0);
+ const nearEnd=Boolean(contact&&contact.getBoundingClientRect().top<innerHeight);
+ // From the enquiry onwards the name would compete with the next property, so it fades out.
+ bar?.toggleAttribute('data-stuck',past&&!nearEnd);
+ phoneBar?.toggleAttribute('data-visible',past&&!nearEnd);
+ // The current chapter is the last one whose top has passed a line 30% down the window;
+ // unnamed chapters continue the one before them.
+ const line=innerHeight*.3;let current=-1;
+ targets.forEach((target,i)=>{if(target&&target.getBoundingClientRect().top<=line)current=i;});
+ links.forEach((link,i)=>i===current?link.setAttribute('aria-current','true'):link.removeAttribute('aria-current'));
+}
+addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(update);}},{passive:true});
+addEventListener('resize',update);update();
+</script>

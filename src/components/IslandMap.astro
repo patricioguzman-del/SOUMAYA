@@ -1,0 +1,16 @@
+---
+// The island's coastline (traced from a map of the island) with a numbered marker per area,
+// each a link to that area's page. On an area's page, `current` draws its marker filled and marks it as the page.
+import {ibizaOutline} from '../data/ibiza-outline';import {areas} from '../data/ibiza';import {route,type AreaId,type Language} from '../lib/routes';
+// keyboard={false}: where a list of the same areas sits beside the map (Living in Ibiza), the markers stay out of the
+// tab order and away from screen readers, so each area is reached once; pointer and touch work as before.
+interface Props{lang:Language;current?:AreaId;caption?:string;keyboard?:boolean;}
+const {lang,current,caption,keyboard=true}=Astro.props;
+---
+<figure class="island-map">
+ <svg viewBox="24 24 480 410" role={keyboard?'group':undefined} aria-hidden={keyboard?undefined:'true'} aria-label={({en:'Map of Ibiza showing the six areas, north at the top',es:'Mapa de Ibiza con las seis zonas; el norte arriba',fr:'Carte d’Ibiza avec les six zones, le nord en haut'})[lang]}>
+  <path class="island-coast" d={ibizaOutline}/>
+  {areas.map(area=><a class="island-marker" href={route(lang,'area',area.id)} data-area={area.id} aria-label={`${area.number}: ${area[lang].title}`} aria-current={area.id===current?'page':undefined} tabindex={keyboard?undefined:-1}><g transform={`translate(${area.marker[0]} ${area.marker[1]})`}><circle class="island-marker-hit" r="33"/><circle class="island-marker-disc" r="17"/><text text-anchor="middle" dy="5" aria-hidden="true">{area.number}</text></g></a>)}
+ </svg>
+ {caption&&<figcaption>{caption}</figcaption>}
+</figure>

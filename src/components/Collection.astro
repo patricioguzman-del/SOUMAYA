@@ -1,0 +1,88 @@
+---
+// The collection: a plain title, then a search bar (area, price, bedrooms, sort) and a gallery/list switch.
+// Swiss rules here, editorial everywhere else: one row of controls, the same facts in the same order on
+// every home, and a count that always says what is shown. Filtering runs in the page, so the site stays static.
+// Without JavaScript every home is listed and the controls stay hidden.
+import PropertyCard from './PropertyCard.astro';import ArrowLink from './ArrowLink.astro';
+import {ui} from '../data/ui';import {areas} from '../data/ibiza';import {route,type Language} from '../lib/routes';
+import {areaOf,type Listing} from '../lib/listings';
+interface Props{lang:Language;properties:Listing[];}
+const {lang,properties}=Astro.props;const t=ui[lang];
+const forSale=properties.filter(property=>property.status==='for-sale');
+const countIn=(id:string)=>forSale.filter(property=>areaOf(property.reference)===id).length;
+// Price bands in euros, written as min-max (max 0 = no upper limit).
+const bands:[string,string][]=[['0-5000000',{en:'Up to €5M',es:'Hasta 5 M€',fr:'Jusqu’à 5 M€'}[lang]],['5000000-10000000',{en:'€5M–€10M',es:'5–10 M€',fr:'5–10 M€'}[lang]],['10000000-20000000',{en:'€10M–€20M',es:'10–20 M€',fr:'10–20 M€'}[lang]],['20000000-0',{en:'Over €20M',es:'Más de 20 M€',fr:'Plus de 20 M€'}[lang]]];
+const beds=[3,4,5,6].filter(n=>forSale.some(property=>property.bedrooms>=n));
+// Only choices that find a home: an empty area, price band or bedroom count is left out (18 November 2026).
+const inBand=(value:string)=>{const [min,max]=value.split('-').map(Number);return forSale.some(property=>property.price>=min&&(!max||property.price<max));};
+// With only a few homes, filters add nothing: show them from eight homes up.
+const showSearch=forSale.length>=8;
+const words={en:{home:'home',homes:'homes',of:'of'},es:{home:'casa',homes:'casas',of:'de'},fr:{home:'maison',homes:'maisons',of:'sur'}}[lang];
+---
+<section class="collection-page wrap" aria-labelledby="collection-title">
+ <div class="page-intro"><p class="eyebrow">{t.tagline}</p><h1 id="collection-title">{t.selected}</h1><p>{t.collectionIntro}</p></div>
+ {showSearch&&<Fragment>
+ <form class="search-tools" data-search role="search" aria-label={t.forSaleTitle} data-words={JSON.stringify(words)}>
+  <div class="search-field"><label for="search-area">{t.filterArea}</label><select id="search-area" name="area"><option value="">{t.filterAnyArea}</option>{areas.filter(area=>countIn(area.id)>0).map(area=><option value={area.id}>{area[lang].title} ({countIn(area.id)})</option>)}</select></div>
+  <div class="search-field"><label for="search-price">{t.filterPrice}</label><select id="search-price" name="price"><option value="">{t.filterAnyPrice}</option>{bands.filter(([value])=>inBand(value)).map(([value,label])=><option value={value}>{label}</option>)}</select></div>
+  <div class="search-field"><label for="search-beds">{t.filterBeds}</label><select id="search-beds" name="beds"><option value="">{t.filterAnyBeds}</option>{beds.map(n=><option value={n}>{n}+</option>)}</select></div>
+  <div class="search-field"><label for="search-sort">{t.filterSort}</label><select id="search-sort" name="sort"><option value="">{t.sortSelection}</option><option value="price-asc">{t.sortPriceAsc}</option><option value="price-desc">{t.sortPriceDesc}</option><option value="built">{t.sortBuilt}</option><option value="plot">{t.sortPlot}</option></select></div>
+ </form>
+ <div class="search-status">
+  <p class="search-count" aria-live="polite" data-search-count></p>
+  <button type="button" class="search-clear" data-search-clear hidden>{t.clearFilters}</button>
+  <div class="view-switch" role="group" aria-label={t.viewLabel} data-view-switch hidden><button type="button" data-view="gallery" aria-pressed="true">{t.viewGallery}</button><span aria-hidden="true">/</span><button type="button" data-view="list" aria-pressed="false">{t.viewList}</button></div>
+ </div>
+ </Fragment>}
+ <div class="property-grid collection-grid" data-search-results data-layout="gallery">{forSale.map((property,i)=><PropertyCard lang={lang} listing={property} compact order={i}/>)}</div>
+ <div class="search-empty" data-search-empty hidden><h2>{t.emptyHeading}</h2><p>{t.emptyBody}</p><div class="search-empty-actions"><button type="button" class="text-link" data-search-clear>{t.clearFilters}</button><ArrowLink class="text-link" href={route(lang,'contact')}>{t.emptyAction}</ArrowLink></div></div>
+</section>
+<section class="private-band collection-end" aria-labelledby="private-heading"><div class="wrap private-band-inner"><h2 id="private-heading">{t.notEvery}</h2><div><p>{t.notEveryCopy}</p><div class="private-links"><ArrowLink class="small-link" href={route(lang,'contact')}>{t.notEveryLink}</ArrowLink></div></div></div></section>
+<script>
+const form=document.querySelector<HTMLFormElement>('[data-search]');
+const grid=document.querySelector<HTMLElement>('[data-search-results]');
+if(form&&grid){
+ const items=[...grid.querySelectorAll<HTMLElement>('[data-search-item]')];
+ const count=document.querySelector<HTMLElement>('[data-search-count]')!;const empty=document.querySelector<HTMLElement>('[data-search-empty]')!;
+ const clears=[...document.querySelectorAll<HTMLButtonElement>('[data-search-clear]')];
+ const views=document.querySelector<HTMLElement>('[data-view-switch]')!;views.hidden=false;
+ const words=JSON.parse(form.dataset.words!) as {home:string;homes:string;of:string};
+ const num=(el:HTMLElement,key:string)=>Number(el.dataset[key]);
+ const sorters:Record<string,(a:HTMLElement,b:HTMLElement)=>number>={
+  '':(a,b)=>num(a,'order')-num(b,'order'),
+  'price-asc':(a,b)=>num(a,'price')-num(b,'price'),
+  'price-desc':(a,b)=>num(b,'price')-num(a,'price'),
+  built:(a,b)=>num(b,'built')-num(a,'built'),
+  plot:(a,b)=>num(b,'plot')-num(a,'plot')
+ };
+ let layout='gallery';
+ function apply(write=true){
+  const data=new FormData(form!);const area=String(data.get('area')||'');const price=String(data.get('price')||'');const beds=Number(data.get('beds')||0);const sort=String(data.get('sort')||'');
+  const [min,max]=price?price.split('-').map(Number):[0,0];
+  let shown=0;
+  for(const item of items){
+   const match=(!area||item.dataset.area===area)&&(!price||(num(item,'price')>=min&&(!max||num(item,'price')<max)))&&(!beds||num(item,'beds')>=beds);
+   item.hidden=!match;if(match)shown++;
+  }
+  items.slice().sort(sorters[sort]??sorters['']).forEach(item=>grid!.append(item));
+  const filtered=Boolean(area||price||beds);
+  count.textContent=filtered?`${shown} ${words.of} ${items.length} ${items.length===1?words.home:words.homes}`:'';
+  clears[0].hidden=!filtered;empty.hidden=shown>0;grid!.hidden=shown===0;
+  grid!.dataset.layout=layout;
+  views.querySelectorAll<HTMLButtonElement>('[data-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===layout)));
+  if(write){
+   // The address keeps the search, so it can be bookmarked or sent to someone.
+   const params=new URLSearchParams();for(const [key,value] of [['area',area],['price',price],['beds',beds?String(beds):''],['sort',sort],['view',layout==='list'?'list':'']])if(value)params.set(key,value);
+   const query=params.toString();history.replaceState(null,'',query?`?${query}`:location.pathname);
+  }
+ }
+ // Start from the address, if it carries a search.
+ const start=new URLSearchParams(location.search);
+ for(const name of ['area','price','beds','sort']){const field=form.elements.namedItem(name) as HTMLSelectElement|null;const value=start.get(name);if(field&&value&&[...field.options].some(option=>option.value===value))field.value=value;}
+ if(start.get('view')==='list')layout='list';
+ form.addEventListener('change',()=>apply());form.addEventListener('submit',event=>event.preventDefault());
+ views.addEventListener('click',event=>{const button=(event.target as HTMLElement).closest<HTMLButtonElement>('[data-view]');if(!button)return;layout=button.dataset.view!;apply();});
+ clears.forEach(button=>button.addEventListener('click',()=>{for(const name of ['area','price','beds'])(form.elements.namedItem(name) as HTMLSelectElement).value='';apply();(form.elements.namedItem('area') as HTMLSelectElement).focus();}));
+ apply(false);
+}
+</script>

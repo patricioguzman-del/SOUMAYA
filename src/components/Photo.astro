@@ -1,0 +1,31 @@
+---
+import synced from '../data/auba/images.json';import own from '../data/images-own.json';
+// Photographs: the homes' come from AUBA (public/images, synced); Soumaya's own are in public/media.
+const dimensions={...synced,...own} as Record<string,{width:number;height:number;tone:string}>;const folder=(key:string)=>key in own?'/media':'/images';
+import type {Language} from '../lib/routes';
+interface Props { image:string; alt:string; caption?:string; plate?:string; class?:string; imageClass?:string; eager?:boolean; zoom?:boolean; lang?:Language; sizes?:string; phone?:string; }
+const {image,alt,caption,plate,class:className='',imageClass='',eager=false,zoom=false,lang='en',sizes='(max-width: 760px) 100vw, 70vw',phone}=Astro.props;
+const size=(dimensions as Record<string,{width:number;height:number;tone:string}>)[image];
+if(!size)throw new Error(`Unknown photograph: ${image}`);
+const src=`${folder(image)}/${image}-1600.webp`;
+// Up to 2400px, so photographs stay sharp on large and high-resolution screens. A photograph narrower than a
+// step is listed once, at its own width. The photo viewer opens the largest version.
+const steps=[480,960,1600,2400].map(w=>({file:`${folder(image)}/${image}-${w}.webp`,width:Math.min(w,size.width)}));
+const srcset=steps.filter((step,i)=>steps.findIndex(other=>other.width===step.width)===i).map(step=>`${step.file} ${step.width}w`).join(', ');
+const largest=`${folder(image)}/${image}-2400.webp`;
+// phone: a different photograph for phones (up to 760px wide), e.g. an upright one where laptops show a landscape.
+const phoneSize=phone?(dimensions as Record<string,{width:number;height:number}>)[phone]:undefined;
+if(phone&&!phoneSize)throw new Error(`Unknown photograph: ${phone}`);
+const phoneSteps=phone&&phoneSize?[480,960,1600,2400].map(w=>({file:`${folder(phone)}/${phone}-${w}.webp`,width:Math.min(w,phoneSize.width)})):[];
+const phoneSrcset=phoneSteps.filter((step,i)=>phoneSteps.findIndex(other=>other.width===step.width)===i).map(step=>`${step.file} ${step.width}w`).join(', ');
+// While loading, each photograph shows its own average tone. Lazy photographs then fade in (see Site.astro);
+// eager ones, such as covers, appear at once so the first view is never delayed.
+const tone=`background-color:${size.tone}`;const fade=eager?undefined:'';
+// The photograph's own shape, for frames that follow it.
+const shape=`--r:${(size.width/size.height).toFixed(4)}`;
+---
+<figure class={className} style={shape}>
+{zoom ? <button type="button" class="gallery-open" data-gallery-src={largest} data-gallery-caption={plate&&caption?`${plate} — ${caption}`:caption||alt} aria-label={`${{en:'View photograph',es:'Ampliar fotografía',fr:'Agrandir la photographie'}[lang]}: ${alt}`}><img class={imageClass} src={src} srcset={srcset} sizes={sizes} width={size.width} height={size.height} alt={alt} loading={eager?'eager':'lazy'} fetchpriority={eager?'high':'auto'} decoding="async" style={tone} data-fade={fade} /></button> : phone&&phoneSize ? <picture><source media="(max-width: 760px)" srcset={phoneSrcset} sizes="100vw" width={phoneSize.width} height={phoneSize.height}/><img class={imageClass} src={src} srcset={srcset} sizes={sizes} width={size.width} height={size.height} alt={alt} loading={eager?'eager':'lazy'} fetchpriority={eager?'high':'auto'} decoding="async" style={tone} data-fade={fade} /></picture> : <img class={imageClass} src={src} srcset={srcset} sizes={sizes} width={size.width} height={size.height} alt={alt} loading={eager?'eager':'lazy'} fetchpriority={eager?'high':'auto'} decoding="async" style={tone} data-fade={fade} />}
+{caption && <figcaption>{plate&&<span class="plate">{plate}</span>}{caption}</figcaption>}
+<slot />
+</figure>

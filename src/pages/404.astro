@@ -1,0 +1,7 @@
+---
+// Served for any unknown address. In the three languages, as it cannot know the visitor's.
+import Site from '../layouts/Site.astro';import ArrowLink from '../components/ArrowLink.astro';import {route,languages} from '../lib/routes';import {ui} from '../data/ui';
+---
+<Site lang="en" page="home" title={ui.en.notFound} description={ui.en.intro} notFound>
+<section class="not-found wrap"><p class="eyebrow">404</p><h1>{ui.en.notFound}</h1>{languages.filter(code=>code!=='en').map(code=><p class="not-found-es" lang={code}>{ui[code].notFound}</p>)}{languages.map(code=><Fragment><ArrowLink class="small-link" href={route(code,'home')} lang={code}>{ui[code].returnHome}</ArrowLink> </Fragment>)}</section>
+</Site>

@@ -1,0 +1,1371 @@
+/* Soumaya: one stylesheet (adapted from the AUBA codebase), organised as tokens → base → components → pages → property chapters.
+   Breakpoints: 1050 (header crowding), 1000 (tablet), 850 (menu), 760 (phone), 360 (small phone). */
+
+/* ───────────────────────── Tokens ───────────────────────── */
+:root{
+ color-scheme:light;
+ /* Colour (Soumaya brand board): ivory paper, stone wash, taupe rules, olive for actions and the deep band, ink text. */
+ --paper:#F5F2EC;--wash:#ECE6DC;--stone:#D9D1C5;--taupe:#A69A8B;--olive:#555D50;--ink:#252927;--muted:#575B55;--rule:#D9D1C5;--control:#87877F;--error:#823F32;
+ --deep:#555D50;--on-deep:#F5F2EC;
+ /* Type families */
+ --font-display:'Cormorant Garamond',Georgia,serif;
+ --font-text:'Manrope',Arial,sans-serif;
+ /* Display scale (Libre Caslon Display), in rem so it follows the visitor's text size.
+    Each step is about 1.25× the next. Sizes in px assume the default 16px. */
+ --text-display:clamp(4rem,7vw,6.25rem); /* 60–92px · property names */
+ --text-h1:clamp(3.25rem,5.6vw,5.25rem);         /* 48–76px · page titles */
+ --text-h2:clamp(2.5rem,4.4vw,4rem);       /* 40–60px · editorial headlines, chapters, featured items */
+ --text-h3:clamp(2.125rem,3.3vw,3rem);        /* 34–48px · section labels, subsections, asides */
+ --text-h4:clamp(1.875rem,2.7vw,2.5rem);      /* 30–40px · card titles, letter salutation */
+ /* Homepage roles (16 October 2026). One size per role, each about 1.33–1.5× the next:
+    cover (the page title, used once) → statement (at most two per page) → section → item. */
+ --text-cover:clamp(3.25rem,6vw,5.25rem);     /* 52–84px */
+ --text-statement:var(--text-h2);              /* 40–60px */
+ --text-section:clamp(2rem,2.8vw,2.5rem);      /* 32–40px */
+ --text-item:clamp(1.625rem,2.1vw,1.875rem);   /* 26–30px */
+ /* Text scale (Source Sans 3) */
+ --text-lg:1.1875rem;  /* 21px · prices, key figures, the letter's opening line */
+ --text-md:1rem;   /* 18px · form fields, signature, menu */
+ --text-base:.9375rem;/* 17px · body copy */
+ --text-sm:.8125rem;   /* 15px · links, buttons, navigation, notes */
+ --text-xs:.8125rem;    /* 14px · captions, metadata (13px until Phase 1, October 2026) */
+ --text-label:.6875rem;  /* 12px · spaced capitals: eyebrows and fact labels */
+ --tracking-display:-.02em;--tracking-label:.24em;
+ /* Spacing: 4px base for components, fluid steps for page rhythm. */
+ --space-2xs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:32px;--space-2xl:48px;--space-3xl:64px;--space-4xl:96px;
+ /* On notched phones in landscape, content stays clear of the notch; photographs still run under it. */
+ --gutter:max(clamp(24px,4.4vw,72px),env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));
+ --gap-columns:clamp(40px,8vw,120px);  /* between text and image columns */
+ --section:clamp(72px,8vw,124px);      /* between homepage and page sections */
+ --chapter-space:clamp(72px,9vw,136px);/* between property chapters */
+ /* Distance from the content edge to the window edge, for photographs that run off the page.
+    Resolved inside <main>, which is the size container. */
+ --bleed:max(var(--gutter),calc((100cqi - 1320px)/2));
+ --measure:65ch;
+ /* The page grid: twelve columns inside .wrap. Every homepage section snaps to it. */
+ --grid:repeat(12,minmax(0,1fr));--grid-gap:clamp(20px,2.5vw,40px);
+ /* Motion: used from the motion pass onwards. */
+ --ease-out:cubic-bezier(.23,1,.32,1);--ease-in-out:cubic-bezier(.77,0,.175,1);
+}
+
+/* ───────────────────────── Base ───────────────────────── */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:28px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 var(--text-base)/1.65 var(--font-text);overflow-wrap:anywhere}
+main{container-type:inline-size}
+h1,h2,h3,p,figure{margin:0}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:var(--tracking-display);text-wrap:balance}
+h1{font-size:var(--text-h1);line-height:1.02}
+h2{font-size:var(--text-h2);line-height:1.08}
+h3{font-size:var(--text-h3);line-height:1.12}
+p{max-width:var(--measure);text-wrap:pretty}
+img{max-width:100%;height:auto;display:block;object-fit:cover}
+figure img{width:100%}
+/* Motion layer. Lazy photographs fade in over their own tone (set inline) once loaded. */
+.js img[data-fade]{opacity:0;transition:opacity 450ms var(--ease-out)}
+.js img[data-fade][data-loaded]{opacity:1}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:5px}
+button,input,select,textarea{font:inherit;color:inherit;border-radius:0}
+button,a,summary{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+/* Controls are not text to copy: no selection or callout on long-press. Links in text stay selectable. */
+button,.button,.menu-toggle,.chapter-nav a,.language-switch a,summary{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+button,summary{cursor:pointer}
+button{background:none}
+button:active{background:var(--wash)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline-offset:3px}
+[hidden]{display:none!important}
+.wrap{width:min(100% - var(--gutter)*2,1320px);margin-inline:auto}
+.skip{position:absolute;left:var(--space-lg);top:-100px;padding:var(--space-sm) var(--space-lg);background:var(--paper);z-index:5}
+.skip:focus{top:var(--space-sm)}
+@media(hover:hover) and (pointer:fine){a:hover{text-decoration:underline;text-underline-offset:6px}summary:hover{color:var(--muted)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ───────────────────────── Shared type roles ───────────────────────── */
+.eyebrow{font-size:var(--text-label);letter-spacing:var(--tracking-label);line-height:1.5;color:var(--muted);margin-bottom:var(--space-lg)}
+.caption,figcaption,.role{font-size:var(--text-xs);line-height:1.5;color:var(--muted)}
+.place{font-size:var(--text-sm);line-height:1.5;color:var(--muted)}
+figcaption{padding-top:var(--space-sm)}
+.lead{font-size:var(--text-lg);line-height:1.55;max-width:34ch}
+.price{font:300 var(--text-lg)/1.4 var(--font-text);font-variant-numeric:tabular-nums lining-nums}
+.facts{font-size:var(--text-sm);line-height:1.7;margin-top:var(--space-xs);font-variant-numeric:tabular-nums lining-nums}
+.fact{display:inline-block}
+.fact:not(:last-child):after{content:' ·'}
+/* Catalogue details: the AUBA reference sits quietly beside a home's name, like a catalogue number. */
+.ref{font-size:var(--text-xs);line-height:1.5;color:var(--muted);font-variant-numeric:tabular-nums lining-nums;letter-spacing:.03em;white-space:nowrap}
+.status{font-size:var(--text-label);letter-spacing:var(--tracking-label);text-transform:uppercase;margin-bottom:var(--space-xs)}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Plates: property photographs are numbered in reading order, as in a monograph. */
+.plate{font:400 var(--text-xs)/1 var(--font-display);color:var(--ink);margin-right:var(--space-sm);font-variant-numeric:lining-nums}
+.area-note{font-size:var(--text-xs);color:var(--muted);margin-top:var(--space-sm)}
+.quiet-line{font-size:var(--text-xs);color:var(--muted);max-width:32ch}
+.quiet-line:before{content:'';display:block;width:76px;height:1px;background:var(--control);margin-bottom:var(--space-lg)}
+@media(max-width:760px){.eyebrow{margin-bottom:var(--space-md)}}
+
+/* ───────────────────────── Links and buttons ─────────────────────────
+   Arrows come from ArrowLink: → another page, ↓ this page, ↗ leaves the site. */
+.text-link{position:relative;font-size:var(--text-sm);display:inline-flex;align-items:center;justify-content:space-between;gap:var(--space-md);min-height:44px;text-decoration:none;border-bottom:1px solid var(--rule)}
+.text-link::after{content:'';position:absolute;inset:auto 0 -1px;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform 220ms var(--ease-out)}
+.text-link:focus-visible::after{transform:none}
+@media(hover:hover) and (pointer:fine){.text-link:hover{text-decoration:none}.text-link:hover::after{transform:none}.button:not(.primary):not(.solid):hover{background:color-mix(in oklch,var(--ink) 6%,transparent)}}
+.button:not(.primary):not(.solid){transition:transform 120ms var(--ease-out),background-color 150ms ease}
+.button{display:inline-flex;align-items:center;justify-content:space-between;gap:var(--space-lg);min-height:48px;padding:var(--space-sm) var(--space-lg);border:1px solid var(--control);font-size:var(--text-sm);text-decoration:none}
+.primary{background:var(--ink);color:var(--paper);border-color:var(--ink);width:100%;margin-top:var(--space-lg)}
+.primary:active{background:var(--muted)}
+/* Solid: the main action where it is not the letter's own send button (Enquire on property pages). */
+.solid{background:var(--ink);color:var(--paper);border-color:var(--ink);transition:transform 120ms var(--ease-out),background-color 150ms ease}
+.solid:active{background:var(--muted)}
+/* Feedback the moment a finger lands, not when it lifts. */
+.button,.text-link,.menu-toggle{transition:transform 120ms var(--ease-out)}
+.button:active,.text-link:active,.menu-toggle:active{transform:scale(.97)}
+@media(prefers-reduced-motion:reduce){.button,.text-link,.menu-toggle{transition:none}.button:active,.text-link:active,.menu-toggle:active{transform:none}}
+@media(hover:hover) and (pointer:fine){.primary:hover,.solid:hover{background:var(--muted);border-color:var(--muted);text-decoration:none}}
+
+/* ───────────────────────── Header ───────────────────────── */
+/* Slim (chosen 16 October 2026, option A): 80px, 64px on phones, so the header no longer competes with the cover.
+   At every width (option B, chosen 20 October 2026) it holds only the logo, the language switch and "Menu". */
+.header{position:relative;min-height:80px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);margin-bottom:var(--space-lg)}
+.header>:not(nav){position:relative;z-index:1}
+/* Away from property pages the header follows the page: it slides up while reading down and returns on any
+   scroll up. Its paper background runs to both window edges. */
+body:not(.property-story) .header{position:sticky;top:0;z-index:20;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax -1px);transition:transform 320ms var(--ease-out)}
+.header.is-tucked{transform:translateY(calc(-100% - 2px))}
+.wordmark{font:400 2.375rem/1 var(--font-display);letter-spacing:.16em;text-decoration:none;display:inline-block}
+.wordmark small{display:block;font:400 var(--text-label)/1.8 var(--font-text);letter-spacing:.38em;text-align:center;margin-top:var(--space-xs)}
+.header .wordmark{font-size:1.75rem}
+.header .wordmark small{font-size:.625rem;margin-top:4px}
+.header-actions{display:flex;align-items:center;gap:var(--space-lg);margin-left:auto}
+/* Each language a wide target (about 32px) for a thumb, the letters as close as before. */
+.language-switch{display:flex;align-items:center;font-size:var(--text-xs)}
+.language-switch a{min-width:32px;min-height:44px;padding-inline:var(--space-xs);display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.language-switch a[aria-current]{text-decoration:underline;text-underline-offset:5px}
+.menu-toggle{display:block;min-width:52px;min-height:48px;padding:0;border:0;font-size:var(--text-sm)}
+
+/* The menu: a full screen of paper under the header's own row, the pages set large in Caslon and the ways to get in
+   touch at the foot. It fades in and out (200ms) where the browser can animate it, at once with reduced motion.
+   The page behind does not scroll; Close, Escape or a link closes it. */
+.header nav{position:fixed;inset:0;z-index:0;display:none;flex-direction:column;align-items:stretch;padding:calc(80px + var(--space-xl)) var(--gutter) calc(var(--space-2xl) + env(safe-area-inset-bottom,0px));background:var(--paper);overflow:auto;overscroll-behavior:contain;opacity:0;transition:opacity 200ms var(--ease-out),display 200ms allow-discrete}
+.header nav.is-open{display:flex;opacity:1}
+@starting-style{.header nav.is-open{opacity:0}}
+@media(prefers-reduced-motion:reduce){.header nav{transition:none}}
+.header-nav-link{font:400 var(--text-section)/1.15 var(--font-display);letter-spacing:var(--tracking-display);min-height:64px;display:flex;align-items:center;border-bottom:1px solid var(--rule);text-decoration:none}
+.header-nav-link[aria-current=page]{text-decoration:underline;text-underline-offset:8px;text-decoration-thickness:1px}
+.menu-contact{display:flex;flex-direction:column;align-items:flex-start;margin-top:auto;padding-top:var(--space-2xl);font-size:var(--text-sm)}
+.menu-contact a{min-height:44px;display:inline-flex;align-items:center;gap:var(--space-sm);text-decoration:none}
+/* While open, the header and its menu sit above everything on the page, including a property's section bar and
+   phone bar, whose header is not sticky. */
+.header:has(nav.is-open){z-index:30}
+body:not(.property-story) .header:has(nav.is-open){clip-path:none}
+html:has(.header nav.is-open){overflow:hidden}
+/* Laptops: aligned to the page's own margins, the pages one size larger on a measured column, the ways to get in
+   touch in a row at the foot. */
+@media(min-width:851px){
+ .header nav{padding-inline:max(var(--gutter),calc((100% - 1320px) / 2));padding-top:calc(80px + var(--space-3xl))}
+ .header-nav-link{font-size:var(--text-h3);min-height:76px;max-width:720px}
+ .menu-contact{flex-direction:row;gap:var(--space-2xl)}
+}
+@media(hover:hover) and (pointer:fine){.header-nav-link:hover{text-decoration:underline;text-underline-offset:8px;text-decoration-thickness:1px}}
+@media(max-width:760px){.header{min-height:64px;margin-bottom:var(--space-md)}.header .wordmark{font-size:1.5rem}.header nav{padding-top:calc(64px + var(--space-xl))}}
+
+/* ───────────────────────── Footer ───────────────────────── */
+/* The colophon (chosen 16 October 2026): brand, pages and contacts on the page grid, then a last line with the year,
+   the language and back to top. On paper under a hairline; after a wash panel the change of tone is enough. */
+.footer{padding-block:var(--space-4xl) calc(var(--space-xl) + env(safe-area-inset-bottom,0px));font-size:var(--text-sm);border-top:1px solid var(--rule)}
+main:has(>:is(.personal,.personal-zone):last-child)+.footer{border-top-color:transparent}
+.footer-grid{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);row-gap:var(--space-3xl)}
+.footer-brand{grid-column:1/5}
+.footer-brand p{margin-top:var(--space-lg);color:var(--muted)}
+.footer-pages{grid-column:5/9;display:flex;flex-direction:column;align-items:flex-start}
+.footer-contact{grid-column:9/13;display:flex;flex-direction:column;align-items:flex-start}
+.footer-pages a,.footer-contact a{min-height:44px;display:inline-flex;align-items:center;gap:var(--space-sm);text-decoration:none}
+.footer-last{grid-column:1/13;display:flex;justify-content:space-between;align-items:center;gap:var(--space-lg);padding-top:var(--space-lg);border-top:1px solid var(--rule);color:var(--muted);font-size:var(--text-xs)}
+.footer-last p{max-width:none}
+.footer-last-links{display:flex;align-items:center;gap:var(--space-xl)}
+.footer-language a{min-width:32px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding-inline:var(--space-xs);text-decoration:none}
+.footer-language a[aria-current]{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
+.footer .text-link{font-size:var(--text-xs)}
+/* Phones: the pages in two columns, so the colophon stays short. */
+@media(max-width:760px){
+ .footer{padding-top:var(--space-3xl)}
+ .footer-grid{row-gap:var(--space-2xl)}
+ .footer-brand,.footer-pages,.footer-contact,.footer-last{grid-column:1/-1}
+ .footer-pages{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--space-lg)}
+ .footer-last{flex-wrap:wrap}
+}
+
+/* ───────────────────────── Opener ─────────────────────────
+   Side by side (chosen 5 October 2026): the title, and on the homepage the introduction,
+   in a narrow column beside the whole photograph at its own proportions, uncropped.
+   Title and photograph share the first screen on a laptop. */
+.opener{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.6fr);gap:var(--space-2xl);align-items:end;padding-top:var(--space-lg)}
+.opener-title{padding-bottom:var(--space-2xl)}
+.home-opener h1{font-size:var(--text-h2)}
+.opener-title .lead{margin-top:var(--space-lg);font-size:var(--text-base);line-height:1.65}
+.opener-title .text-link{margin-top:var(--space-lg)}
+.opener-title .place{margin-top:var(--space-sm)}
+.opener-image{width:100%;height:auto}
+@keyframes rise-in{from{opacity:0;transform:translateY(12px)}}
+.opener-title h1,.opener-title .place{animation:rise-in 700ms var(--ease-out) 120ms both}
+.opener-title .place{animation-delay:200ms}
+.cover-caption{display:flex;justify-content:space-between;align-items:center;gap:var(--space-md);min-height:48px;padding-top:var(--space-xs);font-size:var(--text-xs);color:var(--muted)}
+.cover-caption a{display:inline-flex;gap:var(--space-sm);align-items:center;min-height:44px}
+.home-opener+.properties{margin-top:var(--section)}
+@media(max-width:1000px){.opener{grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:var(--space-xl)}}
+@media(max-width:760px){
+ .opener{display:block;padding-top:var(--space-md)}
+ .opener-title{padding-bottom:var(--space-xl)}
+ .home-opener h1{font-size:var(--text-h1)}
+ .cover-caption{gap:var(--space-xs);flex-wrap:wrap}
+}
+
+/* ───────────────────────── Photograph viewer ───────────────────────── */
+.gallery-open{display:block;width:100%;padding:0;border:0;text-align:inherit;cursor:zoom-in}
+.gallery-open:active{background:none}
+.gallery-open img{transition:opacity 300ms var(--ease-out)}
+@media(hover:hover) and (pointer:fine){.gallery-open:hover img{opacity:.9}}
+.gallery-open:focus-visible{outline-offset:6px}
+.image-dialog{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border:0;background:var(--paper);padding:max(var(--space-xl),env(safe-area-inset-top,0px)) max(var(--space-xl),env(safe-area-inset-right,0px)) max(var(--space-xl),env(safe-area-inset-bottom,0px)) max(var(--space-xl),env(safe-area-inset-left,0px));z-index:20;overscroll-behavior:contain}
+.image-dialog::backdrop{background:var(--paper)}
+.image-dialog[open]{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:var(--space-md)}
+/* The photograph follows a horizontal swipe; the browser keeps vertical movement and pinch-zoom. */
+.image-dialog img{width:100%;height:100%;object-fit:contain;touch-action:pan-y pinch-zoom}
+.image-dialog img.is-settling{transition:transform 220ms var(--ease-out),opacity 220ms var(--ease-out)}
+.image-dialog .dialog-top,.image-dialog .dialog-bottom{display:flex;justify-content:space-between;align-items:center;gap:var(--space-md)}
+.image-dialog button{border:1px solid var(--control);padding:var(--space-sm) var(--space-lg);min-height:44px;font-size:var(--text-sm)}
+.image-dialog p{font-size:var(--text-sm)}
+.image-dialog .image-counter,.gallery-label{font-size:var(--text-xs)}
+@media(max-width:760px){.image-dialog{padding:max(var(--space-md),env(safe-area-inset-top,0px)) max(var(--space-md),env(safe-area-inset-right,0px)) max(var(--space-md),env(safe-area-inset-bottom,0px)) max(var(--space-md),env(safe-area-inset-left,0px))}.image-dialog .dialog-top{gap:var(--space-sm)}.image-dialog .gallery-label{max-width:20ch}}
+
+/* ───────────────────────── Disclosure (the letter's "Your letter" after sending) ───────────────────────── */
+/* A quiet plus and minus on the right instead of the browser's triangle. */
+details summary{display:flex;justify-content:space-between;align-items:center;gap:var(--space-md);padding-block:var(--space-sm);min-height:48px;font-size:var(--text-sm);list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'+';flex:none;width:1em;text-align:center;font-size:var(--text-lg);font-weight:300;line-height:1;color:var(--muted)}
+details[open] summary::after{content:'−'}
+details p{padding-bottom:var(--space-md)}
+details[open] summary{margin-bottom:var(--space-2xs)}
+
+/* ───────────────────────── Property summaries ───────────────────────── */
+.property-image{display:block}
+.property-photo,.next-photo img,.sell-work-photo img{width:100%;transition:opacity 300ms var(--ease-out)}
+@media(hover:hover) and (pointer:fine){:is(.compact-property,.featured-property,.next-property,.sell-work):has(a:hover) :is(.property-photo,.next-photo img,.sell-work-photo img){opacity:.88}}
+.property-caption :is(h2,h3) a{text-decoration:none;display:inline-block;padding-block:6px;margin-block:-6px}
+.property-title{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-md)}
+.featured-property .ref{margin-top:var(--space-md)}
+/* Featured: the photograph runs off the left edge beside the essentials. */
+.featured-property{display:grid;grid-template-columns:1.5fr .8fr;gap:var(--gap-columns);align-items:center}
+.featured-property .property-image{margin-left:calc(-1 * var(--bleed))}
+.featured-property .property-photo{aspect-ratio:1.22;max-height:85svh;object-position:58% center}
+.featured-property h2{font-size:var(--text-h2)}
+.featured-property .place{margin-top:var(--space-sm)}
+.featured-property .property-facts{padding-top:var(--space-lg);margin-top:var(--space-xl);border-top:1px solid var(--rule)}
+.featured-property .facts{line-height:1.8;margin-top:var(--space-sm)}
+.featured-property .fact{display:block}
+.featured-property .fact:after{content:none}
+.featured-property .text-link{margin-top:var(--space-lg)}
+/* Compact: the collection and the homepage selection. */
+.property-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-2xl) var(--space-xl);align-items:start}
+.property-grid.three-properties{grid-template-columns:repeat(3,minmax(0,1fr))}
+.compact-property{min-width:0}
+.compact-property .property-photo{aspect-ratio:1.6}
+.compact-property .property-caption{padding-top:var(--space-lg)}
+.compact-property h3{font-size:var(--text-h4);line-height:1.15}
+.compact-property .place{margin-top:var(--space-xs)}
+.compact-property .property-facts{margin-top:var(--space-md)}
+.compact-property .facts{line-height:1.55}
+.compact-property .text-link{margin-top:var(--space-sm)}
+@media(max-width:1000px){.featured-property{grid-template-columns:1.2fr .8fr;gap:var(--space-xl)}}
+@media(max-width:1000px) and (min-width:761px){.property-grid.three-properties{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+ .featured-property{grid-template-columns:1fr;gap:var(--space-lg)}
+ .featured-property .property-image{margin-inline:calc(-1 * var(--bleed))}
+ .featured-property .property-photo{aspect-ratio:1.12}
+ .featured-property .property-facts{margin-top:var(--space-lg)}
+ .featured-property .text-link{margin-top:var(--space-md)}
+ .property-grid,.property-grid.three-properties{grid-template-columns:1fr;gap:var(--space-2xl)}
+ .compact-property .property-caption{padding-top:var(--space-md)}
+ .compact-property .property-facts{margin-top:var(--space-sm)}
+}
+
+/* ───────────────────────── Founder ───────────────────────── */
+.portrait{width:100%;aspect-ratio:3/4}
+.founder{display:grid;grid-template-columns:minmax(0,420px) minmax(0,620px);gap:var(--gap-columns);align-items:center;padding-block:var(--section)}
+.founder h2{max-width:18ch}
+.founder h2+p{margin-top:var(--space-lg)}
+.founder .text-link{margin-top:var(--space-xs)}
+.signature{margin-top:var(--space-lg);font-size:var(--text-md)}
+.role{margin-top:var(--space-2xs)}
+@media(max-width:1000px){.founder{grid-template-columns:minmax(0,300px) 1fr;gap:var(--space-2xl)}}
+@media(max-width:760px){.founder{grid-template-columns:1fr;gap:var(--space-xl);padding-block:var(--space-3xl)}.founder .eyebrow{display:none}.portrait{width:min(100%,20rem)}}
+
+/* ───────────────────────── Enquiry letter ───────────────────────── */
+.personal,.personal-zone{background:var(--wash)}
+.contact{display:grid;grid-template-columns:.8fr 1.2fr;gap:var(--gap-columns);align-items:start;padding-block:var(--space-3xl) var(--space-4xl)}
+.personal-zone .contact{border-top:1px solid var(--rule)}
+.contact h2{max-width:12ch}
+.contact-help{font-size:var(--text-xs);color:var(--muted);margin-top:var(--space-md)}
+/* The letter's opening as one sentence: the blanks sit in the line, underlined like a form to fill in by hand. */
+.phrase{font-size:var(--text-lg);line-height:2.3;max-width:none}
+.phrase :is(.intent,.writing-for,.prefer-language){display:inline}
+.phrase select{display:inline-block;width:auto;min-width:5.5em;min-height:44px;padding:0 var(--space-md) 2px 0;font-size:inherit;line-height:1.4;vertical-align:baseline}
+.pair{white-space:nowrap}
+.blank{display:inline-block;width:8em;max-width:100%;min-height:44px;padding:0 0 2px;font-size:inherit;line-height:1.4;vertical-align:baseline}
+.blank-phone{width:7.5em}.blank-email{width:10.5em}
+.phrase .property-context{margin:0;font-size:inherit}
+.phrase+.contact-help+.error,.contact-help+.error{margin-top:var(--space-xs)}
+.letter-fields>.field{margin-top:var(--space-xl)}
+.salutation{font:400 var(--text-h4)/1.4 var(--font-display);letter-spacing:var(--tracking-display);margin-bottom:var(--space-xl)}
+.field{margin-top:var(--space-lg)}
+.field label{display:block;margin-bottom:var(--space-2xs)}
+.field label span{font-size:var(--text-xs);color:var(--muted)}
+input,select,textarea{border:0;border-bottom:1px solid var(--control);padding:var(--space-sm) 0;background:transparent;width:100%;min-height:48px;font-size:var(--text-md);font-weight:300}
+textarea{resize:vertical;min-height:100px}
+input::placeholder{color:var(--muted);opacity:1}
+.preview-note{font-size:var(--text-xs);color:var(--muted);margin-top:var(--space-sm);max-width:60ch}
+.error{color:var(--error);font-size:var(--text-sm);margin-top:var(--space-xs)}
+.error:empty{display:none}
+[aria-invalid=true]{border-bottom:2px solid var(--error)}
+.confirmation:focus{outline:none}
+/* A field only bots fill in: kept off-screen, out of the tab order and hidden from screen readers. */
+.trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+/* Once the website has delivered the letter, the email-app fallbacks and editing no longer apply. */
+.confirmation[data-state=sent] .confirmation-fallback,.confirmation[data-state=sent] .edit{display:none}
+.primary[aria-busy=true]{cursor:progress;opacity:.8}
+.confirmation h3{font-size:var(--text-h4);line-height:1.2;margin-bottom:var(--space-lg)}
+.confirmation-label{margin-top:var(--space-xl);font-size:var(--text-sm);color:var(--muted)}
+.confirmation-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm) var(--space-lg);margin-top:var(--space-sm)}
+.copy-status{font-size:var(--text-sm);margin-top:var(--space-sm)}
+.copy-status:empty{display:none}
+.letter-details{margin-top:var(--space-xl);border-block:1px solid var(--rule)}
+.letter-preview{white-space:pre-line;overflow-wrap:anywhere;padding-bottom:var(--space-lg)}
+.edit{margin-top:var(--space-lg);border:0;border-bottom:1px solid var(--control)}
+@media(max-width:760px){
+ .contact{grid-template-columns:1fr;gap:var(--space-xl);padding-block:var(--space-2xl) var(--space-3xl)}
+ .contact h2{max-width:16ch}
+ .contact:not(.contact-sheet) .eyebrow{display:none}
+ /* Phones: the approved stacked letter, one phrase per line with its blank beneath. */
+ .phrase{font-size:var(--text-md);line-height:1.6}
+ .blank-label{display:block;margin-top:var(--space-lg)}
+ .phrase .prefer-language{display:block;margin-top:var(--space-lg)}.prefer-language .stop{display:none}
+ .blank,.blank-phone,.blank-email{display:block;width:100%;min-height:48px;padding:var(--space-sm) 0}
+}
+
+/* ───────────────────────── Homepage ─────────────────────────
+   Cover → lead → featured spread → selection → Living band (wash) →
+   Journal plate → founder and letter (wash). Space and tone separate the
+   sections; rules are kept for the letter and lists. */
+.section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-lg);margin-bottom:var(--space-xl)}
+.section-heading h2{font-size:var(--text-h3);line-height:1.12}
+.section-heading>.caption{letter-spacing:.035em}
+.more-properties{margin-top:var(--section)}
+.more-properties .section-heading{align-items:center}
+/* Living: a wash panel, the photograph running off the right edge, top to bottom. */
+/* On paper since 16 October 2026: the warm tone now starts at the founder note below, so the two read as separate
+   sections instead of one long warm block. */
+.band{margin-top:var(--section)}
+/* The photograph is whole, at its own shape, and sets the band's height; the text sits at its foot. */
+.living{display:grid;grid-template-columns:.92fr 1.08fr;gap:var(--gap-columns);align-items:end}
+.living-copy{padding-block:var(--space-3xl)}
+.living h2{max-width:13ch}
+.living h2+p{margin-top:var(--space-lg)}
+.living .text-link{margin-top:var(--space-xl)}
+.living-photo{margin-right:calc(-1 * var(--bleed))}
+/* Journal: a wide plate with the title and text set beneath. */
+.journal{padding-block:var(--section)}
+.journal-photo img{aspect-ratio:2.3;max-height:80svh;object-position:55% 62%}
+.journal-copy{display:grid;grid-template-columns:1fr .85fr;gap:var(--gap-columns);padding-top:var(--space-xl);align-items:start}
+.journal-copy h3{font-size:var(--text-h2);line-height:1.08;max-width:14ch}
+.journal-copy .text-link{margin-top:var(--space-lg)}
+@media(max-width:1000px){.living{gap:var(--space-2xl)}}
+@media(max-width:760px){
+ .section-heading{display:block;margin-bottom:var(--space-lg)}
+ .section-heading>.caption{display:block;margin-top:var(--space-xs)}
+ .more-properties .section-heading>.text-link{margin-top:var(--space-xs)}
+ .living{grid-template-columns:1fr;gap:0}
+ .living-copy{padding-block:var(--space-3xl) var(--space-2xl)}
+ .living h2{max-width:16ch}
+ .living-photo{margin-inline:calc(-1 * var(--bleed))}
+ .journal-photo img{aspect-ratio:1.18}
+ .journal-copy{grid-template-columns:1fr;gap:var(--space-lg)}
+}
+
+/* ───────────────────────── Collection, content, about, contact, 404 ───────────────────────── */
+.collection-page,.content-page{padding-block:var(--space-2xl) var(--section)}
+.page-intro{max-width:760px;margin-bottom:var(--space-3xl)}
+.page-intro>p{margin-top:var(--space-lg);max-width:50ch}
+.collection-page .page-intro{margin-bottom:var(--space-xl)}
+/* The title (chosen 16 October 2026, option C): as large as the homepage's cover, with no spaced capitals above it;
+   the sentence beneath. Each home drops its reference here, which is on its own page. */
+.collection-page h1{font-size:var(--text-cover);line-height:1;letter-spacing:-.025em}
+.collection-page .page-intro{max-width:none} /* so the Spanish title stays on one line on laptops; the sentence keeps its measure */
+.collection-page [data-layout=gallery] .card-ref{display:none}
+/* The page closes with the deep band for homes not on the site, so its own bottom space is shorter. */
+.collection-page{padding-bottom:var(--space-4xl)}
+.collection-page .page-intro>p:last-child{margin-top:var(--space-md)}
+/* The homes (chosen 16 October 2026, option A): one per row, as the next home closes a property page. The façade
+   whole on columns 1–6, the name, price and facts on 8–11. Grows to any number of homes without a half-empty row. */
+.collection-page .compact-property .property-photo{aspect-ratio:var(--r)}
+.collection-page .compact-property h3{font-size:var(--text-item);line-height:1.15}
+@media(min-width:761px){
+ .collection-grid[data-layout=gallery]{grid-template-columns:1fr;row-gap:var(--space-3xl)}
+ [data-layout=gallery] .compact-property{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:center}
+ [data-layout=gallery] .compact-property .property-image{grid-column:1/7}
+ [data-layout=gallery] .compact-property .property-caption{grid-column:8/12;padding-top:0}
+ [data-layout=gallery] .compact-property h3{font-size:var(--text-section);line-height:1.12}
+}
+/* Search. Hidden without JavaScript, when every home is listed anyway. The controls borrow the letter's
+   underlined blanks, so searching reads like the rest of the site rather than a portal's toolbar. */
+html:not(.js) .search-tools,html:not(.js) .view-switch{display:none}
+.search-tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-xl)}
+.search-field label{display:block;font-size:var(--text-xs);line-height:1.5;color:var(--muted)}
+.search-field select{appearance:none;-webkit-appearance:none;min-height:44px;padding:var(--space-2xs) var(--space-xl) var(--space-2xs) 0;font-size:var(--text-sm);font-weight:400;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23686C63' stroke-width='1'/%3E%3C/svg%3E") no-repeat right 2px center;cursor:pointer;transition:border-color 200ms ease}
+@media(hover:hover) and (pointer:fine){.search-field select:hover{border-bottom-color:var(--ink)}}
+.search-status{display:flex;flex-wrap:wrap;align-items:center;gap:0 var(--space-lg);margin:var(--space-md) 0 var(--space-xl);font-size:var(--text-xs);color:var(--muted)}
+.search-count{font-variant-numeric:tabular-nums lining-nums}
+.search-clear,.view-switch button{border:0;padding:0 var(--space-xs);min-height:44px;min-width:44px;font-size:var(--text-xs);color:var(--muted)}
+.search-clear{margin-left:calc(-1 * var(--space-xs));text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:5px}
+.search-clear:active,.view-switch button:active{background:none}
+.view-switch{margin-left:auto;margin-right:calc(-1 * var(--space-xs));display:flex;align-items:center;gap:0}
+.view-switch span{color:var(--rule)}
+.view-switch button[aria-pressed=true]{color:var(--ink)}
+@media(hover:hover) and (pointer:fine){.view-switch button:hover,.search-clear:hover{color:var(--ink)}}
+.search-empty{padding-block:var(--space-2xl) var(--space-3xl)}
+.search-empty h2{font-size:var(--text-h4);line-height:1.2}
+.search-empty p{margin-top:var(--space-md);max-width:48ch}
+.search-empty-actions{display:flex;flex-wrap:wrap;gap:var(--space-sm) var(--space-xl);margin-top:var(--space-lg)}
+button.text-link{border:0;border-bottom:1px solid var(--rule);padding:0}
+button.text-link:active{background:none}
+/* List view: one row per home between hairlines, so prices and facts compare down the page. */
+.collection-grid[data-layout=list]{grid-template-columns:1fr;gap:0;border-top:1px solid var(--rule)}
+[data-layout=list] .compact-property{display:grid;grid-template-columns:minmax(0,148px) minmax(0,1fr) minmax(0,9rem) minmax(0,1.35fr);gap:var(--space-xl);align-items:center;padding-block:var(--space-md);border-bottom:1px solid var(--rule)}
+[data-layout=list] .property-caption,[data-layout=list] .property-facts{display:contents}
+.collection-page [data-layout=list] .compact-property .property-photo{aspect-ratio:1.4}
+[data-layout=list] .compact-property h3{font-size:1.625rem;line-height:1.15}
+[data-layout=list] .property-title{justify-content:flex-start;gap:var(--space-sm)}
+[data-layout=list] .compact-property .facts{margin:0}
+[data-layout=list] .compact-property .text-link{display:none}
+@media(max-width:1000px) and (min-width:761px){[data-layout=list] .compact-property{grid-template-columns:minmax(0,132px) minmax(0,1fr) auto;row-gap:var(--space-2xs)}[data-layout=list] .property-image{grid-row:span 2}[data-layout=list] .compact-property .facts{grid-column:2/4}}
+.about-page{padding-block:var(--space-lg) var(--section)}
+.about-story{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:start}
+.about-story .portrait{grid-column:1/5}
+.about-story>div{grid-column:6/12}
+.about-story h1{font-size:var(--text-statement);line-height:1.05;margin-bottom:var(--space-xl)}
+.about-story>div>p+p{margin-top:var(--space-lg)}
+/* The portrait stays in view beside the longer About text. */
+@media(min-width:761px){.about-story .portrait{position:sticky;top:var(--space-xl)}}
+@media(min-width:761px) and (max-width:1000px){.about-story .portrait{grid-column:1/6}.about-story>div{grid-column:7/13}}
+.about-story .text-link{margin-top:var(--space-lg)}
+.about-copy-section{margin-top:var(--space-2xl)}
+.about-copy-section h2{font-size:var(--text-section);line-height:1.12;margin-bottom:var(--space-md)}
+.not-found{padding-block:var(--space-4xl)}
+.not-found-es{margin-top:var(--space-sm);color:var(--muted)}
+.not-found .text-link{margin-top:var(--space-xl);margin-right:var(--space-xl)}
+@media(max-width:760px){
+ .collection-page,.content-page,.about-page{padding-top:var(--space-lg)}
+ .page-intro{margin-bottom:var(--space-xl)}
+ .collection-page .page-intro{margin-bottom:var(--space-lg)}
+ .search-tools{grid-template-columns:1fr 1fr;gap:var(--space-sm) var(--space-lg)}
+ .search-status{margin:var(--space-sm) 0 var(--space-lg)}
+ [data-layout=list] .compact-property{grid-template-columns:88px minmax(0,1fr);gap:var(--space-2xs) var(--space-md);align-items:start}
+ [data-layout=list] .property-image{grid-row:span 3}
+ [data-layout=list] .compact-property h3{font-size:1.375rem}
+ [data-layout=list] .property-title{justify-content:space-between}
+ [data-layout=list] .compact-property .place{margin-top:0;font-size:var(--text-xs)}
+ [data-layout=list] .price{font-size:var(--text-md)}
+ [data-layout=list] .compact-property .facts{font-size:var(--text-xs);line-height:1.6}
+ .about-story{grid-template-columns:1fr;gap:var(--space-xl)}
+ .about-story .portrait,.about-story>div{grid-column:1/-1}
+}
+
+/* ───────────────────────── Living in Ibiza and its areas ─────────────────────────
+   The island page: opener, preface, the map beside the six areas, then the practical questions.
+   Each area's page: opener, life there beside the map with the area marked, its homes, the areas either side. */
+.area-opener h1{font-size:var(--text-statement);line-height:1.05}
+/* The six area pages (chosen 16 October 2026, option A): the homepage's type and grid. Labels in sentence case, not
+   spaced capitals; the opener as on Living (title on 1–4, photograph on 5–12 to the edge); the map on 1–6 beside the
+   text on 8–12 from 1001px; the homes one per row with the façade whole, as on the Properties page. */
+.area-label{font-size:var(--text-sm);color:var(--muted);margin-bottom:var(--space-sm)}
+:is(.area-homes,.area-close) h2{font-size:var(--text-section);line-height:1.12}
+.area-homes .compact-property .property-photo{aspect-ratio:var(--r)}
+.area-homes .card-ref{display:none}
+@media(min-width:761px){
+ .area-opener{grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .area-opener .opener-title{grid-column:1/5}
+ .area-opener .opener-photo{grid-column:5/13;margin-right:calc(-1 * var(--bleed))}
+ .area-homes .property-grid{grid-template-columns:1fr;row-gap:var(--space-3xl)}
+ .area-homes .compact-property{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:center}
+ .area-homes .property-image{grid-column:1/7}
+ .area-homes .property-caption{grid-column:8/12;padding-top:0}
+}
+@media(min-width:1001px){
+ .area-body{grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .area-body .island-map{grid-column:1/7}
+ .area-body .area-text{grid-column:8/13}
+}
+/* The island page (chosen 16 October 2026, option A): the homepage's type and the 12 columns. The title is the one
+   statement, the section headings at section size; no spaced capitals. The opener as on Sell: title on 1–4, the
+   photograph on 5–12 to the right edge, photograph first on phones; the preface on 5–11; the map on 1–6 beside the
+   areas on 8–12 (from 1001px; below that the map and list stack, as before). */
+.living-opener h1{font-size:var(--text-statement);line-height:1.05}
+:is(.living-preface,.areas,.living-answers,.property-view) h2{font-size:var(--text-section);line-height:1.12}
+@media(min-width:761px){
+ .living-opener{grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .living-opener .opener-title{grid-column:1/5}
+ .living-opener .opener-photo{grid-column:5/13;margin-right:calc(-1 * var(--bleed))}
+ .living-preface{grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .living-preface>div{grid-column:5/12}
+}
+@media(min-width:1001px){
+ .areas{grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .areas .island-map{grid-column:1/7}
+ .areas .areas-index{grid-column:8/13}
+}
+@media(max-width:760px){
+ .living-opener{display:flex;flex-direction:column;align-items:stretch;padding-top:0}
+ .living-opener .opener-photo{order:-1;margin-inline:calc(-1 * var(--gutter))}
+ .living-opener .opener-title{padding:var(--space-lg) 0 var(--space-xl)}
+}
+/* The practical questions, open: heading on 1–4, answers on 6–11 between hairlines. */
+:is(.living-answers,.property-view){padding-top:var(--space-3xl);border-top:1px solid var(--rule)}
+:is(.living-answers,.property-view)>div p{margin-top:var(--space-md)}
+:is(.living-answers,.property-view) dl{margin:0}
+:is(.living-answers,.property-view) dl>div{padding-block:var(--space-lg);border-bottom:1px solid var(--rule)}
+:is(.living-answers,.property-view) dl>div:first-child{padding-top:0}
+:is(.living-answers,.property-view) dt{font:400 var(--text-item)/1.15 var(--font-display);letter-spacing:var(--tracking-display)}
+:is(.living-answers,.property-view) dd{margin:var(--space-sm) 0 0}
+@media(min-width:761px){:is(.living-answers,.property-view){display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:start}:is(.living-answers,.property-view)>div{grid-column:1/5}:is(.living-answers,.property-view)>dl{grid-column:6/12}}
+@media(max-width:760px){:is(.living-answers,.property-view)>dl{margin-top:var(--space-xl)}}
+.living-answers+.personal{margin-top:var(--section)}
+.area-opener .back{margin-bottom:var(--space-xl)}
+.area-kicker{font-size:var(--text-xs);color:var(--muted);margin-bottom:var(--space-sm)}
+.area-kicker .area-number{font-family:var(--font-display);font-size:var(--text-lg);color:var(--ink);margin-right:var(--space-2xs)}
+/* Upright photographs keep their whole frame: capped by height rather than cropped. */
+.area-opener .opener-image{width:auto;max-width:100%;max-height:min(82vh,960px);margin-left:auto}
+.living-preface{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.6fr);gap:var(--space-2xl);padding-top:var(--section)}
+.living-preface h2{margin-bottom:var(--space-lg)} /* at section size, as the page's other headings */
+.living-preface p+p{margin-top:var(--space-md)}
+.areas{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:var(--gap-columns);align-items:center;padding-block:var(--section)}
+.areas-intro{margin-top:var(--space-md);color:var(--muted)}
+.area-list{list-style:none;margin:var(--space-xl) 0 0;padding:0;border-top:1px solid var(--rule)}
+.area-list a{display:grid;grid-template-columns:2.75rem minmax(0,1fr) auto;gap:var(--space-md);align-items:baseline;padding-block:var(--space-md);border-bottom:1px solid var(--rule);text-decoration:none}
+.area-number{font-family:var(--font-display);font-size:var(--text-lg);color:var(--muted)}
+.area-title{display:block;font-family:var(--font-display);font-size:clamp(1.5rem,2vw,1.75rem);line-height:1.2;letter-spacing:var(--tracking-display)}
+.area-places{display:block;margin-top:var(--space-2xs);font-size:var(--text-xs);color:var(--muted)}
+.area-arrow{color:var(--muted);transition:transform 220ms var(--ease-out),color 220ms var(--ease-out)}
+.area-list a.is-lit .area-arrow{transform:translateX(4px);color:var(--ink)}
+.area-list a.is-lit .area-number{color:var(--ink)}
+.island-map svg{display:block;width:100%;height:auto;overflow:visible}
+.island-map figcaption{margin-top:var(--space-sm)}
+.island-coast{fill:var(--wash);stroke:var(--ink);stroke-width:1.1;stroke-linejoin:round}
+.island-marker{text-decoration:none}
+.island-marker-hit{fill:transparent}
+.island-marker-disc{fill:var(--paper);stroke:var(--ink);stroke-width:1;transition:fill 220ms var(--ease-out)}
+.island-marker text{font-family:var(--font-display);font-size:15px;fill:var(--ink);transition:fill 220ms var(--ease-out)}
+.island-marker.is-lit .island-marker-disc,.island-marker:hover .island-marker-disc,.island-marker[aria-current] .island-marker-disc{fill:var(--ink)}
+.island-marker.is-lit text,.island-marker:hover text,.island-marker[aria-current] text{fill:var(--paper)}
+/* Keyboard focus (area pages): the marker fills, as on hover, inside a ring at the edge of its tap area. */
+.island-marker:focus-visible{outline:none}.island-marker:focus-visible .island-marker-disc{fill:var(--ink)}.island-marker:focus-visible text{fill:var(--paper)}.island-marker:focus-visible .island-marker-hit{stroke:var(--ink);stroke-width:2}
+.area-body{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:var(--gap-columns);align-items:center;padding-block:var(--section)}
+.area-life{font-size:var(--text-lg);line-height:1.6;max-width:36em}
+.area-text .caption{margin-top:var(--space-md)}
+.area-text .area-label+p{margin-top:0}
+.area-advice{max-width:36em}
+.area-text .caption+.area-label{margin-top:var(--space-2xl)}
+.area-homes{padding-bottom:var(--section)}
+.area-homes h2{font-size:var(--text-h3);margin-bottom:var(--space-xl)}
+.area-steps{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xl);border-block:1px solid var(--rule);padding-block:var(--space-xl)}
+.area-steps a{display:flex;flex-direction:column;text-decoration:none}
+.area-steps a[rel=next]{text-align:right;align-items:flex-end}
+.area-steps .area-label{margin-bottom:var(--space-xs)}
+.area-step-title{font-family:var(--font-display);font-size:var(--text-h4);line-height:1.15;letter-spacing:var(--tracking-display)}
+.area-close{padding-top:var(--section)}
+.area-close p{max-width:44ch}
+.area-close+.personal{margin-top:var(--space-3xl)}
+@media(min-width:761px){.area-close{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:end}.area-close h2{grid-column:1/7}.area-close>p{grid-column:8/12}}
+@media(max-width:760px){.area-close>p{margin-top:var(--space-md)}}
+@media(hover:hover) and (pointer:fine){.area-list a:hover,.area-steps a:hover{text-decoration:none}.area-steps a:hover .area-step-title{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}}
+@media(max-width:1000px){
+ /* One column: the heading before the map, and an area's text before its map. */
+ .areas{display:flex;flex-direction:column;align-items:stretch;gap:0}
+ .areas-index{display:contents}
+ .areas .island-map{order:1;margin-top:var(--space-xl)}
+ .area-list{order:2}
+ .area-body{grid-template-columns:1fr;gap:var(--space-2xl)}
+ .area-body .island-map{order:1}
+ .island-map{max-width:620px;width:100%}
+}
+@media(max-width:760px){
+ .living-preface{grid-template-columns:1fr;gap:0}
+ .area-opener .opener-image{margin-left:0}
+ .area-steps{grid-template-columns:1fr;gap:var(--space-lg)}
+ .area-steps a[rel=next]{text-align:left;align-items:flex-start}
+}
+
+/* ───────────────────────── Seller page ─────────────────────────
+   Kept simple at the owner's request: one photograph in the opener, then one finished presentation (Ses Calas),
+   the five steps of a sale, discretion as the deep band, and the letter set to "sell". */
+.sell-opener h1{font-size:var(--text-statement);line-height:1.05}
+/* Type and grid (chosen 16 October 2026, option A), as on the homepage: the title on columns 1–4, the photograph
+   on 5–12 to the right edge and no taller than the first screen; on phones the photograph first. The steps heading
+   at section size on 1–4, the steps on 6–11. */
+.sell-steps h2{font-size:var(--text-section);line-height:1.12}
+@media(min-width:761px){
+ .sell-opener{grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .sell-opener .opener-title{grid-column:1/5}
+ .sell-opener .opener-photo{grid-column:5/13;margin-right:calc(-1 * var(--bleed))}
+ .sell-opener .opener-image{width:min(100%,calc((100svh - 11rem) * var(--r)));margin-left:auto}
+ .sell-steps{grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .sell-steps>div{grid-column:1/5}
+ .sell-steps>.steps{grid-column:6/12}
+}
+@media(max-width:760px){
+ .sell-opener{display:flex;flex-direction:column;align-items:stretch;padding-top:0}
+ .sell-opener .opener-photo{order:-1;margin-inline:calc(-1 * var(--gutter))}
+ .sell-opener .opener-title{padding:var(--space-lg) 0 var(--space-xl)}
+}
+/* Showing the work: Ses Calas whole on columns 1–6, the presentation text and a link to its page on 8–11. */
+.sell-work{margin-top:var(--section)}
+.sell-work-photo img{aspect-ratio:var(--r);width:100%}
+.sell-work-text h2{font-size:var(--text-section);line-height:1.12}
+.sell-work-text p{margin-top:var(--space-md)}
+.sell-work-text .text-link{margin-top:var(--space-lg)}
+@media(min-width:761px){.sell-work{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:center}.sell-work-photo{grid-column:1/7}.sell-work-text{grid-column:8/12}}
+@media(max-width:760px){.sell-work-text{margin-top:var(--space-lg)}}
+/* Discretion is the deep band (see the homepage); here it follows the steps. */
+.sell-discreet{margin-top:var(--section)}
+/* Numbered steps, shared by the seller and contact pages. */
+.steps-section{display:grid;grid-template-columns:.8fr 1.2fr;gap:var(--gap-columns);align-items:start;margin-top:var(--section)}
+.steps-section+.personal{margin-top:var(--section)}
+.steps{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.steps li{display:grid;grid-template-columns:3.5rem 1fr;gap:var(--space-lg);padding-block:var(--space-lg);border-bottom:1px solid var(--rule)}
+.step-number{font:400 var(--text-h3)/1 var(--font-display);color:var(--muted)}
+.steps h3{font:400 var(--text-md)/1.4 var(--font-text);letter-spacing:0}
+.steps p{margin-top:var(--space-xs);color:var(--muted)}
+@media(max-width:760px){
+ .steps-section{grid-template-columns:1fr;gap:var(--space-lg)}
+ .steps li{grid-template-columns:2.5rem 1fr;gap:var(--space-md)}
+}
+
+/* ───────────────────────── Contact page ─────────────────────────
+   A letter both ways: Soumaya's short signed note beside the visitor's letter, on one warm band
+   (tone, not a box), as the founder-and-letter zone on the homepage. Fits the first screen from 1024×768. */
+.contact-sheet{grid-template-areas:"head ." "body letter";row-gap:var(--space-lg);padding-block:var(--space-3xl) var(--section)}
+.contact-note{display:contents}
+.contact-head{grid-area:head}.contact-body{grid-area:body}.contact-sheet form{grid-area:letter}
+.contact-note h1{font-size:var(--text-h2)}
+.contact-intro{max-width:36ch}
+.contact-note .signature{margin-top:var(--space-xl)}
+.contact-direct-line{display:flex;flex-direction:column;align-items:flex-start;margin-top:var(--space-2xl);padding-top:var(--space-lg);border-top:1px solid var(--rule);max-width:22rem}
+.contact-direct-line .caption{margin-bottom:var(--space-2xs)}
+.contact-direct-line a{display:inline-flex;align-items:center;gap:var(--space-sm);min-height:44px;font-size:var(--text-sm);text-decoration:none}
+.contact-sheet .salutation{margin-bottom:var(--space-lg)}
+.contact-sheet textarea{min-height:72px}
+/* On the 12 columns (consistency pass, chosen 16 October 2026): the note on 1–4, the letter on 6–11 as the other
+   letters, the send button sized to its words; on short laptops (1280×720) the whole letter on the first screen. */
+@media(min-width:761px){
+ .contact-sheet{grid-template-columns:var(--grid);grid-template-areas:none;column-gap:var(--grid-gap)}
+ .contact-head{grid-column:1/6;grid-row:1}
+ .contact-body{grid-column:1/5;grid-row:2}
+ .contact-sheet form{grid-column:6/12;grid-row:2}
+ .contact-sheet .primary{width:auto;display:flex;margin-left:auto;gap:var(--space-xl)}
+ .contact-sheet .preview-note{text-align:right;margin-left:auto}
+}
+/* Short laptop screens (768px tall and similar): tighter vertical rhythm, so the send button stays on the first screen. */
+@media(min-width:761px) and (max-height:820px){
+ .contact-sheet{padding-top:var(--space-lg);row-gap:var(--space-md)}
+ .contact-sheet .salutation{margin-bottom:var(--space-sm)}
+ .contact-sheet .phrase{line-height:2}
+ .contact-sheet .letter-fields>.field{margin-top:var(--space-lg)}
+ .contact-sheet textarea{height:64px;min-height:64px}
+ .contact-sheet .primary{margin-top:var(--space-md)}
+}
+@media(min-width:761px) and (max-height:760px){.contact-sheet{padding-top:var(--space-md)}}
+@media(max-width:760px){
+ .contact-sheet{grid-template-columns:1fr;grid-template-areas:"head" "body" "letter";row-gap:var(--space-2xl);padding-top:var(--space-xl)}
+ .contact-head{margin-bottom:calc(var(--space-lg) - var(--space-2xl))}
+ .contact-sheet form{border-top:1px solid var(--rule);padding-top:var(--space-xl)}
+}
+
+/* ───────────────────────── Property opening ─────────────────────────
+   Side by side (chosen 16 October 2026, option A), on the homepage's grid: the name, place and essentials in the
+   first four columns, the whole photograph in the other eight, running off the right edge. The photograph is sized
+   by the screen's height at its own shape (--r, set from the image), so name, price, facts and Enquire share the
+   first screen with it and nothing is cropped. Figures in Caslon, labels and units in Source Sans. */
+.back-link{display:inline-flex;align-items:center;gap:var(--space-sm);min-height:44px;margin-bottom:var(--space-md);font-size:var(--text-sm);color:var(--muted);text-decoration:none}
+@media(hover:hover) and (pointer:fine){.back-link:hover{color:var(--ink);text-decoration:none}}
+.property-opener h1{font-size:var(--text-h1);line-height:1}
+.property-opener .place{margin-top:var(--space-sm)}
+.glance{margin-top:var(--space-xl);padding-top:var(--space-lg);border-top:1px solid var(--ink)}
+.glance-label,.property-essential dt{font-size:var(--text-xs);line-height:1.4;color:var(--muted);margin-bottom:6px}
+.glance-figure{font:400 2.75rem/1 var(--font-display);letter-spacing:-.01em;white-space:nowrap;font-variant-numeric:tabular-nums lining-nums}
+.property-essential{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-lg) var(--space-xl);margin:var(--space-lg) 0 0}
+.property-essential dd{margin:0;font:400 1.875rem/1 var(--font-display);white-space:nowrap;font-variant-numeric:tabular-nums lining-nums}
+.unit{font:400 var(--text-sm)/1 var(--font-text);margin-left:4px}
+.glance .button{margin-top:var(--space-xl)}
+.glance-notes{margin-top:var(--space-md);font-size:var(--text-xs);color:var(--muted)}
+.glance-notes p{max-width:none}
+.glance-notes p+p{margin-top:var(--space-2xs)}
+.meta-value{color:var(--ink)}
+.ref-value{letter-spacing:.03em;font-variant-numeric:tabular-nums lining-nums}
+.meta-dot{margin-inline:var(--space-sm)}
+@media(min-width:761px){
+ .property-opener{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:end;padding-top:var(--space-md)}
+ .property-opener .opener-title{grid-column:1/5;padding:0 0 var(--space-xs)}
+ .property-opener .opener-photo{grid-column:5/13;margin-right:calc(-1 * var(--bleed))}
+ .property-opener .opener-image{width:min(100%,calc((100svh - 11rem) * var(--r)));height:auto;margin-left:auto}
+}
+@media(min-width:761px) and (max-width:1000px){.property-opener .opener-title{grid-column:1/6}.property-opener .opener-photo{grid-column:6/13}}
+/* Short laptops (about 820px tall and less): a tighter column, so the whole of it fits beside the photograph. */
+@media(min-width:761px) and (max-height:820px){
+ .property-opener h1{font-size:var(--text-h2)}
+ .property-opener .back-link{margin-bottom:var(--space-xs)}
+ .glance{margin-top:var(--space-lg);padding-top:var(--space-md)}
+ .glance-figure{font-size:2.25rem}
+ .property-essential{gap:var(--space-md) var(--space-xl);margin-top:var(--space-md)}
+ .property-essential dd{font-size:1.5rem}
+ .glance .button{margin-top:var(--space-lg)}
+ .glance-notes{margin-top:var(--space-sm)}
+}
+/* Phones: the photograph first, edge to edge at its own shape, then the name and the essentials. */
+@media(max-width:760px){
+ .property-opener{display:flex;flex-direction:column;align-items:stretch;padding-top:0}
+ .property-opener .opener-photo{order:-1;margin-inline:calc(-1 * var(--gutter))}
+ .property-opener .opener-image{width:100%;height:auto}
+ .property-opener .opener-title{padding:var(--space-md) 0 0}
+ .property-opener h1{font-size:var(--text-h2)}
+ .property-opener .back-link{margin-bottom:0}
+ .glance{margin-top:var(--space-lg);padding-top:var(--space-md)}
+ .glance-figure{font-size:2.25rem}
+ .property-essential{gap:var(--space-md) var(--space-lg);margin-top:var(--space-md)}
+ .property-essential dd{font-size:1.625rem}
+ .glance .button{width:100%;margin-top:var(--space-lg)}
+}
+
+/* ───────────────────────── Chapter navigation ───────────────────────── */
+.chapter-bar{position:sticky;top:0;z-index:3;margin-top:var(--space-2xl);background:var(--paper);border-block:1px solid var(--rule)}
+.chapter-nav{display:flex;gap:clamp(18px,3vw,48px);align-items:center;padding-block:var(--space-xs)}
+.chapter-nav :is(a,button){min-height:44px;display:inline-flex;align-items:center;gap:var(--space-sm);font-size:var(--text-xs);letter-spacing:.015em;text-decoration:none;white-space:nowrap;border:0;padding:0;font-variant-numeric:tabular-nums lining-nums}
+.chapter-photos{margin-left:auto}
+.chapter-nav a:last-child{text-decoration:underline;text-underline-offset:6px}
+.chapter[id],#details,#contact{scroll-margin-top:88px}
+/* The current chapter is underlined, like the current page in the menu. */
+.chapter-nav a[aria-current]{text-decoration:underline;text-underline-offset:6px}
+/* Name and price join the bar once the figures have scrolled away. Space is reserved, so nothing shifts. */
+.bar-identity{display:flex;align-items:baseline;gap:var(--space-sm);margin:0 var(--space-md) 0 0;white-space:nowrap;opacity:0;transition:opacity 200ms ease}
+.bar-identity span:first-child{font:400 var(--text-lg)/1 var(--font-display);letter-spacing:var(--tracking-display)}
+.bar-identity span:last-child{font-size:var(--text-xs);color:var(--muted)}
+[data-stuck] .bar-identity{opacity:1}
+@media(hover:hover) and (pointer:fine){.chapter-nav :is(a,button):hover{text-decoration:underline;text-underline-offset:6px}}
+@media(max-width:1000px){.bar-identity span:last-child{display:none}}
+/* Tablets held upright (761–1000px): the bar drops the name and price, as on phones, and tightens its spacing, so
+   every home's links fit on one line at 768px; a home with many chapters would wrap rather than run past the screen
+   (17 November 2026). */
+@media(min-width:761px) and (max-width:1000px){.bar-identity{display:none}.chapter-nav{flex-wrap:wrap;column-gap:clamp(14px,2vw,24px);row-gap:0}}
+/* Phones: a slim bar at the bottom, within thumb reach. */
+.property-bar{display:none}
+@media(max-width:760px){
+ .bar-identity{display:none}
+ .property-bar{position:fixed;inset:auto 0 0;z-index:4;display:grid;gap:var(--space-xs);padding:var(--space-sm) var(--gutter) calc(var(--space-sm) + env(safe-area-inset-bottom,0px));background:var(--paper);border-top:1px solid var(--rule);transform:translateY(100%);visibility:hidden;transition:transform 240ms var(--ease-out),visibility 0s linear 240ms}
+ .property-bar[data-visible]{transform:none;visibility:visible;transition:transform 240ms var(--ease-out)}
+ /* Two rows: the home and its price, then WhatsApp and Enquire at half width each. */
+ .property-bar p{display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-md);min-width:0;max-width:none}
+ .property-bar p span:first-child{font:400 var(--text-lg)/1.2 var(--font-display);letter-spacing:var(--tracking-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .property-bar p span:last-child{font-size:var(--text-sm);color:var(--muted);white-space:nowrap}
+ .property-bar-actions{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xs)}
+ .property-bar .button{min-height:44px;padding:var(--space-xs) var(--space-md);gap:var(--space-xs);white-space:nowrap;overflow-wrap:normal}
+}
+@media(max-width:760px) and (prefers-reduced-motion:reduce){
+ .property-bar{transform:none;opacity:0;transition:opacity 160ms ease,visibility 0s linear 160ms}
+ .property-bar[data-visible]{opacity:1;transition:opacity 160ms ease}
+}
+@media(max-width:760px){
+ .chapter-bar{position:static;margin-top:var(--space-xl)}
+ .chapter-nav{flex-wrap:wrap;column-gap:var(--space-lg);row-gap:0}
+ .chapter-photos,.chapter-nav a:last-child{margin-left:0}
+ .chapter[id],#details,#contact{scroll-margin-top:var(--space-lg)}
+}
+@media(max-width:360px){.chapter-nav{column-gap:var(--space-md)}.property-bar .button{padding-inline:var(--space-sm)}}
+
+/* ───────────────────────── Property chapters ─────────────────────────
+   A chapter is a section of one or more blocks. Chapters are separated by
+   --chapter-space (margins collapse into a single gap); blocks inside a chapter
+   by --space-3xl. A band chapter sits on the warm wash with the same space inside.
+   Layouts: intro · spread · montage · suite · row · pair · duo.
+   As in the brochure, the main photograph of an intro, suite or pair runs off
+   the page edge on its side. Spreads run edge to edge on phones and are plates within the screen on laptops. */
+.chapter{margin-block:var(--chapter-space)}
+/* Frames (chosen 16 October 2026, option A): every photograph at its own shape, never cropped, except the
+   guest bedrooms' row of four upright frames (the owner's choice). Uprights and spreads stay within the screen's height. */
+.chapter img,.property-setting img{aspect-ratio:var(--r)}
+.chapter-blocks{display:grid;gap:var(--space-3xl)}
+.chapter--band{padding-block:var(--chapter-space);background:var(--wash)}
+/* Chapter labels ("The property", "Diego · The main house", "The setting") in sentence case, as on the homepage: no spaced capitals. */
+.chapter-label{font-size:var(--text-sm);line-height:1.5;color:var(--muted);margin-bottom:var(--space-md)}
+.block-copy h2{margin-bottom:var(--space-lg)}
+.block-copy p+p{margin-top:var(--space-md)}
+
+/* Photographs that run off the page: the caption stays aligned with the text grid. */
+.intro-photo,.suite-photo,.block-pair:not(.block-pair--reverse) .pair-photo{margin-left:calc(-1 * var(--bleed))}
+.intro-photo figcaption,.suite-photo figcaption,.block-pair:not(.block-pair--reverse) .pair-photo figcaption{padding-left:var(--bleed)}
+.block-pair--reverse .pair-photo,.property-setting figure{margin-right:calc(-1 * var(--bleed))}
+.spread-photo{margin-inline:calc(-1 * var(--bleed))}
+.spread-photo figcaption{padding-inline:var(--bleed)}
+/* On laptops and tablets an upright is no taller than the screen, and a spread becomes a plate: whole, centred, no taller than the screen. */
+@media(min-width:761px){
+ .intro-photo img{width:min(100%,calc((100svh - 6rem) * var(--r)))}
+ .spread-photo{width:min(100%,calc((100svh - 7rem) * var(--r)));margin-inline:auto}
+ .spread-photo figcaption{padding-inline:0}
+}
+
+/* intro: an upright photograph beside the opening text. */
+.block-intro{display:grid;grid-template-columns:.78fr 1.22fr;gap:var(--gap-columns);align-items:center}
+.block-intro .block-copy{max-width:580px}
+.block-intro h2{margin-bottom:var(--space-xl)}
+.block-intro .quiet-line{margin-top:var(--space-xl)}
+
+/* spread: a full-width photograph with the heading and text set beneath (or above). */
+.spread-caption{display:grid;grid-template-columns:1fr .85fr;gap:var(--gap-columns);padding-top:var(--space-xl);align-items:start}
+.spread-caption .chapter-label{margin-bottom:var(--space-sm)}
+.spread-caption p{max-width:48ch;padding-top:var(--space-2xs)}
+.block-spread--heading-first .spread-caption{padding:0 0 var(--space-2xl);align-items:end}
+
+/* montage: three photographs and the text, arranged two by two. */
+.block-montage{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:'a b' 'c copy';gap:var(--space-lg);align-items:start}
+.montage-a{grid-area:a}.montage-b{grid-area:b}.montage-c{grid-area:c}
+.block-montage>.block-copy{grid-area:copy;align-self:center;padding:var(--space-md) var(--space-xl)}
+.block-montage>.block-copy h2{max-width:10ch}
+.block-montage--copy-first{grid-template-columns:1fr 1.1fr;grid-template-areas:'copy a' 'b c';gap:var(--space-2xl) var(--space-3xl);align-items:center}
+.block-montage--copy-first>.block-copy{padding:0;max-width:470px}
+.block-montage--copy-first>.block-copy h2{max-width:none}
+.block-montage--copy-first .montage-b{width:85%;justify-self:end}
+
+/* suite: one large photograph with a detail and the text alongside. */
+.block-suite{display:grid;grid-template-columns:1.35fr .75fr;gap:var(--gap-columns);align-items:start}
+.suite-aside .block-copy{margin-top:var(--space-2xl)}
+.suite-aside h2{font-size:var(--text-item);line-height:1.15}
+
+/* row: a heading, then a row of equal photographs (four upright or three landscape). */
+.row-heading{display:flex;justify-content:space-between;align-items:end;gap:var(--space-xl);margin-bottom:var(--space-xl)}
+.row-heading h2{font-size:var(--text-item);line-height:1.15}
+.row-heading>p{max-width:30ch;font-size:var(--text-sm);color:var(--muted)}
+.row-photos{display:grid;grid-template-columns:repeat(var(--count,3),minmax(0,1fr));gap:var(--space-lg)}
+.block-row[data-count="4"] .row-photos{--count:4;gap:var(--space-md)}
+.block-row[data-count="4"] img{aspect-ratio:.7}
+
+/* pair: a photograph beside the text; an optional detail photograph joins the text. */
+.block-pair{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--gap-columns);align-items:center}
+.block-pair--reverse{grid-template-columns:.85fr 1.15fr}
+.block-pair--detail{grid-template-columns:1.2fr .8fr}
+.block-pair--detail .pair-copy p{max-width:38ch}
+.block-pair--detail .pair-detail{margin-top:var(--space-2xl);width:76%;margin-left:auto}
+.block-pair--detail-first{grid-template-columns:1.15fr .85fr;align-items:start}
+.block-pair--detail-first .pair-copy{padding-top:var(--space-3xl)}
+.block-pair--detail-first .pair-detail{margin:0 0 var(--space-xl);width:auto}
+
+/* duo: two photographs of different sizes. */
+.block-duo{display:grid;grid-template-columns:1.4fr .6fr;gap:var(--space-3xl);align-items:center}
+
+@media(max-width:1000px){
+ .block-intro,.block-pair,.spread-caption{gap:var(--space-2xl)}
+ .block-montage>.block-copy{padding:0}
+ .block-suite{grid-template-columns:1.1fr .9fr;gap:var(--space-xl)}
+ .block-row[data-count="4"] .row-photos{gap:var(--space-sm)}
+ .block-pair--detail .pair-detail{width:90%}
+}
+@media(max-width:760px){
+ /* On phones only spreads run edge to edge; other photographs keep the margins. */
+ .intro-photo,.suite-photo,.block-pair .pair-photo,.block-pair--reverse .pair-photo,.property-setting figure{margin-inline:0}
+ .intro-photo figcaption,.suite-photo figcaption,.block-pair .pair-photo figcaption{padding-left:0}
+ .block-intro{grid-template-columns:1fr;gap:var(--space-xl)}
+ .block-intro .block-copy{grid-row:1}
+ .block-intro h2{margin-bottom:var(--space-lg)}
+ .block-intro .intro-photo{width:80%;margin-left:auto}
+ .block-intro .quiet-line{margin-top:var(--space-lg)}
+ .spread-caption,.block-spread--heading-first .spread-caption{grid-template-columns:1fr;gap:var(--space-lg);padding-top:var(--space-lg)}
+ .block-spread--heading-first .spread-caption{padding:0 0 var(--space-xl)}
+ .spread-caption p{padding:0}
+ .block-montage{grid-template-columns:1fr;grid-template-areas:'a' 'copy' 'b' 'c';gap:var(--space-lg)}
+ .block-montage>.block-copy{padding:0 0 var(--space-2xs)}
+ .block-montage>.block-copy h2{max-width:none}
+ .block-montage--copy-first{grid-template-columns:1fr;grid-template-areas:'copy' 'a' 'b' 'c';gap:var(--space-xl)}
+ .block-montage--copy-first .montage-b{width:82%}
+ .block-suite{grid-template-columns:1fr;gap:var(--space-xl)}
+ .suite-aside{display:flex;flex-direction:column;gap:var(--space-lg)}
+ .suite-aside .block-copy{order:-1;margin-top:0}
+ .suite-detail{width:78%;margin-left:auto}
+ .row-heading{display:block;margin-bottom:var(--space-lg)}
+ .row-heading>p{margin-top:var(--space-md);max-width:40ch}
+ .block-row[data-count="4"] .row-photos{grid-template-columns:1fr 1fr;gap:var(--space-lg) var(--space-md)}
+ .block-row[data-count="4"] img{aspect-ratio:.78}
+ .block-row[data-count="3"] .row-photos{grid-template-columns:1fr;gap:var(--space-xl)}
+ .block-row[data-count="3"] figure:nth-child(2){width:85%;justify-self:end}
+ .block-pair,.block-pair--reverse,.block-pair--detail,.block-pair--detail-first{grid-template-columns:1fr;gap:var(--space-xl)}
+ .block-pair--detail .pair-detail{width:68%;margin-top:var(--space-lg)}
+ .block-pair--detail-first .pair-copy{padding-top:0}
+ .block-duo{grid-template-columns:1fr;gap:var(--space-xl)}
+ .block-duo figure:last-child{width:68%;justify-self:end}
+}
+
+/* ───────────────────────── Property details and setting ───────────────────────── */
+.property-features{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap-columns);margin-top:var(--chapter-space);align-items:start}
+.property-features>div{max-width:440px}
+.features-note{font-size:var(--text-sm);color:var(--muted);margin-top:var(--space-lg)}
+.property-features .text-link{margin-top:var(--space-sm)}
+.feature-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.feature-list li{padding-block:var(--space-md);border-bottom:1px solid var(--rule)}
+.property-setting{display:grid;grid-template-columns:.85fr 1.15fr;gap:var(--gap-columns);align-items:center;padding-block:var(--chapter-space)}
+.property-setting h2{margin-bottom:var(--space-lg)}
+.property-setting p{max-width:38ch}
+.property-setting .text-link{margin-top:var(--space-lg)}
+/* Each property ends with the next one (chosen 16 October 2026, N2): its photograph whole on columns 1–6,
+   the name, price and a link on 8–11. About two-thirds of a laptop screen, not a second opener. */
+.next-property{padding-block:var(--space-4xl) var(--section)}
+.next-photo img{aspect-ratio:var(--r);width:100%}
+.next-label{font-size:var(--text-xs);color:var(--muted);margin-bottom:var(--space-md)}
+.next-name{font-size:var(--text-section);line-height:1.12}
+.next-name a{text-decoration:none}
+@media(hover:hover) and (pointer:fine){.next-name a:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}}
+.next-text .place{margin-top:var(--space-xs)}
+.next-price{font:400 var(--text-lg)/1.4 var(--font-text);font-variant-numeric:tabular-nums lining-nums;margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid var(--rule)}
+.next-facts{font-size:var(--text-sm);color:var(--muted);font-variant-numeric:tabular-nums lining-nums}
+.next-text .text-link{margin-top:var(--space-md)}
+@media(min-width:761px){
+ .next-property{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:center}
+ .next-photo-link{grid-column:1/7}
+ .next-text{grid-column:8/12}
+}
+@media(max-width:760px){.next-property{padding-block:var(--space-2xl) var(--space-3xl)}.next-text{margin-top:var(--space-lg)}.next-name{font-size:var(--text-item)}}
+@media(max-width:760px){
+ .property-features{grid-template-columns:1fr;gap:var(--space-xl)}
+ .property-setting{grid-template-columns:1fr;gap:var(--space-xl)}
+}
+
+/* ───────────────────────── Property type and grid ─────────────────────────
+   Chosen 16 October 2026 (option A), the homepage's system on every property page.
+   Type: the house name is the cover; the first chapter's heading the one statement;
+   every other chapter, the details and the setting at section size;
+   headings inside a chapter (the suite, the guest bedrooms) at item size.
+   Grid: on laptops and tablets, text and photograph edges sit on the 12 columns.
+   Last in the property rules, so it settles the columns the layouts above suggest. */
+.block-intro h2{font-size:var(--text-statement);line-height:1.05}
+:is(.spread-caption,.block-montage,.block-pair,.property-features,.property-setting) h2{font-size:var(--text-section);line-height:1.12}
+@media(min-width:761px){
+ :is(.block-intro,.block-suite,.block-pair,.block-duo,.spread-caption,.row-heading,.property-features,.property-setting){grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ /* intro: photograph 1–5 off the left edge, text 7–11 */
+ .block-intro>.intro-photo{grid-column:1/6}
+ .block-intro>.block-copy{grid-column:7/12;max-width:none}
+ /* spread: heading 1–6, text 8–12 */
+ .spread-caption>div:first-child{grid-column:1/7}
+ .spread-caption>div:last-child{grid-column:8/13}
+ /* montage: the two halves of the grid */
+ .block-montage,.block-montage--copy-first{grid-template-columns:1fr 1fr;column-gap:var(--grid-gap)}
+ /* suite: photograph 1–7 off the left edge, detail and text 9–12 */
+ .block-suite>.suite-photo{grid-column:1/8}
+ .block-suite>.suite-aside{grid-column:9/13}
+ /* row: heading 1–6, note 9–12; photographs on the columns (three each for four, four each for three) */
+ .row-heading{display:grid}
+ .row-heading>div{grid-column:1/7}
+ .row-heading>p{grid-column:9/13;max-width:none}
+ .row-photos,.block-row[data-count="4"] .row-photos{gap:var(--grid-gap)}
+ /* pair: photograph 1–7, text 9–12; reversed, text 1–4 and photograph 6–12 */
+ .block-pair>.pair-photo{grid-column:1/8}
+ .block-pair>.pair-copy{grid-column:9/13}
+ .block-pair--reverse>.pair-copy{grid-column:1/5;grid-row:1}
+ .block-pair--reverse>.pair-photo{grid-column:6/13;grid-row:1}
+ /* duo: 1–8 and 10–12 */
+ .block-duo>figure:first-child{grid-column:1/9}
+ .block-duo>figure:last-child{grid-column:10/13}
+ /* in brief: features 1–5, table 7–12 */
+ .property-features>div{max-width:none}
+ .property-features>div:first-child{grid-column:1/6}
+ .property-features>div:last-child{grid-column:7/13}
+ /* setting: text 1–4, photograph 6–12 off the right edge */
+ .property-setting>div{grid-column:1/5}
+ .property-setting>figure{grid-column:6/13}
+}
+
+/* ───────────────────────── Enquiry letter layout across all pages ─────────────────────────
+   The left column (1–4) holds the heading and the direct call / WhatsApp / email block;
+   the letter sits on 6–12 with its send button sized to its words on laptops. */
+.contact:not(.contact-sheet)>div h2{font-size:var(--text-section);line-height:1.12;max-width:14ch}
+@media(min-width:761px){
+ .contact:not(.contact-sheet){grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .contact:not(.contact-sheet)>div{grid-column:1/5}
+ .contact:not(.contact-sheet)>form{grid-column:6/12}
+ .contact:not(.contact-sheet) .primary{width:auto;display:flex;margin-left:auto;gap:var(--space-xl)}
+ .contact:not(.contact-sheet) .preview-note{text-align:right;margin-left:auto}
+}
+@media(min-width:761px) and (max-width:1000px){
+ .contact:not(.contact-sheet)>div{grid-column:1/6}
+ .contact:not(.contact-sheet)>form{grid-column:6/13}
+}
+
+/* ───────────────────────── Reduced motion ─────────────────────────
+   Last, so it overrides the motion above: fades stay, movement goes. */
+@keyframes fade-in{from{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+ .text-link::after{transform:none;opacity:0;transition:opacity 150ms ease}
+ .text-link:focus-visible::after{opacity:1}
+ .opener-title h1,.opener-title .place{animation:fade-in 300ms ease both}
+ body:not(.property-story) .header{transition:none}
+}
+@media(prefers-reduced-motion:reduce) and (hover:hover) and (pointer:fine){.text-link:hover::after{opacity:1}}
+
+/* Reference number on cards: last, and smaller than the facts. */
+.property-caption .card-ref{margin-top:var(--space-xs);font-size:var(--text-label);letter-spacing:.04em}
+
+/* Homepage: the houses as a numbered index, three across on wide screens, one per row on phones. */
+.house-index{margin-block:var(--section)}
+.house-index+.band{margin-top:0}
+.house-index-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-2xl) var(--space-xl)}
+.house-index-photo{display:block}
+.house-index-photo img{width:100%;height:auto;object-fit:cover}
+.house-index-item h3{font-size:var(--text-h4);margin-top:var(--space-sm)}
+.house-index-item h3 a{text-decoration:none}
+.house-index-item .place{margin-top:var(--space-2xs)}
+.house-index-item .price{margin-top:var(--space-md)}
+.house-index-item{display:flex;flex-direction:column}
+.house-index-item .facts{margin-bottom:var(--space-md)}
+.house-index-item .text-link{align-self:flex-start}
+@media(max-width:1000px){.house-index-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.house-index-list{grid-template-columns:1fr;gap:var(--space-2xl)}}
+
+/* Property details: one plain table, label left, value right, in a fixed order. */
+.details-table{margin:0 0 var(--space-xl);border-top:1px solid var(--ink)}
+.details-table>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-lg);padding-block:var(--space-sm);border-bottom:1px solid var(--rule)}
+.details-table dt{color:var(--muted);font-size:var(--text-sm)}
+.details-table dd{margin:0;text-align:right;font-variant-numeric:tabular-nums lining-nums}
+.details-note{font-size:var(--text-xs);color:var(--muted);margin-top:var(--space-sm)}
+.property-features .feature-list{margin-top:var(--space-2xl)}
+.details-table{margin-bottom:0}
+/* The setting: the island map marks where the house is, and links to that area. */
+.setting-links{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-xs);margin-top:var(--space-lg)}
+.setting-links .text-link{margin-top:0}
+.property-setting .island-map{max-width:300px;margin-top:var(--space-xl)}
+.property-setting .island-map text{font-size:15px}
+@media(max-width:760px){.property-setting .island-map{max-width:260px}}
+
+/* Property enquiry: who you will be writing to. */
+
+/* ───────────────────────── Homepage foundations (16 October 2026) ─────────────────────────
+   One twelve-column grid and one size per type role. Text beside a photograph keeps one gutter of extra air
+   on the photograph's side, so its edge still lines up with the column. The verticals that repeat down the page:
+   column 1 (all text) and column 5 (photographs, the founder note and the letter). */
+.home-editorial .opener h1{font-size:var(--text-cover);line-height:1;letter-spacing:-.025em}
+.home-editorial .house-index .section-heading h2{font-size:var(--text-section)}
+.home-editorial .house-index-item h3{font-size:var(--text-item);line-height:1.15;margin-top:var(--space-lg)}
+.home-editorial .house-index-item .place{margin-top:var(--space-xs)}
+.home-editorial .living h2,.home-editorial .founder h2{font-size:var(--text-statement)}
+.home-editorial .contact h2{font-size:var(--text-section);line-height:1.12}
+.home-editorial .salutation{font-size:var(--text-item)}
+.home-editorial .contact .eyebrow{display:none}
+/* Small text is one size on the homepage: 15px (14px is folded in; the facts were approved at 15px). */
+.home-editorial :is(.cover-caption,.role,.contact-help,.preview-note){font-size:var(--text-sm)}
+.home-editorial .signature{font-size:var(--text-base)}
+@media(min-width:761px){
+ .home-editorial :is(.opener,.house-index-list,.living,.founder,.contact){display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap)}
+ .home-editorial .opener-title{grid-column:1/5;padding-right:var(--grid-gap)}
+ .home-editorial .opener-photo{grid-column:5/13}
+ .home-editorial .house-index-item{grid-column:span 4}
+ .home-editorial .living-copy{grid-column:1/5;padding-right:var(--grid-gap)}
+ .home-editorial .living h2{max-width:none}
+ .home-editorial .living-photo{grid-column:5/13}
+ .home-editorial .founder .portrait{grid-column:1/5}
+ .home-editorial .founder>div{grid-column:6/12}
+ .home-editorial .contact>div{grid-column:1/5;padding-right:var(--grid-gap)}
+ .home-editorial .contact>form{grid-column:6/13}
+}
+/* Tablet: two houses a row; text takes five columns beside its photograph. */
+@media(min-width:761px) and (max-width:1000px){
+ .home-editorial .opener-title,.home-editorial .living-copy,.home-editorial .contact>div{grid-column:1/6}
+ .home-editorial .opener-photo,.home-editorial .living-photo{grid-column:6/13}
+ .home-editorial .house-index-item{grid-column:span 6}
+ .home-editorial .founder .portrait{grid-column:1/6}
+ .home-editorial .founder>div,.home-editorial .contact>form{grid-column:7/13}
+}
+/* Featured properties, lead and follow (chosen by the owner, 16 October 2026). On laptops: exterior photographs at
+   their own landscape shape; the first home across eight columns with its details beside it, the others side by
+   side beneath. On phones: one home per screen, in an upright photograph sized so it and its details fit.
+   Nothing is cropped. The photograph and the name open the house; "See the house" says it in words. */
+.home-editorial .house-index-item h3{margin-top:var(--space-md)}
+.home-editorial .house-index-item .price{margin-top:var(--space-sm)}
+.home-editorial .house-index-item .facts{margin-bottom:0}
+.home-editorial .house-index-item:not(:first-child) .facts{margin-top:var(--space-md);padding-top:var(--space-md);border-top:1px solid var(--rule)}
+.home-editorial .house-index-item:not(:first-child) .fact{display:inline}
+.home-editorial .house-index-item:not(:first-child) .fact:nth-child(2):after{content:'\A';white-space:pre}
+.home-editorial .house-index-text .text-link{margin-top:var(--space-lg)}
+@media(max-width:760px){
+ .home-editorial .house-index{--house-details:18rem}
+ .home-editorial .house-index-photo img{width:min(100%,calc((100svh - var(--house-details)) * 2 / 3));min-width:12rem;aspect-ratio:2/3}
+}
+@media(min-width:761px){
+ .home-editorial .house-index-list{row-gap:var(--space-3xl)}
+ .home-editorial .house-index-item{grid-column:span 6}
+ .home-editorial .house-index-item:first-child{grid-column:1/13}
+}
+@media(min-width:1001px){
+ .home-editorial .house-index-item:first-child{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:end}
+ .home-editorial .house-index-item:first-child .house-index-photo{grid-column:1/9}
+ /* As wide as eight columns allow, and never taller than the screen. */
+ .home-editorial .house-index-item:first-child .house-index-photo img{width:min(100%,calc((100svh - 8rem) * 1.73))}
+ .home-editorial .house-index-item:first-child .house-index-text{grid-column:10/13;padding-bottom:var(--space-xs)}
+ .home-editorial .house-index-item:first-child h3{font-size:var(--text-statement);line-height:1.05;margin-top:0}
+ .home-editorial .house-index-item:first-child .facts{margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid var(--rule);line-height:1.9}
+ .home-editorial .house-index-item:first-child .fact{display:block}
+ .home-editorial .house-index-item:first-child .fact:after{content:none}
+}
+@media(hover:hover) and (pointer:fine){.home-editorial .house-index-photo img{transition:opacity 300ms var(--ease-out)}.home-editorial .house-index-item:has(a:hover) .house-index-photo img{opacity:.88}}
+
+/* Homes sold privately: the deep band across the page (chosen 16 October 2026). Paper-coloured type on the deep tone,
+   the statement on the left, the note and link on the right; muted text is mixed from the two. */
+.private-band{background:var(--deep);color:var(--on-deep);padding-block:var(--section)}
+.private-band-inner{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);row-gap:var(--space-xl);align-items:end}
+.private-band h2{grid-column:1/8;font-size:var(--text-statement);line-height:1.05;max-width:16ch}
+.private-band-inner>div{grid-column:9/13}
+.private-band p{color:color-mix(in oklch,var(--on-deep) 78%,var(--deep))}
+.private-links{display:flex;flex-wrap:wrap;column-gap:var(--space-lg)}
+.private-band .text-link{margin-top:var(--space-lg);border-bottom-color:color-mix(in oklch,var(--on-deep) 35%,var(--deep))}
+.private-band .text-link::after{background:var(--on-deep)}
+.private-band :focus-visible{outline-color:var(--on-deep)}
+/* Where the band ends the page (Properties), no hairline between it and the footer. */
+main:has(>.collection-end)+.footer{border-top-color:transparent}
+/* Selling: the photograph on the left half, the text on the right. The Living band's own margin follows. */
+.sell-row{display:grid;grid-template-columns:var(--grid);column-gap:var(--grid-gap);align-items:end;padding-top:var(--section)}
+.sell-row-photo{grid-column:1/7}
+.sell-row-text{grid-column:8/12;padding-bottom:var(--space-xs)}
+.sell-row-text h2{font-size:var(--text-section);line-height:1.12}
+.sell-row-text p{margin-top:var(--space-md);max-width:40ch}
+.sell-row-text .text-link{margin-top:var(--space-lg)}
+@media(max-width:760px){
+ .private-band-inner,.sell-row{display:block}
+ .private-band-inner>div,.sell-row-text{margin-top:var(--space-lg)}
+}
+
+/* Founder note and letter on the homepage: founder row above, then the letter with its heading and direct contacts on 1–4 and the form on 6–12. */
+@media(min-width:761px){
+ .home-editorial .founder{padding-block:var(--section)}
+ .home-editorial .founder .portrait{grid-column:1/5}
+ .home-editorial .founder>div{grid-column:6/12}
+ .home-editorial .contact>form{grid-column:6/12}
+}
+@media(min-width:761px) and (max-width:1000px){
+ .home-editorial .founder .portrait{grid-column:1/6}
+ .home-editorial .founder>div{grid-column:7/13}
+}
+
+/* The pause between the featured properties and the band for homes sold privately: the photograph edge to edge at
+   its own wide shape, its caption on the text's first column. */
+.pause{position:relative;margin:0 0 var(--space-3xl)}
+.pause img{width:100%;height:auto;max-height:calc(100svh - 5rem);object-fit:cover;transition:opacity 300ms var(--ease-out)} /* a 3:2 photograph is kept within the screen */
+.pause figcaption{position:relative;z-index:1;padding-inline:max(var(--gutter),calc((100% - 1320px) / 2))}
+.pause figcaption a,.cover-caption a{display:inline-flex;gap:var(--space-xs);align-items:center;min-height:44px;text-decoration:none}
+.home-opener .opener-photo{position:relative}
+.home-opener .opener-image{transition:opacity 300ms var(--ease-out)}
+.home-opener .cover-caption{position:relative;z-index:1}
+.cover-photo-link,.pause-photo-link{position:absolute;inset:0 0 48px;z-index:1}
+@media(hover:hover) and (pointer:fine){
+ .pause:has(a:hover) img,.home-opener .opener-photo:has(a:hover) .opener-image{opacity:.88}
+ .pause figcaption a:hover,.cover-caption a:hover{text-decoration:underline;text-underline-offset:5px}
+}
+@media(max-width:760px){.pause{margin-bottom:var(--space-2xl)}}
+
+/* Homepage opener, refined (chosen 16 October 2026, option A). Laptops: the photograph runs off the right edge of the
+   window, its caption on the text grid, and is never taller than the first screen; on short screens it gives up
+   width and keeps its right edge (1.5 is the cover's 3:2 shape). Phones: the photograph first, edge to edge, then
+   the headline, introduction and the one link. */
+@media(min-width:761px){
+ .home-editorial .home-opener .opener-photo{margin-right:calc(-1 * var(--bleed))}
+ .home-opener .cover-caption{padding-right:var(--bleed)}
+ .home-opener :is(.opener-image,.cover-caption,.cover-photo-link){width:min(100%,calc((100svh - 12rem) * 1.5));margin-left:auto}
+}
+@media(max-width:760px){
+ .home-opener{display:flex;flex-direction:column;padding-top:0}
+ .home-opener .opener-photo{order:-1;margin-inline:calc(-1 * var(--gutter))}
+ .home-opener .opener-image{aspect-ratio:3/4;object-fit:cover}
+ .home-opener .cover-caption{padding-inline:var(--gutter)}
+ .home-opener .opener-title{padding-top:var(--space-lg);padding-bottom:0}
+}
+
+/* Phones: a smaller founder portrait on the homepage (the current photograph is a crop from a screenshot). */
+@media(max-width:760px){.home-editorial .founder .portrait{width:min(100%,15rem)}}
+/* Quiet motion (chosen 16 October 2026): large homepage photographs fade up 24px as they come into view, once (see
+   Home.astro). Only photographs still below the screen on arrival are prepared, so nothing on the first screen moves;
+   without JavaScript, or with reduced motion, everything is simply there. */
+@media(prefers-reduced-motion:no-preference){
+ .settle{opacity:0;transform:translateY(24px);transition:opacity 900ms var(--ease-out),transform 1100ms var(--ease-out)}
+ .settle.is-in{opacity:1;transform:none}
+}
+
+
+/* The legal pages (20 October 2026): one measured column; the footer's last line carries their three links. */
+.legal-page{max-width:calc(68ch + 2 * var(--gutter))}
+.legal-updated{font-size:var(--text-xs);color:var(--muted)}
+.legal-section+.legal-section{margin-top:var(--space-2xl)}
+.legal-section h2{font-size:var(--text-item);line-height:1.2;margin-bottom:var(--space-md)}
+.legal-section p+p{margin-top:var(--space-md)}
+.footer-legal{display:flex;flex-wrap:wrap;gap:0 var(--space-lg);margin-right:auto;margin-left:var(--space-xl)}
+.footer-legal a{min-height:44px;display:inline-flex;align-items:center;text-decoration:none}
+@media(max-width:760px){.footer-legal{margin-left:0;width:100%;order:1}}
+/* The data protection link under the letter (simplified 21 October 2026): one quiet line under a hairline. */
+.data-notice{margin-top:var(--space-xl);padding-top:var(--space-sm);border-top:1px solid var(--rule);font-size:var(--text-xs)}
+.data-notice a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted)}
+.data-notice a:hover{color:var(--ink)}
+
+/* Header (chosen 17 November 2026, option A): the five main pages inline from 1000px, in the pre-Menu style
+   (text-sm, no rules), with no Menu there; a quiet WhatsApp link before EN/ES at every width. The inline row is a
+   <nav>, so the overlay's fixed full-screen styles are reset for it. */
+.header .header-inline{position:static;inset:auto;z-index:auto;flex-direction:row;padding:0;background:none;opacity:1;overflow:visible;transition:none;max-width:none}
+.header-inline{display:none;align-items:center;gap:clamp(20px,2.2vw,36px);margin-left:clamp(32px,4vw,64px)}
+.header-inline a{font-size:var(--text-sm);min-height:44px;display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap}
+.header-inline a[aria-current=page]{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
+.header-whatsapp{font-size:var(--text-sm);min-height:44px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px;white-space:nowrap}
+@media(hover:hover) and (pointer:fine){.header-inline a:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}}
+@media(min-width:1000px){.header .header-inline{display:flex}.menu-toggle{display:none}}
+@media(max-width:760px){.header-actions{gap:var(--space-md)}.header-whatsapp{font-size:var(--text-xs)}}
+
+/* My view on a property page: the Living in Ibiza answers layout, a chapter's space after the details. */
+.property-view{margin-top:var(--chapter-space)}
+
+/* ═════════════════════════ Soumaya layer (November 2026) ═════════════════════════
+   The brand board and landing page on top of the shared system: ivory and stone, olive actions, Cormorant
+   headlines, Manrope text in small spaced capitals for labels, buttons and navigation. */
+body{line-height:1.8;font-weight:400}
+h1,h2,h3{font-weight:400}
+h1 em,h2 em{font-style:italic}
+.eyebrow{font-weight:700;color:var(--ink);font-size:.625rem;letter-spacing:var(--tracking-label)}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Buttons and links: uppercase, spaced, small; olive for the main action. */
+.button{min-height:52px;padding:16px 22px;gap:28px;text-transform:uppercase;letter-spacing:.1em;font-size:.65625rem;font-weight:700;border-color:var(--control);background:transparent;transition:background-color .2s,color .2s,border-color .2s}
+.button.solid,.button.primary{background:var(--olive);border-color:var(--olive);color:#fff}
+@media(hover:hover) and (pointer:fine){.button.solid:hover,.button.primary:hover{background:var(--ink);border-color:var(--ink)}.button:not(.primary):not(.solid):hover{background:var(--ink);color:#fff;border-color:var(--ink)}}
+.small-link,.text-link{display:inline-flex;align-items:center;gap:20px;min-height:44px;padding-bottom:2px;border-bottom:1px solid var(--ink);font-size:.6875rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+.small-link{width:fit-content}
+.text-link::after{display:none}
+@media(hover:hover) and (pointer:fine){.small-link:hover,.text-link:hover{color:var(--olive);border-color:var(--olive);text-decoration:none}}
+
+/* Header */
+.header{min-height:94px;border-bottom:0;margin-bottom:0}
+.header .wordmark,.footer .wordmark{font:500 2.125rem/1 var(--font-display);letter-spacing:.075em}
+.header-inline a{font-size:.75rem;font-weight:600;letter-spacing:.01em}
+.header-inline a[aria-current=page]{text-decoration:none;box-shadow:inset 0 -1px 0 var(--ink)}
+.header-nav-link{font-size:2.25rem}
+.language-menu{position:relative;font-size:.75rem;font-weight:600}
+.language-menu summary{list-style:none;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding-inline:4px}
+.language-menu summary::-webkit-details-marker{display:none}
+.language-menu[open] summary svg{transform:rotate(180deg)}
+.language-menu ul{position:absolute;right:0;top:100%;z-index:40;margin:0;padding:6px 0;list-style:none;min-width:150px;background:var(--paper);border:1px solid var(--rule);box-shadow:0 12px 30px -18px rgb(37 41 39 / .35)}
+.language-menu a{display:flex;gap:12px;padding:10px 16px;font-weight:500;text-decoration:none}
+.language-menu a span{font-weight:700;width:22px}
+.language-menu a[aria-current]{color:var(--olive)}
+.language-menu a:hover{background:var(--wash);text-decoration:none}
+.menu-toggle{min-width:44px}
+.menu-lines{display:inline-flex;flex-direction:column;gap:7px;width:24px}
+.menu-lines span{display:block;height:1px;background:var(--ink);transition:transform .2s var(--ease-out)}
+.menu-toggle[aria-expanded=true] .menu-lines span:first-child{transform:translateY(4px) rotate(45deg)}
+.menu-toggle[aria-expanded=true] .menu-lines span:last-child{transform:translateY(-4px) rotate(-45deg)}
+.menu-languages{display:flex;gap:var(--space-lg);margin-top:var(--space-lg)}
+.menu-languages a{font-weight:700;letter-spacing:.1em}
+.menu-languages a[aria-current]{color:var(--olive);text-decoration:underline}
+@media(max-width:760px){.header{min-height:70px}.header .wordmark{font-size:1.625rem}}
+
+/* Footer */
+.footer{background:var(--wash);border-top:0}
+.footer-brand .eyebrow{margin:var(--space-md) 0 0;color:var(--muted)}
+.footer-pages a,.footer-contact a{font-size:.75rem;font-weight:600}
+
+/* Home: portrait opener */
+.hero{display:grid;grid-template-columns:46% 54%;min-height:min(calc(100svh - 94px),720px);background:var(--wash)}
+.hero-portrait{position:relative;overflow:hidden;min-height:520px}
+.hero-portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(48px,6vw,96px) clamp(32px,6vw,104px);background:linear-gradient(100deg,#eee8df 0%,#f1ebe3 76%,#ebe3d8 100%)}
+.hero-copy h1{font-size:clamp(3.25rem,5.4vw,5.75rem);line-height:.98;letter-spacing:-.03em;margin:var(--space-md) 0 var(--space-lg);max-width:12ch;animation:rise-in 800ms var(--ease-out) 100ms both}
+.hero-lead{font-size:.9375rem;line-height:1.8;max-width:44ch;color:#4c504a}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:var(--space-2xl)}
+@media(max-width:860px){.hero{grid-template-columns:1fr}.hero-portrait{min-height:0;aspect-ratio:4/4.2}.hero-copy{padding:var(--space-2xl) var(--gutter) var(--space-3xl)}}
+@media(max-width:480px){.hero-buttons .button{width:100%}}
+
+/* Home: curated properties */
+.curated{padding-block:var(--section)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:var(--space-lg);margin-bottom:var(--space-xl)}
+.section-head h2{font-size:clamp(2.25rem,3.4vw,3rem)}
+.curated-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,1.6vw,24px)}
+.curated-image{display:block;overflow:hidden;aspect-ratio:1.6}
+.curated-photo{width:100%;height:100%;object-fit:cover;transition:transform 900ms var(--ease-out)}
+@media(hover:hover) and (pointer:fine){.curated-card:hover .curated-photo{transform:scale(1.03)}}
+.curated-meta{margin-top:var(--space-md);font-size:.625rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.curated-price{font:500 .9375rem/1.5 var(--font-text);letter-spacing:0;margin-top:4px;font-variant-numeric:lining-nums}
+.curated-price a{text-decoration:none}
+@media(max-width:860px){.curated-grid{grid-template-columns:1fr 1fr}.curated-card:last-child{display:none}}
+@media(max-width:560px){.curated-grid{grid-template-columns:1fr}.curated-card:last-child{display:block}.section-head{flex-direction:column;align-items:flex-start}}
+
+/* Home: Meet Soumaya beside A tailored approach */
+.meet-approach{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
+.meet{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);align-items:stretch;background:linear-gradient(100deg,#e9e1d5,#efe8de)}
+.meet-text{padding:clamp(48px,6vw,88px) clamp(28px,5vw,72px);display:flex;flex-direction:column;justify-content:center;gap:var(--space-lg)}
+.meet-text h2,.approach h2{font-size:clamp(2.125rem,3vw,2.75rem)}
+.meet-text p{font-size:.875rem;max-width:42ch}
+.meet-photo{position:relative;min-height:320px}
+.meet-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.approach{padding:clamp(48px,6vw,88px) clamp(28px,4vw,64px);background:var(--paper)}
+.approach-list{list-style:none;margin:var(--space-xl) 0 0;padding:0}
+.approach-list a{display:flex;align-items:center;gap:var(--space-lg);min-height:52px;font-size:.8125rem;text-decoration:none}
+.approach-list a:hover{color:var(--olive);text-decoration:none}
+.service-icon{flex:none;color:var(--ink)}
+@media(max-width:1000px){.meet-approach{grid-template-columns:1fr}}
+@media(max-width:600px){.meet{grid-template-columns:1fr}.meet-photo{min-height:240px}}
+
+/* Home: the island band */
+.perspective-band{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);background:var(--deep);color:var(--on-deep)}
+.perspective-photo{position:relative;min-height:440px}
+.perspective-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.perspective-copy{padding:clamp(56px,7vw,110px) clamp(28px,6vw,96px);display:flex;flex-direction:column;justify-content:center;gap:var(--space-lg)}
+.perspective-copy .eyebrow{color:var(--on-deep);margin:0}
+.perspective-copy h2{font-size:clamp(2.5rem,4vw,3.75rem)}
+.perspective-copy .small-link{border-color:var(--on-deep)}
+@media(hover:hover) and (pointer:fine){.perspective-copy .small-link:hover{color:var(--stone);border-color:var(--stone)}}
+@media(max-width:860px){.perspective-band{grid-template-columns:1fr}.perspective-photo{min-height:0;aspect-ratio:16/10}}
+
+/* Home: a private conversation */
+.private-conversation{padding-block:var(--section);text-align:center;display:flex;flex-direction:column;align-items:center;gap:var(--space-lg)}
+.private-conversation .eyebrow{margin:0}
+.private-conversation h2{font-size:clamp(2.5rem,4.6vw,4.25rem)}
+.private-conversation p{max-width:46ch}
+
+/* Pages */
+.page-intro .eyebrow,.opener-title .eyebrow{margin-bottom:var(--space-md)}
+.private-band{background:var(--deep);color:var(--on-deep)}
+.private-band .small-link{border-color:var(--on-deep)}
+.language-note{margin-top:var(--space-md);padding:var(--space-sm) var(--space-md);background:var(--wash);font-size:var(--text-xs);max-width:none}
+
+/* Services */
+.service-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--grid-gap);margin-top:var(--section)}
+.service-item{display:grid;grid-template-columns:auto 1fr;column-gap:var(--space-lg);row-gap:var(--space-md);padding-block:var(--space-2xl);border-top:1px solid var(--rule);align-content:start;scroll-margin-top:110px}
+.service-item .service-number{grid-column:1/-1;font-size:.625rem;font-weight:700;letter-spacing:.2em;color:var(--taupe)}
+.service-item .service-icon{margin-top:10px}
+.service-item h2{font-size:clamp(1.875rem,2.6vw,2.375rem)}
+.service-item p,.service-item .small-link{grid-column:2}
+.service-item p{font-size:.875rem;max-width:48ch}
+@media(max-width:760px){.service-list{grid-template-columns:1fr}}
+
+/* About */
+.about-page{padding-block:var(--space-2xl) var(--section)}
+.about-story{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:var(--gap-columns);align-items:start}
+.about-portrait{position:sticky;top:var(--space-xl)}
+.about-story h1{font-size:clamp(2.75rem,4.4vw,4.25rem);margin-bottom:var(--space-xl)}
+.about-story .lead{max-width:44ch;margin-bottom:var(--space-lg)}
+.about-story>div>p+p{margin-top:var(--space-md)}
+.about-copy-section{margin-top:var(--space-2xl);padding-top:var(--space-lg);border-top:1px solid var(--rule)}
+.about-copy-section h2{font-size:clamp(1.75rem,2.4vw,2.25rem);margin-bottom:var(--space-sm)}
+.about-copy-section .small-link{margin-top:var(--space-md)}
+.signature{margin-top:var(--space-2xl);font:italic 400 2rem/1.2 var(--font-display)}
+@media(max-width:860px){.about-story{grid-template-columns:1fr}.about-portrait{position:static;max-width:26rem}}
+.language-menu summary::after{content:none}
+.header-inline{margin-left:auto;margin-right:clamp(24px,3vw,48px)}
+.header-actions{margin-left:0}
+@media(max-width:999px){.header-actions{margin-left:auto}}
+.hero-copy h1{max-width:13.5ch}
+.about-story>div,.about-story>.about-portrait{grid-column:auto}
+.services-opener{grid-template-columns:minmax(0,1fr) minmax(0,.8fr);align-items:center}
+.services-opener .opener-photo{max-width:440px;justify-self:end}
+@media(max-width:760px){.services-opener .opener-photo{max-width:none}}

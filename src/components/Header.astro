@@ -1,0 +1,21 @@
+---
+// Header (after the Soumaya landing page): the wordmark, five pages inline from 1000px, the language menu.
+// Below 1000px a Menu button opens the full-screen list with the ways to get in touch.
+import {route,languages,languageNames,type Language,type Page} from '../lib/routes';
+import {ui} from '../data/ui';import {brand} from '../data/brand';import {whatsappLink} from '../lib/enquiry';
+interface Props{lang:Language;page:Page;reference?:string;}
+const {lang,page,reference}=Astro.props;const t=ui[lang];
+const nav=['properties','services','about','living','contact'] as const;
+const current=(item:string)=>page===item||page==='property'&&item==='properties'||page==='area'&&item==='living'?'page':undefined;
+const label={en:'Main navigation',es:'Navegación principal',fr:'Navigation principale'}[lang];
+---
+<a class="skip" href="#main">{t.skip}</a>
+<header class="header wrap"><a class="wordmark" href={route(lang,'home')} aria-label={`${brand.name}, ${t.tagline.toLowerCase()}`}>{brand.wordmark}</a>
+<nav id="navigation" aria-label={label}>{nav.map(item=><a class="header-nav-link" href={route(lang,item)} aria-current={current(item)}>{t[item]}</a>)}<div class="menu-contact"><a href={`mailto:${brand.email}`}>{brand.email}</a><a href={`tel:${brand.phoneHref}`}>{brand.phone}</a><a href={whatsappLink(lang)} target="_blank" rel="noopener">WhatsApp <span aria-hidden="true">↗</span></a><div class="menu-languages">{languages.map(code=><a href={route(code,page,reference)} lang={code} hreflang={code} aria-current={code===lang?'true':undefined}>{code.toUpperCase()}</a>)}</div></div></nav>
+<nav class="header-inline" aria-label={label}>{nav.map(item=><a href={route(lang,item)} aria-current={current(item)}>{t[item]}</a>)}</nav>
+<div class="header-actions">
+ <details class="language-menu"><summary aria-label={`${languageNames[lang]}: ${({en:'change language',es:'cambiar idioma',fr:'changer de langue'})[lang]}`}>{lang.toUpperCase()} <svg width="9" height="6" viewBox="0 0 9 6" aria-hidden="true"><path d="M1 1l3.5 3.5L8 1" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></summary>
+  <ul>{languages.map(code=><li><a href={route(code,page,reference)} lang={code} hreflang={code} aria-current={code===lang?'true':undefined}><span>{code.toUpperCase()}</span> {languageNames[code]}</a></li>)}</ul>
+ </details>
+ <button class="menu-toggle" aria-label={t.menu} aria-expanded="false" aria-controls="navigation" data-open={t.menu} data-close={t.close}><span class="menu-lines" aria-hidden="true"><span></span><span></span></span><span class="visually-hidden menu-label">{t.menu}</span></button>
+</div></header>
