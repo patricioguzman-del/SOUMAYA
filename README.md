@@ -8,7 +8,6 @@ English, Spanish and French.
 Positioning: Soumaya is a one-person personal property advisor (mostly a buyer's agent; also sells; sources holiday rentals per client). Fees are never mentioned on the site.
 
 Home (three doors) · Buy · Sell · Holiday rentals · Properties (+ one page per home) · Ibiza Perspective (+ six areas) · About · Start your search (contact) · Legal notice, Privacy, Cookies.
-The letter form carries a short search brief that changes with the intent (src/data/brief.ts).
 
 ## Listings come from AUBA
 AUBA is the only place listings are edited. `scripts/sync-auba.mjs` runs before every build and copies:
