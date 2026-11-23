@@ -1456,3 +1456,7 @@ h1 em,h2 em{font-style:italic}
 .hero-house img{object-position:center}
 .meet-band .meet-portrait img{object-position:center 30%}
 .meet-band .meet-text p.eyebrow{font-size:.6875rem;max-width:none}
+/* About: a smaller portrait beside the text. */
+.about-story{grid-template-columns:minmax(0,380px) minmax(0,1fr)}
+.about-portrait{max-width:380px}
+@media(max-width:860px){.about-story{grid-template-columns:1fr}.about-portrait{max-width:300px}}
