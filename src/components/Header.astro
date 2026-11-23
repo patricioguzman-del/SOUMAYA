@@ -21,3 +21,11 @@ const label={en:'Main navigation',es:'Navegación principal',fr:'Navigation prin
  <a class="button solid header-cta" href={route(lang,'contact')} aria-current={current('contact')}>{t.startSearch}</a>
  <button class="menu-toggle" aria-label={t.menu} aria-expanded="false" aria-controls="navigation" data-open={t.menu} data-close={t.close}><span class="menu-lines" aria-hidden="true"><span></span><span></span></span><span class="visually-hidden menu-label">{t.menu}</span></button>
 </div></header>
+<script>
+// The language menu closes when the visitor clicks elsewhere or presses Escape.
+const languageMenu=document.querySelector<HTMLDetailsElement>('.language-menu');
+if(languageMenu){
+ document.addEventListener('click',event=>{if(languageMenu.open&&!languageMenu.contains(event.target as Node))languageMenu.open=false;});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&languageMenu.open){languageMenu.open=false;languageMenu.querySelector('summary')?.focus();}});
+}
+</script>

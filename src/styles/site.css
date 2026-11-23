@@ -1460,3 +1460,7 @@ h1 em,h2 em{font-style:italic}
 .about-story{grid-template-columns:minmax(0,380px) minmax(0,1fr)}
 .about-portrait{max-width:380px}
 @media(max-width:860px){.about-story{grid-template-columns:1fr}.about-portrait{max-width:300px}}
+/* Language menu: the header clips its own shadow band; let the open menu show below it, above the page. */
+.header:has(.language-menu[open]){clip-path:none;z-index:60}
+.header .language-menu ul{z-index:61}
+details.language-menu summary::after,details.language-menu[open] summary::after{content:none}
