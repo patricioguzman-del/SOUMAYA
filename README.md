@@ -5,7 +5,10 @@ restyled after Soumaya's brand board: ivory, stone, taupe, olive and ink; Cormor
 English, Spanish and French.
 
 ## Pages
-Home · Properties (+ one page per home) · Services · About · Ibiza Perspective (+ six areas) · Contact · Legal notice, Privacy, Cookies.
+Positioning: Soumaya is a one-person personal property advisor (mostly a buyer's agent; also sells; sources holiday rentals per client). Fees are never mentioned on the site.
+
+Home (three doors) · Buy · Sell · Holiday rentals · Properties (+ one page per home) · Ibiza Perspective (+ six areas) · About · Start your search (contact) · Legal notice, Privacy, Cookies.
+The letter form carries a short search brief that changes with the intent (src/data/brief.ts).
 
 ## Listings come from AUBA
 AUBA is the only place listings are edited. `scripts/sync-auba.mjs` runs before every build and copies:
@@ -31,7 +34,7 @@ until the French is updated. `npm run sync` lists which homes are missing or out
 ## Placeholders to replace before launch
 - `src/data/brand.ts`: email, phone, WhatsApp, domain (also `site` in `astro.config.mjs`).
 - `public/media/soumaya-portrait-*` and `soumaya-interior-*`: concept images cropped from the brand board, **not Soumaya**.
-- `ui.ts` → `aboutExperience` (her background), and the company details in `src/data/legal.ts`.
+- The company details in `src/data/legal.ts`.
 - Ibiza Perspective texts (`src/data/ibiza.ts`) are AUBA's, copied as a starting point: rewrite in her words.
 
 ## Run

@@ -1369,3 +1369,87 @@ h1 em,h2 em{font-style:italic}
 .services-opener{grid-template-columns:minmax(0,1fr) minmax(0,.8fr);align-items:center}
 .services-opener .opener-photo{max-width:440px;justify-self:end}
 @media(max-width:760px){.services-opener .opener-photo{max-width:none}}
+
+/* ── Personal advisor structure (23 Nov 2026): three doors, how I work, rentals band, search brief ── */
+/* Type scale up: easier reading on phones and for older eyes. */
+:root{--text-base:1.0625rem;--text-sm:.875rem;--text-xs:.8125rem;--text-label:.6875rem}
+.eyebrow{font-size:.6875rem}
+.header-inline a{font-size:.8125rem}
+.curated-meta{font-size:.6875rem}
+.curated-price{font-size:1rem}
+.hero-lead{font-size:1.0625rem;color:#474b45}
+.section-note{margin-top:var(--space-sm);max-width:52ch;font-size:var(--text-sm);color:var(--muted)}
+/* Header: six links inline from 1180px, the one button from 760px. */
+.header-cta{min-height:44px;padding:12px 18px;margin-left:var(--space-md)}
+@media(max-width:759px){.header-cta{display:none}}
+@media(min-width:1000px) and (max-width:1179px){.header .header-inline{display:none}.menu-toggle{display:inline-flex}}
+.header-inline{gap:clamp(16px,1.8vw,30px);margin-right:clamp(16px,2vw,32px)}
+/* Three doors */
+.doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,1.6vw,24px);margin-top:calc(-1 * clamp(28px,4vw,56px));position:relative;z-index:2}
+.door{display:flex;flex-direction:column;gap:var(--space-md);padding:clamp(24px,2.6vw,40px);background:var(--paper);border:1px solid var(--rule);text-decoration:none;transition:border-color .2s,box-shadow .2s}
+.door h2{font-size:clamp(1.75rem,2.4vw,2.25rem)}
+.door p{font-size:var(--text-sm);color:var(--muted);flex:1}
+.door .service-icon{width:24px;height:24px}
+.door-link{border-bottom:1px solid var(--ink)}
+@media(hover:hover) and (pointer:fine){.door:hover{border-color:var(--olive);box-shadow:0 18px 40px -28px rgb(37 41 39 / .35);text-decoration:none}.door:hover .door-link{color:var(--olive);border-color:var(--olive)}}
+@media(max-width:860px){.doors{grid-template-columns:1fr;margin-top:var(--space-xl)}}
+/* How I work */
+.how{padding-top:var(--section)}
+.how h2{font-size:clamp(2.25rem,3.4vw,3rem);margin-bottom:var(--space-xl)}
+.how-steps{list-style:none;margin:0 0 var(--space-xl);padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--grid-gap)}
+.how-steps li{border-top:1px solid var(--ink);padding-top:var(--space-md)}
+.how-number{font-size:.6875rem;font-weight:700;letter-spacing:.2em;color:var(--olive)}
+.how-steps h3{font-size:1.75rem;margin:var(--space-sm) 0}
+.how-steps p{font-size:var(--text-sm);color:var(--muted)}
+@media(max-width:860px){.how-steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.how-steps{grid-template-columns:1fr}}
+/* Holiday rentals band */
+.rent-band{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:var(--wash)}
+.rent-photo{position:relative;min-height:420px}
+.rent-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rent-copy{padding:clamp(48px,6vw,96px) clamp(28px,6vw,96px);display:flex;flex-direction:column;justify-content:center;gap:var(--space-lg)}
+.rent-copy .eyebrow{margin:0}
+.rent-copy h2{font-size:clamp(2.25rem,3.6vw,3.25rem)}
+.rent-copy p{max-width:46ch}
+@media(max-width:860px){.rent-band{grid-template-columns:1fr}.rent-photo{min-height:0;aspect-ratio:16/10}}
+/* Meet Soumaya */
+.meet-band{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--gap-columns);align-items:center;padding-block:var(--section)}
+.meet-band .meet-photo{position:relative;aspect-ratio:4/5;min-height:0}
+.meet-band .meet-text{padding:0;gap:var(--space-lg)}
+.meet-band .meet-text .eyebrow{margin:0}
+.meet-band .meet-text h2{font-size:clamp(2.5rem,4vw,3.5rem)}
+.meet-band .meet-text p{font-size:var(--text-base);max-width:48ch}
+@media(max-width:760px){.meet-band{grid-template-columns:1fr}.meet-band .meet-photo{max-width:22rem}}
+/* The island band is now light, so the page ends calmly. */
+.perspective-band{background:var(--stone);color:var(--ink)}
+.perspective-copy .eyebrow{color:var(--ink)}
+.perspective-copy .small-link{border-color:var(--ink)}
+@media(hover:hover) and (pointer:fine){.perspective-copy .small-link:hover{color:var(--olive);border-color:var(--olive)}}
+.private-conversation{border-top:1px solid var(--rule)}
+/* Door pages */
+.door-opener{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:var(--gap-columns);align-items:center;padding-block:var(--space-2xl) var(--section)}
+.door-opener h1{font-size:clamp(3rem,5vw,4.75rem);line-height:1;margin:var(--space-md) 0 var(--space-lg)}
+.door-opener .opener-photo{max-width:480px;justify-self:end;width:100%}
+@media(max-width:760px){.door-opener{grid-template-columns:1fr}.door-opener .opener-photo{justify-self:start}}
+.step-number{color:var(--olive)}
+.why{padding-block:var(--section) 0}
+.why h2{font-size:clamp(2.25rem,3.4vw,3rem);margin-bottom:var(--space-xl)}
+.why-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--grid-gap)}
+.why-grid>div{border-top:1px solid var(--ink);padding-top:var(--space-md)}
+.why-grid h3{font-size:1.75rem;margin-bottom:var(--space-sm)}
+.why-grid p{font-size:var(--text-sm);color:var(--muted)}
+@media(max-width:760px){.why-grid{grid-template-columns:1fr}}
+.about-doors{display:flex;flex-wrap:wrap;gap:var(--space-lg);margin-top:var(--space-2xl)}
+.role{font-size:var(--text-sm);color:var(--muted)}
+/* The search brief under the letter */
+.brief{margin:var(--space-xl) 0 0;padding:var(--space-lg) 0 0;border:0;border-top:1px solid var(--rule)}
+.brief legend{padding:0;font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-md)}
+.brief-group{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-md) var(--space-lg)}
+.brief-group[hidden]{display:none}
+.brief-field{display:flex;flex-direction:column;gap:4px;font-size:var(--text-xs);color:var(--muted)}
+.brief-field select,.brief-field input{min-height:44px;font-size:var(--text-sm);color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--control);padding:0 0 2px;width:100%}
+/* Mobile home: the headline reaches the first screen. */
+@media(max-width:860px){.hero-portrait{aspect-ratio:auto;height:56svh;max-height:520px}.hero-copy h1{font-size:clamp(2.75rem,11vw,3.5rem)}}
+.why{padding-bottom:var(--section)}
+.door-opener{padding-bottom:var(--space-3xl)}
+@media(max-width:860px){.hero-portrait{height:46svh}}

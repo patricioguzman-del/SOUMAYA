@@ -29,7 +29,7 @@ test('a name and one way to reply are required',()=>{
  assert.deepEqual(validateEnquiry(base),{});
 });
 test('every page has an address in all three languages, and back again',()=>{
- for(const page of ['home','properties','services','about','living','contact','legal','privacy','cookies'])for(const lang of languages){
+ for(const page of ['home','properties','buy','sell','rentals','about','living','contact','legal','privacy','cookies'])for(const lang of languages){
   const path=route(lang,page);const slug=path.slice(lang.length+2).replace(/\/$/,'');
   assert.equal(resolvePage(lang,slug),page,`${lang} ${page}`);
  }

@@ -1,0 +1,18 @@
+---
+// Holiday rentals, sourced for each client: dates and wishes, a shortlist of licensed villas she knows,
+// the booking, help during the stay. Then "rent first, then buy", and the letter with dates and guests.
+import Photo from './Photo.astro';import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';
+import {ui} from '../data/ui';import {route,type Language} from '../lib/routes';
+interface Props{lang:Language;}
+const {lang}=Astro.props;const t=ui[lang];
+---
+<section class="opener door-opener wrap" aria-labelledby="rent-title">
+ <div class="opener-title"><p class="eyebrow">{t.rentPageEyebrow}</p><h1 id="rent-title">{t.rentHeading}</h1><p class="lead">{t.rentIntro}</p><div class="hero-buttons"><ArrowLink class="button solid" href="#contact">{t.rentLink}</ArrowLink></div></div>
+ <Photo image="area-west-hort" class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
+</section>
+<section class="steps-section wrap" aria-labelledby="rent-steps">
+ <div><h2 id="rent-steps">{t.rentStepsHeading}</h2></div>
+ <ol class="steps">{t.rentSteps.map(([title,text],i)=><li><span class="step-number" aria-hidden="true">{i+1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
+</section>
+<section class="private-band" aria-labelledby="bridge-heading"><div class="wrap private-band-inner"><h2 id="bridge-heading">{t.rentBridgeHeading}</h2><div><p>{t.rentBridgeCopy}</p><ArrowLink class="small-link" href={route(lang,'buy')}>{t.rentBridgeLink}</ArrowLink></div></div></section>
+<Enquiry lang={lang} intent="rent" heading={t.rentFormHeading} alone/>

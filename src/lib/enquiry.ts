@@ -1,12 +1,13 @@
 // The enquiry letter: what the visitor writes to Soumaya, as one plain text in their language.
 // writingFor: assistants, family offices and lawyers often write for the buyer. language: the visitor can ask to
-// talk in English, Spanish or French. intent 'rent' covers rentals and seasonal stays.
+// talk in English, Spanish, French or Arabic. intent 'rent' covers rentals and seasonal stays.
 import {brand} from '../data/brand.ts';
-export type TalkLanguage='en'|'es'|'fr';
+export type TalkLanguage='en'|'es'|'fr'|'ar';
 type Lang='en'|'es'|'fr';
 export type Intent='buy'|'sell'|'rent';
-export interface Enquiry {name:string;phone:string;email:string;message:string;intent:Intent;property?:string;floorPlans:boolean;writingFor?:'self'|'client';language?:TalkLanguage;}
-const languageNames:Record<Lang,Record<TalkLanguage,string>>={en:{en:'English',es:'Spanish',fr:'French'},es:{en:'inglés',es:'español',fr:'francés'},fr:{en:'anglais',es:'espagnol',fr:'français'}};
+// details: the search brief, as label/answer pairs in the visitor's language (budget, areas, dates…).
+export interface Enquiry {name:string;phone:string;email:string;message:string;intent:Intent;property?:string;floorPlans:boolean;writingFor?:'self'|'client';language?:TalkLanguage;details?:[string,string][];}
+const languageNames:Record<Lang,Record<TalkLanguage,string>>={en:{en:'English',es:'Spanish',fr:'French',ar:'Arabic'},es:{en:'inglés',es:'español',fr:'francés',ar:'árabe'},fr:{en:'anglais',es:'espagnol',fr:'français',ar:'arabe'}};
 export type EnquiryErrors = Partial<Record<'name'|'contact'|'email',boolean>>;
 export function validateEnquiry(data:Enquiry):EnquiryErrors{
  const errors:EnquiryErrors={};
@@ -30,6 +31,7 @@ export function enquiryText(data:Enquiry,lang:Lang){
  lines.push(`${w.name} ${data.name.trim()}${reach?` ${w.and} ${reach}`:''}.`);
  // Only said when it differs from the letter's own language.
  if(data.language&&data.language!==lang)lines.push(`${w.prefer} ${languageNames[lang][data.language]}.`);
+ if(data.details?.length)lines.push(data.details.map(([label,value])=>`${label}: ${value}`).join('\n'));
  if(data.floorPlans&&data.property)lines.push(w.plans(data.property));
  if(data.message.trim())lines.push(data.message.trim());
  return lines.join('\n\n');

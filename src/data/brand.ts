@@ -10,6 +10,6 @@ export const brand={
  phone:'+34 600 000 000', // placeholder
  phoneHref:'+34600000000', // placeholder
  whatsapp:'34600000000', // placeholder, digits only
- languages:{en:'Spanish, English and French',es:'Español, inglés y francés',fr:'Espagnol, anglais et français'},
- role:{en:'Property advisor, Ibiza',es:'Asesora inmobiliaria, Ibiza',fr:'Conseillère immobilière, Ibiza'}
+ languages:{en:'French, English, Spanish and Arabic',es:'Francés, inglés, español y árabe',fr:'Français, anglais, espagnol et arabe'},
+ role:{en:'Personal property advisor, Ibiza',es:'Asesora inmobiliaria personal, Ibiza',fr:'Conseillère immobilière personnelle, Ibiza'}
 } as const;
