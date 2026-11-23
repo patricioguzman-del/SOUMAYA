@@ -1,6 +1,6 @@
 ---
 // The homepage, after Soumaya's brand board: a portrait opener, three curated homes, Meet Soumaya beside
-// A tailored approach, the island band, and a private conversation.
+// A tailored approach, a private conversation, then the island band.
 import Photo from './Photo.astro';import ArrowLink from './ArrowLink.astro';import ServiceIcon from './ServiceIcon.astro';
 import {money} from '../lib/format';import {ui} from '../data/ui';import {route,type Language} from '../lib/routes';
 import {facadeOf,hrefOf,type Listing} from '../lib/listings';import {homepage} from '../data/homepage';
@@ -41,12 +41,12 @@ const place=(listing:Listing)=>listing[lang].location.split('·')[0].trim();
  </div>
 </section>
 
-<section class="perspective-band" aria-labelledby="perspective-title">
- <Photo image={homepage.perspective} alt="" class="perspective-photo" sizes="(max-width:760px) 100vw, 55vw"/>
- <div class="perspective-copy"><p class="eyebrow">{t.perspectiveEyebrow}</p><h2 id="perspective-title">{t.perspectiveHeading}</h2><p>{t.perspectiveCopy}</p><ArrowLink class="small-link" href={route(lang,'living')}>{t.perspectiveLink}</ArrowLink></div>
-</section>
-
 <section class="private-conversation wrap" aria-labelledby="private-title">
  <p class="eyebrow">{t.privateEyebrow}</p><h2 id="private-title">{t.privateHeading}</h2><p>{t.privateCopy}</p>
  <ArrowLink class="button solid" href={route(lang,'contact')}>{t.getInTouch}</ArrowLink>
+</section>
+
+<section class="perspective-band" aria-labelledby="perspective-title">
+ <Photo image={homepage.perspective} alt="" class="perspective-photo" sizes="(max-width:760px) 100vw, 55vw"/>
+ <div class="perspective-copy"><p class="eyebrow">{t.perspectiveEyebrow}</p><h2 id="perspective-title">{t.perspectiveHeading}</h2><p>{t.perspectiveCopy}</p><ArrowLink class="small-link" href={route(lang,'living')}>{t.perspectiveLink}</ArrowLink></div>
 </section>
