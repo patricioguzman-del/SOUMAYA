@@ -4,7 +4,7 @@ import {route,languages,type Language,type Page} from '../lib/routes';import {ui
 interface Props{lang:Language;page:Page;reference?:string;}
 const {lang,page,reference}=Astro.props;const t=ui[lang];
 const nav=['buy','sell','rentals','properties','living','about','contact'] as const;
-const labels={buy:t.navBuy,sell:t.navSell,rentals:t.navRent,properties:t.properties,living:t.living,about:t.about,contact:t.startSearch};
+const labels={buy:t.navBuy,sell:t.navSell,rentals:t.navRent,properties:t.properties,living:t.navLiving,about:t.about,contact:t.startSearch};
 const year=new Date().getFullYear();
 ---
 <footer class="footer">

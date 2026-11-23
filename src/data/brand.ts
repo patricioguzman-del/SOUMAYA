@@ -4,7 +4,7 @@ export const brand={
  name:'Soumaya',
  fullName:'Soumaya',
  wordmark:'SOUMAYA',
- tagline:{en:'PRIVATE REAL ESTATE · IBIZA',es:'INMOBILIARIA PRIVADA · IBIZA',fr:'IMMOBILIER PRIVÉ · IBIZA'},
+ tagline:{en:'PRIVATE PROPERTY ADVISOR · IBIZA',es:'INMOBILIARIA PRIVADA · IBIZA',fr:'IMMOBILIER PRIVÉ · IBIZA'},
  domain:'https://soumaya.example', // placeholder: her domain
  email:'hello@soumaya.example', // placeholder
  phone:'+33 6 22 71 00 71',

@@ -10,8 +10,12 @@ const {lang}=Astro.props;const t=ui[lang];
  <Photo image="area-south-cubells" class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
 </section>
 <section class="steps-section wrap" aria-labelledby="sell-steps">
- <div><h2 id="sell-steps">{t.sellStepsHeading}</h2><p>{t.sellIntro}</p></div>
+ <div><h2 id="sell-steps">{t.sellStepsHeading}</h2>{t.sellIntro&&<p>{t.sellIntro}</p>}</div>
  <ol class="steps">{t.sellSteps.map(([title,text],i)=><li><span class="step-number" aria-hidden="true">{i+1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
+</section>
+<section class="why wrap" aria-labelledby="why-title">
+ <h2 id="why-title">{t.sellWhyHeading}</h2>
+ <div class="why-grid">{t.sellWhy.map(([title,text])=><div><h3>{title}</h3><p>{text}</p></div>)}</div>
 </section>
 <section class="private-band sell-discreet" aria-labelledby="discreet-heading"><div class="wrap private-band-inner"><h2 id="discreet-heading">{t.sellDiscreetHeading}</h2><div><p>{t.sellDiscreetCopy}</p><ArrowLink class="small-link" href="#contact" data-discreet={t.discreetLine}>{t.sellStart}</ArrowLink></div></div></section>
 <Enquiry lang={lang} intent="sell" heading={t.sellFormHeading} alone/>
