@@ -10,11 +10,13 @@ const {lang,properties}=Astro.props;const t=ui[lang];
 const available=properties.filter(property=>property.status==='for-sale');
 const chosen=homepage.featured.map(reference=>available.find(property=>property.reference===reference)).filter((listing):listing is Listing=>Boolean(listing));
 const featured=[...chosen,...available.filter(listing=>!chosen.includes(listing))].slice(0,3);
+const heroHome=featured[0]?facadeOf(featured[0],lang):{image:homepage.perspective,alt:''};
 const place=(listing:Listing)=>listing[lang].location.split('·')[0].trim();
 const doorPages=['buy','sell','rentals'] as const;const doorIcons=[0,1,3];
 ---
 <section class="hero" aria-labelledby="home-title">
- <Photo image={homepage.portrait} class="hero-portrait" imageClass="hero-image" alt={({en:'Portrait of Soumaya',es:'Retrato de Soumaya',fr:'Portrait de Soumaya'})[lang]} eager sizes="(max-width:760px) 100vw, 46vw"/>
+ {/* Soumaya prefers not to open the site with her portrait (23 Nov): the hero shows the first selected home. */}
+ <Photo image={heroHome.image} class="hero-portrait hero-house" imageClass="hero-image" alt={heroHome.alt} eager sizes="(max-width:760px) 100vw, 46vw"/>
  <div class="hero-copy">
   <p class="eyebrow">{t.homeEyebrow}</p>
   <h1 id="home-title">{t.homeTitle}</h1>
@@ -48,7 +50,7 @@ const doorPages=['buy','sell','rentals'] as const;const doorIcons=[0,1,3];
 </section>
 
 <section class="meet-band wrap" aria-labelledby="meet-title">
- <Photo image={homepage.interior} alt="" class="meet-photo" sizes="(max-width:760px) 60vw, 30vw"/>
+ <Photo image={homepage.portrait} alt={({en:'Portrait of Soumaya',es:'Retrato de Soumaya',fr:'Portrait de Soumaya'})[lang]} class="meet-photo meet-portrait" sizes="(max-width:760px) 60vw, 30vw"/>
  <div class="meet-text"><p class="eyebrow">{t.founderRole.toUpperCase()}</p><h2 id="meet-title">{t.meetHeading}</h2><p>{t.meetCopy}</p><ArrowLink class="small-link" href={route(lang,'about')}>{t.myStory}</ArrowLink></div>
 </section>
 

@@ -8,7 +8,7 @@ const {lang}=Astro.props;const t=ui[lang];
 ---
 <section class="opener door-opener wrap" aria-labelledby="buy-title">
  <div class="opener-title"><p class="eyebrow">{t.buyEyebrow}</p><h1 id="buy-title">{t.buyHeading}</h1><p class="lead">{t.buyIntro}</p><div class="hero-buttons"><ArrowLink class="button solid" href="#contact">{t.startSearch}</ArrowLink><a class="button" href={route(lang,'properties')}>{t.buyHomesLink}</a></div></div>
- <Photo image={homepage.portrait} class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
+ <Photo image={homepage.interior} class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
 </section>
 <section class="steps-section wrap" aria-labelledby="buy-steps">
  <div><h2 id="buy-steps">{t.buyStepsHeading}</h2></div>

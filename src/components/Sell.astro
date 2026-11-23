@@ -1,13 +1,13 @@
 ---
 // Sell: valuation, presentation, the right buyers, publicly or discreetly; then the letter with the seller's brief.
 import Photo from './Photo.astro';import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';
-import {ui} from '../data/ui';import {type Language} from '../lib/routes';import {homepage} from '../data/homepage';
+import {ui} from '../data/ui';import {type Language} from '../lib/routes';
 interface Props{lang:Language;}
 const {lang}=Astro.props;const t=ui[lang];
 ---
 <section class="opener door-opener wrap" aria-labelledby="sell-title">
  <div class="opener-title"><p class="eyebrow">{t.sellEyebrow}</p><h1 id="sell-title">{t.sellPageHeading}</h1><p class="lead">{t.sellPageIntro}</p><div class="hero-buttons"><ArrowLink class="button solid" href="#contact">{t.doors[1][2]}</ArrowLink></div></div>
- <Photo image={homepage.interior} class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
+ <Photo image="area-south-cubells" class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
 </section>
 <section class="steps-section wrap" aria-labelledby="sell-steps">
  <div><h2 id="sell-steps">{t.sellStepsHeading}</h2><p>{t.sellIntro}</p></div>

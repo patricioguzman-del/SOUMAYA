@@ -17,7 +17,7 @@ const homeTitle={en:'Personal property advisor in Ibiza',es:'Asesora inmobiliari
 const forSaleIn={en:'Home for sale in Ibiza',es:'Casa en venta en Ibiza',fr:'Maison à vendre à Ibiza'}[lang];
 const title=page==='home'?homeTitle:page==='property'&&listing?`${listing[lang].name} · ${forSaleIn}`:page==='area'&&area?`${area.title} · ${t.living}`:page==='buy'?t.buyTitle:page==='sell'?t.sellTitle:page==='rentals'?t.rentTitle:page==='contact'?t.startSearch:page==='legal'||page==='privacy'||page==='cookies'?legal[lang][page].title:page==='about'?t.meetHeading:t[page as 'properties'|'living'|'contact'];
 const description=page==='property'&&listing?listing[lang].summary:page==='area'&&area?area.text:page==='about'?t.aboutMeta:page==='buy'?t.buyMeta:page==='sell'?t.sellMeta:page==='rentals'?t.rentMeta:page==='legal'||page==='privacy'||page==='cookies'?legal[lang][page].meta:page==='living'?t.livingMeta:page==='properties'?t.collectionIntro:page==='contact'?t.contactMeta:t.intro;
-const heroImage=listing?.heroImage??(areaId?areaById(areaId).image:page==='living'?'ibiza-cover':page==='home'||page==='about'?homepage.portrait:undefined);
+const heroImage=listing?.heroImage??(areaId?areaById(areaId).image:page==='living'?'ibiza-cover':page==='home'?homepage.perspective:page==='about'?homepage.portrait:undefined);
 ---
 <Site reference={listing?.reference??areaId} heroImage={heroImage} galleryTitle={listing?`${listing[lang].name} · Ibiza`:undefined} lang={lang} page={page} title={title} description={description} bodyClass={page==='property'?'property-story':page==='home'?'home-editorial':''}>
 {page==='home'&&<Home lang={lang} properties={properties}/>}
