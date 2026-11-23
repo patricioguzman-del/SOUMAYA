@@ -12,7 +12,7 @@ const base={name:'Ana López',phone:'+34 600 111 222',email:'',message:'',intent
 test('the letter is addressed to Soumaya in each language',()=>{
  assert.match(enquiryText(base,'en'),/^Dear Soumaya,/);
  assert.match(enquiryText(base,'es'),/^Hola, Soumaya:/);
- assert.match(enquiryText({...base,intent:'rent'},'fr'),/^Bonjour Soumaya,\n\nJ’aimerais louer une maison à Ibiza\./);
+ assert.match(enquiryText({...base,intent:'rent'},'fr'),/^Bonjour Soumaya,\n\nJ’aimerais louer une villa à Ibiza\./);
 });
 test('the letter never mentions AUBA',()=>{
  for(const lang of languages)for(const intent of ['buy','sell','rent']){
