@@ -33,7 +33,7 @@ until the French is updated. `npm run sync` lists which homes are missing or out
 
 ## Placeholders to replace before launch
 - `src/data/brand.ts`: email, phone, WhatsApp, domain (also `site` in `astro.config.mjs`).
-- `public/media/soumaya-portrait-*` and `soumaya-interior-*`: concept images cropped from the brand board, **not Soumaya**.
+- `public/media/soumaya-portrait-*` is her real portrait (a phone photo, 1200×1600); `soumaya-interior-*` is still a concept crop from the brand board.
 - The company details in `src/data/legal.ts`.
 - Ibiza Perspective texts (`src/data/ibiza.ts`) are AUBA's, copied as a starting point: rewrite in her words.
 
