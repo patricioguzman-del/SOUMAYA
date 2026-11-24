@@ -9,31 +9,31 @@ export const ui = {
   "sellStepsHeading": "How I sell your home.",
   "sellSteps": [
    [
-    "Valuation",
-    "An honest asking price, based on what comparable homes actually sold for, not what they were listed at."
+    "An honest price",
+    "What similar homes really sold for, not what they were advertised at."
    ],
    [
-    "Preparation and due diligence",
-    "I review the documents early (licences, plans, title), so buyers’ lawyers find answers, not problems. I studied law, and it shows most at this step."
+    "Papers in order",
+    "I check licences, plans and title early, so there are no surprises later."
    ],
    [
     "Presentation",
     "Professional photography and a presentation of the house in English, Spanish and French."
    ],
    [
-    "Reaching buyers",
-    "I introduce your home to buyers I know personally and to the agents I trust, in Ibiza and abroad."
+    "The right people",
+    "I show your home to buyers I know and to agents I trust, in Ibiza and abroad."
    ],
    [
-    "Viewings and negotiation",
-    "I show the house in person and negotiate for you, through to the notary."
+    "Visits and the agreement",
+    "I show your home myself and look after the negotiation, so you don’t have to."
    ]
   ],
   "sellDiscreetHeading": "A private sale, if you prefer.",
   "sellDiscreetCopy": "Not every sale needs to be public. Your home can be shown only to buyers I select, without appearing on this website or anywhere else.",
   "sellLetterHeading": "Thinking of selling?",
   "sellStart": "Tell me about your home",
-  "contactIntro": "I read every message myself and reply in French, English, Spanish or Arabic, whether you are buying, selling or planning a stay.",
+  "contactIntro": "I read every message myself and reply in your language, whether it’s a big plan or a small question.",
   "contactNote": "",
   "directLabel": "If you would rather call or message",
   "about": "About",
@@ -43,7 +43,7 @@ export const ui = {
   "skip": "Skip to content",
   "discover": "See the house",
   "explore": "Explore properties",
-  "homeLead": "I’m Soumaya. Whether you’re looking for a home, selling yours or planning a stay, you’ll work with me personally, from the first call to the last signature.",
+  "homeLead": "I’m Soumaya. Whether you’re looking for a home, selling yours or coming for a holiday, I look after everything personally, so you never have to work it out alone.",
   "intro": "Your personal property advisor in Ibiza: buying, selling and holiday villa rentals, handled by one person from the first conversation to the keys.",
   "selected": "Selected homes",
   "forSaleTitle": "Properties for sale",
@@ -71,7 +71,7 @@ export const ui = {
   "viewGallery": "Gallery",
   "viewList": "List",
   "clearFilters": "Clear filters",
-  "emptyHeading": "No homes match these filters.",
+  "emptyHeading": "Nothing here quite fits yet.",
   "emptyBody": "Nothing matches these filters right now. Many homes are offered privately, so tell me what you’re looking for and I’ll check.",
   "emptyAction": "Describe what you are looking for",
   "builtShort": "built",
@@ -83,7 +83,7 @@ export const ui = {
   "plot": "Plot",
   "areaNote": "Total built area includes basement.",
   "back": "All homes for sale",
-  "enquire": "Enquire about this home",
+  "enquire": "Ask me about this home",
   "house": "The house",
   "livingSpaces": "Living spaces",
   "bedroomNav": "Bedrooms",
@@ -93,9 +93,9 @@ export const ui = {
   "atGlance": "AT A GLANCE",
   "featureHeading": "In brief.",
   "plans": "Floor plans are available on request.",
-  "requestPlans": "Request floor plans",
+  "requestPlans": "Send me the floor plans",
   "setting": "The setting",
-  "locationLink": "Discuss the location",
+  "locationLink": "Ask me about the area",
   "journeys": "The places you’ll use most",
   "journeysCopy": "List the trips you make every week: shopping, friends, school if you have children. Twenty minutes there and twenty back is a lot by Friday.",
   "seasons": "Beyond the summer months",
@@ -104,7 +104,7 @@ export const ui = {
   "privacyCopy": "Inland means villages that stay open all year, and on an island this small the sea is always near. The coast puts the water at your door, but many coastal areas empty out after the season. A house in the hills can offer both: quiet fields around you and the sea on the horizon.",
   "founderRole": "Personal property advisor, Ibiza",
   "languages": "French, English, Spanish and Arabic",
-  "aboutHeading": "Twenty years in luxury, from Monaco and Paris to Ibiza.",
+  "aboutHeading": "Hello, I’m Soumaya.",
   "start": "Tell me what you have in mind.",
   "seeHere": "Want to see it in person?",
   "help": "Your name and either a phone number or email are enough.",
@@ -138,7 +138,7 @@ export const ui = {
   "sendDirect": "Send your letter",
   "sending": "Sending…",
   "sendDirectNote": "Your letter comes straight to me.",
-  "sentBody": "Your letter has reached me. I’ll reply personally, and quickly.",
+  "sentBody": "Your letter has reached me. I’ll write back myself, very soon.",
   "sendFailed": "I couldn’t send your letter from here, so your email app is opening with it instead.",
   "leaveEmpty": "Leave this empty",
   "sendNote": "Your email app opens with this letter, ready to send.",
@@ -156,7 +156,7 @@ export const ui = {
   "contactError": "Please add a phone number or email so I can reply.",
   "emailError": "Please check your email address.",
   "top": "Back to top",
-  "footer": "Buying, selling and holiday rentals, handled personally.",
+  "footer": "Buying, selling and holiday stays in Ibiza, looked after personally.",
   "livingLabel": "LIVING",
   "diningLabel": "KITCHEN & DINING",
   "suiteLabel": "PRINCIPAL SUITE",
@@ -168,34 +168,34 @@ export const ui = {
   "notFound": "This page could not be found.",
   "returnHome": "Return to the homepage",
   "adviceHeading": "Before you buy.",
-  "aboutAdvice": "Before you make an offer, you should know what you’re buying. I tell you what I know about the house, what I would check, and who can answer the rest: lawyers, architects and specialists on taxes, rental rules and alterations.",
+  "aboutAdvice": "You should never sign something you don’t understand. Before any offer, I tell you what I know about the house, what I would check, and who can answer the rest: lawyers, architects and specialists on taxes, rental rules and alterations.",
   "aftercareHeading": "After the keys change hands.",
-  "aboutAftercare": "Once you have the keys, I can introduce trusted professionals for renovation, property care and the services that make island life simple.",
+  "aboutAftercare": "I don’t disappear once you have the keys. Builders, gardeners, someone to look after the house while you’re away: I’ll introduce you to people I trust.",
   "livingPageIntro": "I help you compare areas by how you will actually live: the school run, the winter months, the drive to dinner.",
-  "livingPageHeading": "An area that works for you.",
+  "livingPageHeading": "Where you’ll feel at home.",
   "aboutMeta": "Soumaya, independent property advisor in Ibiza: a personal, discreet approach to buying, selling and renting homes on the island.",
   "livingMeta": "A personal perspective on where to live in Ibiza: everyday journeys, year-round life and the balance between countryside, village and sea.",
   "contactMeta": "Speak with Soumaya about buying, selling or renting a home in Ibiza.",
   "homeEyebrow": "PERSONAL PROPERTY ADVISOR",
-  "homeTitle": "Your property advisor in Ibiza.",
+  "homeTitle": "Ibiza is my home. Let me help you make it yours.",
   "meet": "Meet Soumaya",
   "viewAll": "See all homes for sale",
   "meetHeading": "Meet Soumaya",
-  "meetCopy": "Over 20 years in the luxury sector, a background in law, and years in Monaco and Paris. Ibiza is now my home, and I bring that experience to every client, in French, English, Spanish or Arabic.",
+  "meetCopy": "I came to Ibiza after many years in Monaco and Paris, and it became my home. Now I help others find their place here, in French, English, Spanish or Arabic.",
   "myStory": "My story",
   "perspectiveEyebrow": "THE ISLAND",
   "perspectiveHeading": "First the area, then the house.",
-  "perspectiveCopy": "Before you fly in, we narrow the island down together: village or coast, quiet all year or lively in August, how far the school and the airport are. Then your visits fit into one or two well-organised days.",
+  "perspectiveCopy": "Before you fly in, we talk about how you like to live: village or sea, quiet or lively, close to school or far from everything. Then your visits feel easy, not rushed.",
   "perspectiveLink": "Explore the island",
-  "privateEyebrow": "A PRIVATE CONVERSATION",
-  "privateHeading": "A private conversation, first.",
-  "privateCopy": "Buying, selling or planning a stay? Tell me what you have in mind. Everything we discuss stays between us.",
+  "privateEyebrow": "A FIRST CONVERSATION",
+  "privateHeading": "Let’s start with a coffee.",
+  "privateCopy": "Tell me what you have in mind, even if it’s still a dream. No pressure, no obligation. Just a conversation.",
   "getInTouch": "Get in touch",
   "discreetLine": "I would prefer a discreet sale.",
   "discretionHeading": "Discretion, always.",
   "aboutDiscretion": "Many of my clients value privacy. I handle every conversation, search and sale in confidence, and share nothing without your agreement.",
   "rent": "rent",
-  "tagline": "PRIVATE PROPERTY ADVISOR · IBIZA",
+  "tagline": "PERSONAL PROPERTY ADVISOR · IBIZA",
   "notEvery": "Not every house is on this site.",
   "notEveryCopy": "Some owners prefer to sell without advertising. Tell me what you’re looking for, and I’ll tell you what I know.",
   "notEveryLink": "Tell me what you’re looking for",
@@ -206,7 +206,7 @@ export const ui = {
   "howFormHeading": "Tell me about your plans.",
   "howSellingLink": "Selling with me",
   "howBuyingLink": "Buying with me",
-  "howIntro": "Here is what working together looks like, step by step, whether you are buying a home on the island or selling yours.",
+  "howIntro": "Buying or selling a home is a big step, especially far from home. Here is how I make it feel simple, one step at a time.",
   "howEyebrow": "HOW I WORK",
   "howMeta": "How I work with buyers and sellers in Ibiza, personally, from the first conversation to the notary.",
   "howTitle": "How I work · Buying and selling in Ibiza",
@@ -217,21 +217,21 @@ export const ui = {
   "doors": [
    [
     "Buy",
-    "I’ll find the right home, on the market or off it, and represent you until it is yours.",
-    "Start your search"
+    "Tell me how you want to live, and we’ll find the home together, all the way to the keys.",
+    "Let’s start looking"
    ],
    [
     "Sell",
-    "An honest valuation, and a sale to the right buyers, in public or in private.",
-    "Request a valuation"
+    "An honest view of what your home is worth, and a calm, careful sale, at your pace.",
+    "What is my home worth?"
    ],
    [
     "Holiday rentals",
-    "Tell me your dates and I’ll find the villa, checked in person.",
+    "Tell me your dates and I’ll find a villa that feels like yours, one I’ve walked through myself.",
     "Plan your stay"
    ]
   ],
-  "howHeading": "Buying or selling, you deal with me.",
+  "howHeading": "One person, from the first coffee to the keys.",
   "howSteps": [
    [
     "Listen",
@@ -250,7 +250,7 @@ export const ui = {
     "Checks, negotiation and every step to the notary, on your side."
    ]
   ],
-  "selectedNote": "A few of the homes I would show you this week. Many others are offered privately, so ask me.",
+  "selectedNote": "A few homes I’d love to show you this week. There are others I can’t put online, so just ask.",
   "rentEyebrow": "HOLIDAY RENTALS",
   "rentHomeHeading": "Your stay in Ibiza, arranged for you.",
   "rentHomeCopy": "Tell me your dates, who is coming and how you like to spend your days. I shortlist villas I have checked in person, all with a tourist licence, and I’m a phone call away while you are here.",
@@ -258,44 +258,44 @@ export const ui = {
   "buyTitle": "Buying agent in Ibiza",
   "buyMeta": "I search the whole island for you, including homes sold privately, check every detail and negotiate on your side until the house is yours.",
   "buyEyebrow": "BUYING IN IBIZA",
-  "buyHeading": "I work for you, not for the house.",
-  "buyIntro": "As your buying agent, I search the whole island on your behalf, tell you honestly what I see, and protect your interests until the house is yours.",
-  "buyStepsHeading": "From your brief to your keys.",
+  "buyHeading": "I’m on your side, and only yours.",
+  "buyIntro": "I look for you, tell you honestly what I see, and look after you until the house is yours. You can ask me anything, however small.",
+  "buyStepsHeading": "From our first talk to your keys.",
   "buySteps": [
    [
-    "Your brief",
-    "We talk about how you want to live: areas, the rhythm of your year, budget, timing and what is not negotiable."
+    "Getting to know you",
+    "How you want to live, the rhythm of your year, your budget and what matters most."
    ],
    [
-    "The search",
-    "I look across the whole island and ask the people I know: owners, architects, other agents."
+    "Looking, for you",
+    "I search the island and ask the people I know: owners, architects, other agents. You don’t have to."
    ],
    [
-    "A shortlist with my view",
-    "Only the homes worth your time, with what I like and what I would check."
+    "A short list, honestly",
+    "Only the homes worth your time, with what I love about each one and what worries me."
    ],
    [
-    "Viewing days",
-    "Visits planned around your trip, in one or two well-organised days."
+    "Visiting together",
+    "One or two unhurried days around your trip. I take you to each house myself."
    ],
    [
-    "Checks",
-    "Legal, licence and building checks with lawyers and architects I work with, before you commit. I studied law, so I read the documents closely and know what to ask."
+    "Peace of mind",
+    "Lawyers and architects I trust check everything before you commit. I studied law, and I read every document with you, so nothing surprises you."
    ],
    [
-    "Negotiation",
-    "I negotiate on your behalf, with discretion, for the right price and terms."
+    "Agreeing the price",
+    "I talk to the other side for you, calmly, so you get a fair price without the stress."
    ],
    [
-    "The notary, and after",
-    "I stay with you to the signing, and introduce the right people for everything that comes after."
+    "The keys, and beyond",
+    "I’m there at the signing, and still there after: builders, gardeners, a good plumber, whatever you need."
    ]
   ],
-  "buyWhyHeading": "Why a personal advisor",
+  "buyWhyHeading": "Why it helps to have me with you",
   "buyWhy": [
    [
-    "Access",
-    "Many of the finest homes in Ibiza change hands privately. My network brings them to you."
+    "Homes you won’t find online",
+    "Some owners sell quietly. Because people know me, I hear about them."
    ],
    [
     "Judgement",
@@ -303,11 +303,11 @@ export const ui = {
    ],
    [
     "Time",
-    "You see fewer houses, and better ones. I do the filtering, so every trip counts."
+    "You see fewer houses, and better ones. I do the filtering, so every trip feels worth it."
    ],
    [
-    "Your language",
-    "French, English, Spanish or Arabic. You, your family office and your lawyers hear everything first-hand, with nothing lost in translation."
+    "In your language",
+    "French, English, Spanish or Arabic. You’ll understand everything, and so will your family."
    ]
   ],
   "buyHomesLink": "See homes for sale",
@@ -315,30 +315,30 @@ export const ui = {
   "sellTitle": "Sell your home in Ibiza",
   "sellMeta": "An honest valuation and the right buyers from my international network, in public or in complete privacy.",
   "sellEyebrow": "SELLING IN IBIZA",
-  "sellPageHeading": "The right buyer, at the right price, with discretion.",
-  "sellPageIntro": "I handle every sale myself, from the first valuation to the notary. You deal with one person, who knows your house and every buyer who has seen it.",
+  "sellPageHeading": "Selling your home, with care.",
+  "sellPageIntro": "Selling a home you love isn’t only a transaction. I take care of it myself, from the first visit to the notary, and keep you informed at every step.",
   "sellFormHeading": "Tell me about your home.",
   "sellWhyHeading": "Why sell with me",
   "sellWhy": [
    [
     "One person",
-    "The advisor who values your home is the one who shows it and negotiates."
+    "The person who values your home is the one who shows it and negotiates."
    ],
    [
     "Buyers from everywhere",
-    "Years in Monaco and Paris, and four languages, put your home in front of international buyers, wherever they come from."
+    "I speak four languages, so buyers from anywhere feel welcome in your home."
    ],
    [
-    "Paperwork first",
-    "Problems found before a buyer finds them don’t cost you the price."
+    "No surprises",
+    "Problems found early stay small."
    ]
   ],
   "aboutTitle": "About Soumaya, property advisor in Ibiza",
-  "rentTitle": "Luxury villa rentals in Ibiza",
+  "rentTitle": "Holiday villas in Ibiza, chosen for you",
   "rentMeta": "Tell me your dates and I’ll find the villa, checked in person and with a tourist licence.",
   "rentPageEyebrow": "HOLIDAY RENTALS IN IBIZA",
-  "rentHeading": "Your villa in Ibiza, found and checked for you.",
-  "rentIntro": "Tell me your dates and how you like to spend your days. I’ll find the villa, check it in person, and I’m a phone call away while you are here.",
+  "rentHeading": "A villa that feels like home, from the first day.",
+  "rentIntro": "Tell me your dates and how you like to spend your days. I’ll find the villa, walk through it myself, and I’m a call away the whole time you’re here.",
   "rentStepsHeading": "How it works.",
   "rentSteps": [
    [
@@ -350,16 +350,16 @@ export const ui = {
     "Three or four villas, each checked in person and with a tourist licence, and what I really think of each one."
    ],
    [
-    "The booking",
-    "I arrange the booking with the owner or manager and look after the details."
+    "Booking, done",
+    "I handle the booking and the small print, so there is nothing left for you to arrange."
    ],
    [
-    "During your stay",
-    "A chef, a boat, a driver, a nanny, a table at the right place: I connect you with people I trust."
+    "While you’re here",
+    "A chef, a boat, a babysitter, a table somewhere lovely, or help if something breaks. Just call me."
    ]
   ],
   "rentBridgeHeading": "Rent first, then buy.",
-  "rentBridgeCopy": "A season on the island is the best way to find where you would like to live. Many of my buyers first came for a holiday.",
+  "rentBridgeCopy": "A holiday is the best way to find out where you’d love to live. Many of my buyers first came for a holiday, and if you fall for the island, I’m here.",
   "rentBridgeLink": "Buying in Ibiza",
   "rentFormHeading": "Tell me about your stay.",
   "aboutBio": [
@@ -379,31 +379,31 @@ export const ui = {
   "sellStepsHeading": "Cómo vendo tu casa.",
   "sellSteps": [
    [
-    "Valoración",
-    "Un precio de salida honesto, basado en el precio al que se vendieron de verdad casas comparables, no en lo que pedían."
+    "Un precio sincero",
+    "Lo que de verdad se pagó por casas parecidas, no lo que se pedía por ellas."
    ],
    [
-    "Preparación y revisión",
-    "Reviso pronto la documentación (licencias, planos, escrituras), para que los abogados del comprador encuentren respuestas, no problemas. Estudié Derecho, y es en esta fase donde más se nota."
+    "Papeles en regla",
+    "Reviso pronto licencias, planos y títulos, para que no haya sorpresas después."
    ],
    [
     "Presentación",
     "Fotografía profesional y una presentación de la casa en español, inglés y francés."
    ],
    [
-    "Llegar a los compradores",
-    "Presento tu casa a compradores que conozco personalmente y a los agentes en los que confío, en Ibiza y fuera."
+    "Las personas adecuadas",
+    "Enseño tu casa a compradores que conozco y a agentes de confianza, en Ibiza y fuera."
    ],
    [
-    "Visitas y negociación",
-    "Enseño la casa en persona y negocio por ti hasta la notaría."
+    "Visitas y acuerdo",
+    "Enseño tu casa yo misma y me ocupo de la negociación, para que tú no tengas que hacerlo."
    ]
   ],
   "sellDiscreetHeading": "Una venta privada, si lo prefieres.",
   "sellDiscreetCopy": "No todas las ventas tienen que ser públicas. Tu casa puede enseñarse solo a compradores que yo seleccione, sin aparecer en esta web ni en ningún otro sitio.",
   "sellLetterHeading": "¿Piensas vender?",
   "sellStart": "Háblame de tu casa",
-  "contactIntro": "Leo cada mensaje personalmente y respondo en francés, inglés, español o árabe, tanto si compras como si vendes o planeas una estancia.",
+  "contactIntro": "Leo cada mensaje yo misma y te respondo en tu idioma, tanto si es un gran proyecto como una pequeña pregunta.",
   "contactNote": "",
   "directLabel": "Si prefieres llamar o enviar un mensaje",
   "about": "Sobre mí",
@@ -413,7 +413,7 @@ export const ui = {
   "skip": "Saltar al contenido",
   "discover": "Ver la casa",
   "explore": "Ver propiedades",
-  "homeLead": "Soy Soumaya. Tanto si buscas casa como si vendes la tuya o planeas una estancia, trabajarás conmigo personalmente, desde la primera llamada hasta la última firma.",
+  "homeLead": "Soy Soumaya. Tanto si buscas casa como si vendes la tuya o vienes de vacaciones, me ocupo de todo personalmente, para que nunca tengas que resolverlo solo.",
   "intro": "Tu asesora inmobiliaria personal en Ibiza: compra, venta y alquiler de villas vacacionales, con una sola persona desde la primera conversación hasta las llaves.",
   "selected": "Casas seleccionadas",
   "forSaleTitle": "Propiedades en venta",
@@ -441,7 +441,7 @@ export const ui = {
   "viewGallery": "Galería",
   "viewList": "Lista",
   "clearFilters": "Borrar filtros",
-  "emptyHeading": "Ninguna casa coincide con estos filtros.",
+  "emptyHeading": "Todavía no hay nada que encaje.",
   "emptyBody": "Ahora mismo nada coincide con estos filtros. Muchas casas se ofrecen en privado: cuéntame qué buscas y lo miro.",
   "emptyAction": "Cuéntame qué buscas",
   "builtShort": "construidos",
@@ -453,7 +453,7 @@ export const ui = {
   "plot": "Parcela",
   "areaNote": "La superficie construida incluye el sótano.",
   "back": "Todas las casas en venta",
-  "enquire": "Consultar sobre esta casa",
+  "enquire": "Pregúntame por esta casa",
   "house": "La casa",
   "livingSpaces": "Interiores",
   "bedroomNav": "Dormitorios",
@@ -463,9 +463,9 @@ export const ui = {
   "atGlance": "DE UN VISTAZO",
   "featureHeading": "En resumen.",
   "plans": "Planos disponibles bajo petición.",
-  "requestPlans": "Solicitar planos",
+  "requestPlans": "Envíame los planos",
   "setting": "El entorno",
-  "locationLink": "Hablemos de la ubicación",
+  "locationLink": "Pregúntame por la zona",
   "journeys": "Los lugares de tu día a día",
   "journeysCopy": "Haz la lista de trayectos de cada semana: la compra, los amigos, el colegio si hay niños. Veinte minutos de ida y veinte de vuelta pesan al llegar el viernes.",
   "seasons": "Más allá del verano",
@@ -474,7 +474,7 @@ export const ui = {
   "privacyCopy": "El interior son pueblos abiertos todo el año, y en una isla tan pequeña el mar siempre está cerca. La costa te pone el agua en la puerta, pero muchas zonas se vacían al acabar la temporada. Una casa en las colinas puede darte las dos cosas: campo tranquilo alrededor y el mar en el horizonte.",
   "founderRole": "Asesora inmobiliaria personal, Ibiza",
   "languages": "Francés, inglés, español y árabe",
-  "aboutHeading": "Veinte años en el lujo, de Mónaco y París a Ibiza.",
+  "aboutHeading": "Hola, soy Soumaya.",
   "start": "Cuéntame qué tienes en mente.",
   "seeHere": "¿Quieres verla en persona?",
   "help": "Basta con tu nombre y un teléfono o correo electrónico.",
@@ -508,7 +508,7 @@ export const ui = {
   "sendDirect": "Enviar tu carta",
   "sending": "Enviando…",
   "sendDirectNote": "Tu carta me llega directamente.",
-  "sentBody": "Tu carta ya me ha llegado. Te responderé personalmente, y pronto.",
+  "sentBody": "Tu carta ya me ha llegado. Te escribiré yo misma, muy pronto.",
   "sendFailed": "No he podido enviar tu carta desde aquí, así que se abrirá tu aplicación de correo con ella.",
   "leaveEmpty": "Deja este campo vacío",
   "sendNote": "Tu aplicación de correo se abrirá con esta carta, lista para enviar.",
@@ -526,7 +526,7 @@ export const ui = {
   "contactError": "Indica un teléfono o correo electrónico para que pueda responderte.",
   "emailError": "Revisa tu correo electrónico.",
   "top": "Volver arriba",
-  "footer": "Compra, venta y alquiler vacacional, con trato personal.",
+  "footer": "Comprar, vender y pasar las vacaciones en Ibiza, con un trato personal.",
   "livingLabel": "SALÓN",
   "diningLabel": "COCINA Y COMEDOR",
   "suiteLabel": "SUITE PRINCIPAL",
@@ -538,34 +538,34 @@ export const ui = {
   "notFound": "No se ha encontrado esta página.",
   "returnHome": "Volver a la página de inicio",
   "adviceHeading": "Antes de comprar.",
-  "aboutAdvice": "Antes de hacer una oferta, debes saber qué compras. Te cuento lo que sé de la casa, lo que yo comprobaría y quién puede responder al resto: abogados, arquitectos y especialistas en impuestos, normativa de alquiler y reformas.",
+  "aboutAdvice": "Nunca deberías firmar algo que no entiendes. Antes de cualquier oferta, te cuento lo que sé de la casa, lo que yo comprobaría y quién puede responder al resto: abogados, arquitectos y especialistas en impuestos, normativa de alquiler y reformas.",
   "aftercareHeading": "Después de recibir las llaves.",
-  "aboutAftercare": "Cuando ya tienes las llaves, puedo presentarte profesionales de confianza para reformas, mantenimiento de la casa y los servicios que facilitan la vida en la isla.",
+  "aboutAftercare": "No desaparezco cuando tienes las llaves. Obras, jardinería, alguien que cuide la casa mientras no estás: te presento a personas de mi confianza.",
   "livingPageIntro": "Te ayudo a comparar zonas según cómo vas a vivir de verdad: el camino al colegio, los meses de invierno, el trayecto para ir a cenar.",
-  "livingPageHeading": "Una zona que encaje contigo.",
+  "livingPageHeading": "Donde te sentirás en casa.",
   "aboutMeta": "Soumaya, asesora inmobiliaria independiente en Ibiza: un enfoque personal y discreto para comprar, vender y alquilar casas en la isla.",
   "livingMeta": "Una mirada personal sobre dónde vivir en Ibiza: trayectos diarios, vida todo el año y el equilibrio entre campo, pueblo y mar.",
   "contactMeta": "Habla con Soumaya sobre comprar, vender o alquilar una casa en Ibiza.",
   "homeEyebrow": "ASESORA INMOBILIARIA PERSONAL",
-  "homeTitle": "Tu asesora inmobiliaria en Ibiza.",
+  "homeTitle": "Ibiza es mi hogar. Déjame ayudarte a que sea el tuyo.",
   "meet": "Conoce a Soumaya",
   "viewAll": "Ver todas las casas en venta",
   "meetHeading": "Conoce a Soumaya",
-  "meetCopy": "Más de 20 años en el sector del lujo, formación jurídica y años en Mónaco y París. Hoy Ibiza es mi hogar, y pongo esa experiencia al servicio de cada cliente, en francés, inglés, español o árabe.",
+  "meetCopy": "Llegué a Ibiza después de muchos años en Mónaco y París, y la isla se convirtió en mi hogar. Ahora ayudo a otros a encontrar su lugar aquí, en francés, inglés, español o árabe.",
   "myStory": "Mi historia",
   "perspectiveEyebrow": "LA ISLA",
   "perspectiveHeading": "Primero la zona, después la casa.",
-  "perspectiveCopy": "Antes de que vengas, acotamos juntos la isla: pueblo o costa, tranquilidad todo el año o animación en agosto, a qué distancia quedan el colegio y el aeropuerto. Así tus visitas caben en uno o dos días bien organizados.",
+  "perspectiveCopy": "Antes de que vengas, hablamos de cómo te gusta vivir: pueblo o mar, tranquilidad o ambiente, cerca del colegio o lejos de todo. Así tus visitas son fáciles, sin prisas.",
   "perspectiveLink": "Descubre la isla",
-  "privateEyebrow": "UNA CONVERSACIÓN PRIVADA",
-  "privateHeading": "Primero, una conversación privada.",
-  "privateCopy": "¿Compras, vendes o planeas una estancia? Cuéntame qué tienes en mente. Todo lo que hablemos queda entre nosotros.",
+  "privateEyebrow": "UNA PRIMERA CONVERSACIÓN",
+  "privateHeading": "Empecemos con un café.",
+  "privateCopy": "Cuéntame lo que tienes en mente, aunque todavía sea un sueño. Sin presión ni compromiso. Solo una conversación.",
   "getInTouch": "Contactar",
   "discreetLine": "Prefiero una venta discreta.",
   "discretionHeading": "Discreción, siempre.",
   "aboutDiscretion": "Muchos de mis clientes valoran su privacidad. Gestiono cada conversación, búsqueda y venta con confidencialidad, y no comparto nada sin tu consentimiento.",
   "rent": "alquilar",
-  "tagline": "ASESORA INMOBILIARIA PRIVADA · IBIZA",
+  "tagline": "ASESORA INMOBILIARIA PERSONAL · IBIZA",
   "notEvery": "No todas las casas están en esta web.",
   "notEveryCopy": "Algunos propietarios prefieren vender sin anunciarse. Cuéntame qué buscas y te diré lo que sé.",
   "notEveryLink": "Cuéntame qué buscas",
@@ -576,7 +576,7 @@ export const ui = {
   "howFormHeading": "Cuéntame tus planes.",
   "howSellingLink": "Vender conmigo",
   "howBuyingLink": "Comprar conmigo",
-  "howIntro": "Así es trabajar juntos, paso a paso, tanto si compras una casa en la isla como si vendes la tuya.",
+  "howIntro": "Comprar o vender una casa es un gran paso, sobre todo lejos de casa. Así es como lo hago sencillo, paso a paso.",
   "howEyebrow": "CÓMO TRABAJO",
   "howMeta": "Cómo trabajo con compradores y vendedores en Ibiza, de forma personal, desde la primera conversación hasta el notario.",
   "howTitle": "Cómo trabajo · Comprar y vender en Ibiza",
@@ -587,21 +587,21 @@ export const ui = {
   "doors": [
    [
     "Comprar",
-    "Encontraré la casa adecuada, en el mercado o fuera de él, y te representaré hasta que sea tuya.",
-    "Empieza tu búsqueda"
+    "Cuéntame cómo quieres vivir y encontraremos la casa juntos, hasta el día de las llaves.",
+    "Empecemos a buscar"
    ],
    [
     "Vender",
-    "Una valoración honesta y una venta a los compradores adecuados, en público o en privado.",
-    "Solicita una valoración"
+    "Una opinión sincera de lo que vale tu casa, y una venta tranquila y cuidada, a tu ritmo.",
+    "¿Cuánto vale mi casa?"
    ],
    [
     "Alquiler vacacional",
-    "Dime tus fechas y encontraré la villa, revisada en persona.",
+    "Dime tus fechas y encontraré una villa que sientas tuya, una que yo misma he recorrido.",
     "Organiza tu estancia"
    ]
   ],
-  "howHeading": "Compres o vendas, tratas conmigo.",
+  "howHeading": "Una sola persona, del primer café a las llaves.",
   "howSteps": [
    [
     "Escuchar",
@@ -620,7 +620,7 @@ export const ui = {
     "Revisiones, negociación y cada paso hasta la notaría, de tu lado."
    ]
   ],
-  "selectedNote": "Algunas de las casas que te enseñaría esta semana. Muchas otras se ofrecen en privado, así que pregúntame.",
+  "selectedNote": "Algunas casas que me encantaría enseñarte esta semana. Hay otras que no puedo publicar, así que pregúntame.",
   "rentEyebrow": "ALQUILER VACACIONAL",
   "rentHomeHeading": "Tu estancia en Ibiza, organizada para ti.",
   "rentHomeCopy": "Dime tus fechas, quién viene y cómo te gusta pasar los días. Selecciono villas que he revisado en persona, todas con licencia turística, y estoy a una llamada durante tu estancia.",
@@ -628,44 +628,44 @@ export const ui = {
   "buyTitle": "Agente de compra en Ibiza",
   "buyMeta": "Busco en toda la isla por ti, también casas que se venden en privado, compruebo cada detalle y negocio de tu lado hasta que la casa es tuya.",
   "buyEyebrow": "COMPRAR EN IBIZA",
-  "buyHeading": "Trabajo para ti, no para la casa.",
-  "buyIntro": "Como tu agente de compra, busco en toda la isla en tu nombre, te digo con sinceridad lo que veo y defiendo tus intereses hasta que la casa es tuya.",
-  "buyStepsHeading": "De tu idea a tus llaves.",
+  "buyHeading": "Estoy de tu lado, y solo del tuyo.",
+  "buyIntro": "Busco por ti, te digo con sinceridad lo que veo y te acompaño hasta que la casa es tuya. Puedes preguntarme cualquier cosa, por pequeña que sea.",
+  "buyStepsHeading": "De nuestra primera charla a tus llaves.",
   "buySteps": [
    [
-    "Tu idea",
-    "Hablamos de cómo quieres vivir: zonas, el ritmo de tu año, presupuesto, plazos y lo que no es negociable."
+    "Conocerte",
+    "Cómo quieres vivir, el ritmo de tu año, tu presupuesto y lo que más te importa."
    ],
    [
-    "La búsqueda",
-    "Busco en toda la isla y pregunto a quienes conozco: propietarios, arquitectos, otros agentes."
+    "Buscar por ti",
+    "Busco en toda la isla y pregunto a la gente que conozco: propietarios, arquitectos, otros agentes. Tú no tienes que hacerlo."
    ],
    [
-    "Una selección con mi opinión",
-    "Solo las casas que merecen tu tiempo, con lo que me gusta y lo que yo comprobaría."
+    "Una selección sincera",
+    "Solo las casas que merecen tu tiempo, con lo que me encanta de cada una y lo que me preocupa."
    ],
    [
-    "Días de visitas",
-    "Visitas organizadas en torno a tu viaje, en uno o dos días bien planificados."
+    "Visitarlas juntos",
+    "Uno o dos días sin prisas, organizados según tu viaje. Yo misma te llevo a cada casa."
    ],
    [
-    "Revisiones",
-    "Comprobaciones legales, de licencias y de construcción con los abogados y arquitectos con los que trabajo, antes de comprometerte. Estudié Derecho, así que leo los documentos con atención y sé qué preguntar."
+    "Tranquilidad",
+    "Abogados y arquitectos de mi confianza lo revisan todo antes de que te comprometas. Estudié derecho y leo cada documento contigo, para que nada te sorprenda."
    ],
    [
-    "Negociación",
-    "Negocio en tu nombre, con discreción, para lograr el precio y las condiciones adecuados."
+    "Acordar el precio",
+    "Hablo con la otra parte por ti, con calma, para que consigas un precio justo sin estrés."
    ],
    [
-    "La notaría, y después",
-    "Te acompaño hasta la firma y te presento a las personas adecuadas para todo lo que viene después."
+    "Las llaves, y después",
+    "Estoy contigo en la firma, y también después: obras, jardín, un buen fontanero, lo que necesites."
    ]
   ],
-  "buyWhyHeading": "Por qué una asesora personal",
+  "buyWhyHeading": "Por qué ayuda tenerme a tu lado",
   "buyWhy": [
    [
-    "Acceso",
-    "Muchas de las mejores casas de Ibiza cambian de manos en privado. Mi red te las acerca."
+    "Casas que no verás en internet",
+    "Algunos propietarios venden con discreción. Como la gente me conoce, me entero."
    ],
    [
     "Criterio",
@@ -673,11 +673,11 @@ export const ui = {
    ],
    [
     "Tiempo",
-    "Ves menos casas, y mejores. Yo hago el filtro, para que cada viaje cuente."
+    "Ves menos casas, y mejores. Yo hago el filtro, para que cada viaje merezca la pena."
    ],
    [
-    "Tu idioma",
-    "Francés, inglés, español o árabe. Tú, tu family office y tus abogados lo escucháis todo de primera mano, sin que nada se pierda en la traducción."
+    "En tu idioma",
+    "Francés, inglés, español o árabe. Lo entenderás todo, y tu familia también."
    ]
   ],
   "buyHomesLink": "Ver casas en venta",
@@ -685,8 +685,8 @@ export const ui = {
   "sellTitle": "Vende tu casa en Ibiza",
   "sellMeta": "Una valoración honesta y los compradores adecuados de mi red internacional, en público o con total privacidad.",
   "sellEyebrow": "VENDER EN IBIZA",
-  "sellPageHeading": "El comprador adecuado, al precio adecuado, con discreción.",
-  "sellPageIntro": "Me ocupo personalmente de cada venta, desde la primera valoración hasta la notaría. Tratas con una sola persona, que conoce tu casa y a cada comprador que la ha visto.",
+  "sellPageHeading": "Vender tu casa, con cuidado.",
+  "sellPageIntro": "Vender una casa que quieres no es solo una operación. Me ocupo yo misma, de la primera visita al notario, y te mantengo al tanto en cada paso.",
   "sellFormHeading": "Háblame de tu casa.",
   "sellWhyHeading": "Por qué vender conmigo",
   "sellWhy": [
@@ -696,19 +696,19 @@ export const ui = {
    ],
    [
     "Compradores de todas partes",
-    "Años en Mónaco y París, y cuatro idiomas, acercan tu casa a compradores internacionales, vengan de donde vengan."
+    "Hablo cuatro idiomas, así que compradores de cualquier lugar se sienten bienvenidos en tu casa."
    ],
    [
-    "Primero, los papeles",
-    "Un problema que se detecta antes que el comprador no te cuesta el precio."
+    "Sin sorpresas",
+    "Los problemas que se detectan pronto se quedan pequeños."
    ]
   ],
   "aboutTitle": "Sobre Soumaya, asesora inmobiliaria en Ibiza",
-  "rentTitle": "Alquiler de villas de lujo en Ibiza",
+  "rentTitle": "Villas de vacaciones en Ibiza, elegidas para ti",
   "rentMeta": "Dime tus fechas y encontraré la villa, revisada en persona y con licencia turística.",
   "rentPageEyebrow": "ALQUILER VACACIONAL EN IBIZA",
-  "rentHeading": "Tu villa en Ibiza, encontrada y revisada para ti.",
-  "rentIntro": "Dime tus fechas y cómo te gusta pasar los días. Encontraré la villa, la revisaré en persona y estaré a una llamada durante tu estancia.",
+  "rentHeading": "Una villa en la que te sientes en casa desde el primer día.",
+  "rentIntro": "Dime tus fechas y cómo te gusta pasar los días. Encontraré la villa, la recorreré yo misma y estaré a una llamada durante toda tu estancia.",
   "rentStepsHeading": "Cómo funciona.",
   "rentSteps": [
    [
@@ -720,16 +720,16 @@ export const ui = {
     "Tres o cuatro villas, cada una revisada en persona y con licencia turística, y lo que de verdad pienso de cada una."
    ],
    [
-    "La reserva",
-    "Gestiono la reserva con el propietario o el gestor y me ocupo de los detalles."
+    "La reserva, resuelta",
+    "Me ocupo de la reserva y de la letra pequeña, para que no tengas nada que organizar."
    ],
    [
     "Durante tu estancia",
-    "Un chef, un barco, un chófer, una niñera, una mesa en el sitio adecuado: te pongo en contacto con personas de confianza."
+    "Un chef, un barco, una canguro, una mesa en un sitio bonito, o ayuda si algo se estropea. Solo tienes que llamarme."
    ]
   ],
   "rentBridgeHeading": "Primero alquila, después compra.",
-  "rentBridgeCopy": "Una temporada en la isla es la mejor manera de descubrir dónde te gustaría vivir. Muchos de mis compradores vinieron primero de vacaciones.",
+  "rentBridgeCopy": "Unas vacaciones son la mejor manera de descubrir dónde te encantaría vivir. Muchos de mis compradores vinieron primero de vacaciones, y si te enamoras de la isla, aquí estoy.",
   "rentBridgeLink": "Comprar en Ibiza",
   "rentFormHeading": "Háblame de tu estancia.",
   "aboutBio": [
@@ -747,46 +747,46 @@ export const ui = {
   "about": "À propos",
   "contact": "Contact",
   "homeEyebrow": "CONSEILLÈRE IMMOBILIÈRE PERSONNELLE",
-  "homeTitle": "Votre conseillère immobilière à Ibiza.",
-  "homeLead": "Je suis Soumaya. Que vous cherchiez une maison, vendiez la vôtre ou prépariez un séjour, vous travaillerez avec moi personnellement, du premier appel à la dernière signature.",
+  "homeTitle": "Ibiza est chez moi. Laissez-moi vous aider à vous y sentir chez vous.",
+  "homeLead": "Je suis Soumaya. Que vous cherchiez une maison, vendiez la vôtre ou veniez en vacances, je m’occupe de tout personnellement, pour que vous n’ayez jamais à tout gérer seul.",
   "explore": "Voir les propriétés",
   "meet": "Rencontrer Soumaya",
   "selected": "Maisons sélectionnées",
   "viewAll": "Voir toutes les maisons à vendre",
   "meetHeading": "Rencontrer Soumaya",
-  "meetCopy": "Plus de 20 ans dans l’univers du luxe, une formation juridique et des années à Monaco et à Paris. Ibiza est aujourd’hui ma maison, et je mets cette expérience au service de chaque client, en français, anglais, espagnol ou arabe.",
+  "meetCopy": "Je suis arrivée à Ibiza après de nombreuses années à Monaco et à Paris, et l’île est devenue ma maison. Aujourd’hui, j’aide d’autres personnes à y trouver leur place, en français, anglais, espagnol ou arabe.",
   "myStory": "Mon parcours",
   "perspectiveEyebrow": "L’ÎLE",
   "perspectiveHeading": "D’abord le lieu, ensuite la maison.",
-  "perspectiveCopy": "Avant votre venue, nous resserrons ensemble la recherche : village ou côte, calme toute l’année ou animation en août, distance de l’école et de l’aéroport. Vos visites tiennent alors en une ou deux journées bien organisées.",
+  "perspectiveCopy": "Avant votre venue, nous parlons de la façon dont vous aimez vivre : village ou mer, calme ou animation, près de l’école ou loin de tout. Vos visites sont alors simples, sans précipitation.",
   "perspectiveLink": "Découvrir l’île",
-  "privateEyebrow": "UNE CONVERSATION PRIVÉE",
-  "privateHeading": "D’abord, une conversation privée.",
-  "privateCopy": "Vous achetez, vendez ou préparez un séjour ? Dites-moi ce que vous avez en tête. Tout ce que nous nous disons reste entre nous.",
+  "privateEyebrow": "UNE PREMIÈRE CONVERSATION",
+  "privateHeading": "Commençons par un café.",
+  "privateCopy": "Dites-moi ce que vous avez en tête, même si ce n’est encore qu’un rêve. Sans pression, sans engagement. Juste une conversation.",
   "getInTouch": "Me contacter",
   "sellHeading": "Vendre avec Soumaya.",
   "sellIntro": "",
   "sellStepsHeading": "Comment je vends votre maison.",
   "sellSteps": [
    [
-    "Estimation",
-    "Un prix de mise en vente honnête, fondé sur les prix auxquels des maisons comparables se sont réellement vendues, pas sur ceux affichés."
+    "Un prix honnête",
+    "Le prix auquel des maisons semblables se sont réellement vendues, pas celui de l’annonce."
    ],
    [
-    "Préparation et vérifications",
-    "J’examine les documents tôt (licences, plans, titre de propriété), pour que les avocats des acheteurs trouvent des réponses, pas des problèmes. J’ai étudié le droit, et c’est à cette étape que cela se voit le plus."
+    "Des papiers en ordre",
+    "Je vérifie tôt licences, plans et titre de propriété, pour éviter les surprises."
    ],
    [
     "Présentation",
     "Photographie professionnelle et présentation de la maison en français, anglais et espagnol."
    ],
    [
-    "Toucher les acheteurs",
-    "Je présente votre maison à des acheteurs que je connais personnellement et aux agents en qui j’ai confiance, à Ibiza et à l’étranger."
+    "Les bonnes personnes",
+    "Je présente votre maison à des acheteurs que je connais et à des agents de confiance, à Ibiza et à l’étranger."
    ],
    [
-    "Visites et négociation",
-    "Je fais visiter la maison en personne et je négocie pour vous jusqu’au notaire."
+    "Visites et accord",
+    "Je fais visiter votre maison moi-même et je m’occupe de la négociation, pour que vous n’ayez pas à le faire."
    ]
   ],
   "sellDiscreetHeading": "Une vente privée, si vous le préférez.",
@@ -794,20 +794,20 @@ export const ui = {
   "sellLetterHeading": "Vous pensez vendre ?",
   "sellStart": "Parlez-moi de votre maison",
   "discreetLine": "Je préférerais une vente discrète.",
-  "contactIntro": "Je lis chaque message moi-même et je réponds en français, anglais, espagnol ou arabe, que vous achetiez, vendiez ou prépariez un séjour.",
+  "contactIntro": "Je lis chaque message moi-même et je vous réponds dans votre langue, qu’il s’agisse d’un grand projet ou d’une petite question.",
   "contactNote": "",
-  "aboutHeading": "Vingt ans dans le luxe, de Monaco et Paris à Ibiza.",
+  "aboutHeading": "Bonjour, je suis Soumaya.",
   "adviceHeading": "Avant d’acheter.",
-  "aboutAdvice": "Avant de faire une offre, vous devez savoir ce que vous achetez. Je vous dis ce que je sais de la maison, ce que je vérifierais et qui peut répondre au reste : avocats, architectes et spécialistes de la fiscalité, des règles de location et des travaux.",
+  "aboutAdvice": "Vous ne devriez jamais signer ce que vous ne comprenez pas. Avant toute offre, je vous dis ce que je sais de la maison, ce que je vérifierais et qui peut répondre au reste : avocats, architectes et spécialistes de la fiscalité, des règles de location et des travaux.",
   "aftercareHeading": "Après la remise des clés.",
-  "aboutAftercare": "Une fois les clés en main, je peux vous présenter des professionnels de confiance pour les travaux, l’entretien de la maison et les services qui facilitent la vie sur l’île.",
+  "aboutAftercare": "Je ne disparais pas une fois les clés en main. Travaux, jardinage, quelqu’un pour veiller sur la maison en votre absence : je vous présente des personnes de confiance.",
   "discretionHeading": "La discrétion, toujours.",
   "aboutDiscretion": "Beaucoup de mes clients tiennent à leur vie privée. Je traite chaque conversation, recherche et vente en toute confidentialité, et je ne partage rien sans votre accord.",
   "founderRole": "Conseillère immobilière personnelle, Ibiza",
   "languages": "Français, anglais, espagnol et arabe",
   "aboutMeta": "Soumaya, conseillère immobilière indépendante à Ibiza : une approche personnelle et discrète pour acheter, vendre et louer une maison sur l’île.",
   "livingPageIntro": "Je vous aide à comparer les zones selon votre vraie façon de vivre : le trajet de l’école, les mois d’hiver, la route pour aller dîner.",
-  "livingPageHeading": "Une zone qui vous convient.",
+  "livingPageHeading": "Là où vous vous sentirez chez vous.",
   "livingMeta": "Un regard personnel sur où vivre à Ibiza : trajets du quotidien, vie à l’année et équilibre entre campagne, village et mer.",
   "contactMeta": "Parlez avec Soumaya de l’achat, de la vente ou de la location d’une maison à Ibiza.",
   "intro": "Votre conseillère immobilière personnelle à Ibiza : achat, vente et location de villas de vacances, avec une seule interlocutrice de la première conversation à la remise des clés.",
@@ -841,7 +841,7 @@ export const ui = {
   "viewGallery": "Galerie",
   "viewList": "Liste",
   "clearFilters": "Effacer les filtres",
-  "emptyHeading": "Aucune maison ne correspond à ces filtres.",
+  "emptyHeading": "Rien ne correspond encore tout à fait.",
   "emptyBody": "Rien ne correspond à ces filtres pour le moment. Beaucoup de maisons sont proposées en privé : dites-moi ce que vous cherchez et je regarde.",
   "emptyAction": "Décrire ce que vous cherchez",
   "builtShort": "construits",
@@ -854,7 +854,7 @@ export const ui = {
   "plot": "Terrain",
   "areaNote": "La surface construite totale inclut le sous-sol.",
   "back": "Toutes les maisons à vendre",
-  "enquire": "Se renseigner sur cette maison",
+  "enquire": "Me parler de cette maison",
   "house": "La maison",
   "livingSpaces": "Pièces de vie",
   "bedroomNav": "Chambres",
@@ -864,9 +864,9 @@ export const ui = {
   "atGlance": "EN UN COUP D’ŒIL",
   "featureHeading": "En bref.",
   "plans": "Les plans sont disponibles sur demande.",
-  "requestPlans": "Demander les plans",
+  "requestPlans": "Recevoir les plans",
   "setting": "L’environnement",
-  "locationLink": "Parler de l’emplacement",
+  "locationLink": "Me parler de la zone",
   "journeys": "Les lieux que vous fréquenterez le plus",
   "journeysCopy": "Faites la liste de vos trajets de la semaine : les courses, les amis, l’école s’il y a des enfants. Vingt minutes aller et vingt retour, cela pèse le vendredi.",
   "seasons": "Au-delà des mois d’été",
@@ -907,7 +907,7 @@ export const ui = {
   "sendDirect": "Envoyer votre lettre",
   "sending": "Envoi…",
   "sendDirectNote": "Votre lettre m’arrive directement.",
-  "sentBody": "Votre lettre m’est bien parvenue. Je vous répondrai personnellement, et rapidement.",
+  "sentBody": "Votre lettre m’est bien parvenue. Je vous écrirai moi-même, très bientôt.",
   "sendFailed": "Je n’ai pas pu envoyer votre lettre d’ici ; votre messagerie s’ouvre donc avec elle.",
   "leaveEmpty": "Laissez ce champ vide",
   "sendNote": "Votre messagerie s’ouvre avec cette lettre, prête à être envoyée.",
@@ -925,7 +925,7 @@ export const ui = {
   "contactError": "Merci d’indiquer un téléphone ou un e-mail pour que je puisse vous répondre.",
   "emailError": "Merci de vérifier votre adresse e-mail.",
   "top": "Haut de page",
-  "footer": "Achat, vente et locations de vacances, avec un suivi personnel.",
+  "footer": "Acheter, vendre et séjourner à Ibiza, avec un accompagnement personnel.",
   "livingLabel": "SÉJOUR",
   "diningLabel": "CUISINE ET SALLE À MANGER",
   "suiteLabel": "SUITE PRINCIPALE",
@@ -935,7 +935,7 @@ export const ui = {
   "propertyLabel": "La propriété",
   "notFound": "Cette page est introuvable.",
   "returnHome": "Retour à l’accueil",
-  "tagline": "CONSEILLÈRE IMMOBILIÈRE PRIVÉE · IBIZA",
+  "tagline": "CONSEILLÈRE IMMOBILIÈRE PERSONNELLE · IBIZA",
   "notEvery": "Toutes les maisons ne sont pas sur ce site.",
   "notEveryCopy": "Certains propriétaires préfèrent vendre sans annonce. Dites-moi ce que vous cherchez et je vous dirai ce que je sais.",
   "notEveryLink": "Dites-moi ce que vous cherchez",
@@ -946,7 +946,7 @@ export const ui = {
   "howFormHeading": "Parlez-moi de vos projets.",
   "howSellingLink": "Vendre avec moi",
   "howBuyingLink": "Acheter avec moi",
-  "howIntro": "Voici comment nous travaillons ensemble, étape par étape, que vous achetiez une maison sur l’île ou que vous vendiez la vôtre.",
+  "howIntro": "Acheter ou vendre une maison est une grande étape, surtout loin de chez soi. Voici comment je la rends simple, pas à pas.",
   "howEyebrow": "MA MÉTHODE",
   "howMeta": "Comment je travaille avec acheteurs et vendeurs à Ibiza, personnellement, de la première conversation jusqu’au notaire.",
   "howTitle": "Ma méthode · Acheter et vendre à Ibiza",
@@ -957,21 +957,21 @@ export const ui = {
   "doors": [
    [
     "Acheter",
-    "Je trouverai la bonne maison, sur le marché ou hors marché, et je vous représenterai jusqu’à ce qu’elle soit à vous.",
-    "Commencer votre recherche"
+    "Dites-moi comment vous voulez vivre, et nous trouverons la maison ensemble, jusqu’à la remise des clés.",
+    "Commençons à chercher"
    ],
    [
     "Vendre",
-    "Une estimation honnête et une vente aux bons acquéreurs, publiquement ou en privé.",
-    "Demander une estimation"
+    "Un avis honnête sur la valeur de votre maison, et une vente sereine et soignée, à votre rythme.",
+    "Combien vaut ma maison ?"
    ],
    [
     "Locations de vacances",
-    "Donnez-moi vos dates, je trouverai la villa, vérifiée en personne.",
+    "Donnez-moi vos dates et je trouverai une villa où vous vous sentirez chez vous, une villa que j’ai visitée moi-même.",
     "Préparer votre séjour"
    ]
   ],
-  "howHeading": "Acheter ou vendre : c’est avec moi que vous traitez.",
+  "howHeading": "Une seule personne, du premier café à la remise des clés.",
   "howSteps": [
    [
     "Écouter",
@@ -990,7 +990,7 @@ export const ui = {
     "Vérifications, négociation et chaque étape jusqu’au notaire, à vos côtés."
    ]
   ],
-  "selectedNote": "Quelques-unes des maisons que je vous montrerais cette semaine. Beaucoup d’autres sont proposées en privé : demandez-moi.",
+  "selectedNote": "Quelques maisons que j’aimerais vous montrer cette semaine. Il y en a d’autres que je ne peux pas mettre en ligne : demandez-moi.",
   "rentEyebrow": "LOCATIONS DE VACANCES",
   "rentHomeHeading": "Votre séjour à Ibiza, organisé pour vous.",
   "rentHomeCopy": "Donnez-moi vos dates, dites-moi qui vient et comment vous aimez passer vos journées. Je sélectionne des villas que j’ai vérifiées en personne, toutes avec licence touristique, et je reste joignable pendant votre séjour.",
@@ -998,44 +998,44 @@ export const ui = {
   "buyTitle": "Conseillère à l’achat à Ibiza",
   "buyMeta": "Je cherche sur toute l’île pour vous, y compris des maisons vendues en privé, je vérifie chaque détail et je négocie de votre côté jusqu’à ce que la maison soit à vous.",
   "buyEyebrow": "ACHETER À IBIZA",
-  "buyHeading": "Je travaille pour vous, pas pour la maison.",
-  "buyIntro": "En tant que conseillère à l’achat, je recherche sur toute l’île pour vous, je vous dis sincèrement ce que je vois et je défends vos intérêts jusqu’à ce que la maison soit à vous.",
-  "buyStepsHeading": "De votre projet à vos clés.",
+  "buyHeading": "Je suis de votre côté, et seulement du vôtre.",
+  "buyIntro": "Je cherche pour vous, je vous dis honnêtement ce que je vois, et je vous accompagne jusqu’à ce que la maison soit à vous. Vous pouvez tout me demander, même les plus petites choses.",
+  "buyStepsHeading": "De notre premier échange à vos clés.",
   "buySteps": [
    [
-    "Votre projet",
-    "Nous parlons de la façon dont vous souhaitez vivre : les zones, le rythme de votre année, le budget, le calendrier et ce qui n’est pas négociable."
+    "Faire connaissance",
+    "Comment vous voulez vivre, le rythme de votre année, votre budget et ce qui compte le plus."
    ],
    [
-    "La recherche",
-    "Je cherche sur toute l’île et j’interroge les personnes que je connais : propriétaires, architectes, autres agents."
+    "Chercher pour vous",
+    "Je cherche sur toute l’île et j’interroge les personnes que je connais : propriétaires, architectes, autres agents. Vous n’avez pas à le faire."
    ],
    [
-    "Une sélection avec mon avis",
-    "Seulement les maisons qui méritent votre temps, avec ce que j’aime et ce que je vérifierais."
+    "Une sélection sincère",
+    "Seulement les maisons qui méritent votre temps, avec ce que j’aime dans chacune et ce qui m’inquiète."
    ],
    [
-    "Les journées de visites",
-    "Des visites organisées autour de votre voyage, en une ou deux journées bien préparées."
+    "Visiter ensemble",
+    "Une ou deux journées sans précipitation, organisées autour de votre voyage. Je vous emmène moi-même dans chaque maison."
    ],
    [
-    "Les vérifications",
-    "Vérifications juridiques, des licences et du bâti avec les avocats et les architectes avec qui je travaille, avant tout engagement. J’ai étudié le droit : je lis les documents de près et je sais quoi demander."
+    "La tranquillité",
+    "Des avocats et des architectes de confiance vérifient tout avant que vous ne vous engagiez. J’ai étudié le droit et je lis chaque document avec vous, pour que rien ne vous surprenne."
    ],
    [
-    "La négociation",
-    "Je négocie pour vous, avec discrétion, pour obtenir le bon prix et les bonnes conditions."
+    "Se mettre d’accord sur le prix",
+    "Je parle à l’autre partie pour vous, calmement, pour que vous obteniez un prix juste sans stress."
    ],
    [
-    "Le notaire, et après",
-    "Je vous accompagne jusqu’à la signature et vous présente les bonnes personnes pour tout ce qui suit."
+    "Les clés, et après",
+    "Je suis là à la signature, et encore après : travaux, jardin, un bon plombier, tout ce dont vous avez besoin."
    ]
   ],
-  "buyWhyHeading": "Pourquoi une conseillère personnelle",
+  "buyWhyHeading": "Pourquoi il est utile de m’avoir à vos côtés",
   "buyWhy": [
    [
-    "L’accès",
-    "Beaucoup des plus belles maisons d’Ibiza changent de mains en toute discrétion. Mon réseau vous les ouvre."
+    "Des maisons introuvables en ligne",
+    "Certains propriétaires vendent discrètement. Comme on me connaît, j’en entends parler."
    ],
    [
     "Le regard",
@@ -1043,11 +1043,11 @@ export const ui = {
    ],
    [
     "Le temps",
-    "Vous visitez moins de maisons, et de meilleures. Je fais le tri, pour que chaque voyage compte."
+    "Vous visitez moins de maisons, et de meilleures. Je fais le tri, pour que chaque voyage en vaille la peine."
    ],
    [
-    "Votre langue",
-    "Français, anglais, espagnol ou arabe. Vous, votre family office et vos avocats entendez tout de première main, sans rien perdre en traduction."
+    "Dans votre langue",
+    "Français, anglais, espagnol ou arabe. Vous comprendrez tout, et votre famille aussi."
    ]
   ],
   "buyHomesLink": "Voir les maisons à vendre",
@@ -1055,30 +1055,30 @@ export const ui = {
   "sellTitle": "Vendre votre maison à Ibiza",
   "sellMeta": "Une estimation honnête et les bons acquéreurs issus de mon réseau international, publiquement ou en toute confidentialité.",
   "sellEyebrow": "VENDRE À IBIZA",
-  "sellPageHeading": "Le bon acquéreur, au bon prix, en toute discrétion.",
-  "sellPageIntro": "Je m’occupe moi-même de chaque vente, de la première estimation au notaire. Vous traitez avec une seule personne, qui connaît votre maison et chaque acheteur qui l’a visitée.",
+  "sellPageHeading": "Vendre votre maison, avec soin.",
+  "sellPageIntro": "Vendre une maison que l’on aime n’est pas qu’une transaction. Je m’en occupe moi-même, de la première visite jusqu’au notaire, et je vous tiens informé à chaque étape.",
   "sellFormHeading": "Parlez-moi de votre maison.",
   "sellWhyHeading": "Pourquoi vendre avec moi",
   "sellWhy": [
    [
     "Une seule personne",
-    "Celle qui estime votre maison est celle qui la fait visiter et qui négocie."
+    "Celle qui estime votre maison est celle qui la fait visiter et négocie."
    ],
    [
     "Des acheteurs du monde entier",
-    "Des années à Monaco et à Paris, et quatre langues, ouvrent votre maison aux acheteurs internationaux, d’où qu’ils viennent."
+    "Je parle quatre langues : des acheteurs venus de partout se sentent les bienvenus chez vous."
    ],
    [
-    "Les documents d’abord",
-    "Un problème repéré avant l’acheteur ne vous coûte pas le prix."
+    "Pas de surprises",
+    "Les problèmes repérés tôt restent petits."
    ]
   ],
   "aboutTitle": "À propos de Soumaya, conseillère immobilière à Ibiza",
-  "rentTitle": "Locations de villas de luxe à Ibiza",
+  "rentTitle": "Villas de vacances à Ibiza, choisies pour vous",
   "rentMeta": "Donnez-moi vos dates, je trouverai la villa, vérifiée en personne et avec licence touristique.",
   "rentPageEyebrow": "LOCATIONS DE VACANCES À IBIZA",
-  "rentHeading": "Votre villa à Ibiza, trouvée et vérifiée pour vous.",
-  "rentIntro": "Donnez-moi vos dates et dites-moi comment vous aimez passer vos journées. Je trouverai la villa, je la vérifierai en personne et je resterai joignable pendant votre séjour.",
+  "rentHeading": "Une villa où l’on se sent chez soi dès le premier jour.",
+  "rentIntro": "Donnez-moi vos dates et dites-moi comment vous aimez passer vos journées. Je trouve la villa, je la visite moi-même, et je suis joignable pendant tout votre séjour.",
   "rentStepsHeading": "Comment cela fonctionne.",
   "rentSteps": [
    [
@@ -1090,16 +1090,16 @@ export const ui = {
     "Trois ou quatre villas, chacune vérifiée en personne et avec licence touristique, et ce que je pense vraiment de chacune."
    ],
    [
-    "La réservation",
-    "J’organise la réservation avec le propriétaire ou le gestionnaire et je m’occupe des détails."
+    "La réservation, réglée",
+    "Je m’occupe de la réservation et des petits caractères, pour que vous n’ayez rien à organiser."
    ],
    [
     "Pendant votre séjour",
-    "Un chef, un bateau, un chauffeur, une nounou, une table au bon endroit : je vous mets en relation avec des personnes de confiance."
+    "Un chef, un bateau, une baby-sitter, une table dans un bel endroit, ou de l’aide si quelque chose ne marche pas. Il suffit de m’appeler."
    ]
   ],
   "rentBridgeHeading": "Louer d’abord, acheter ensuite.",
-  "rentBridgeCopy": "Une saison sur l’île est la meilleure façon de découvrir où vous aimeriez vivre. Beaucoup de mes acheteurs sont d’abord venus en vacances.",
+  "rentBridgeCopy": "Des vacances sont le meilleur moyen de découvrir où vous aimeriez vivre. Beaucoup de mes acheteurs sont d’abord venus en vacances, et si vous tombez amoureux de l’île, je suis là.",
   "rentBridgeLink": "Acheter à Ibiza",
   "rentFormHeading": "Parlez-moi de votre séjour.",
   "aboutBio": [
