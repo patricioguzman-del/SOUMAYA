@@ -39,7 +39,7 @@ export interface Crumb{name:string;path:string}
 export function breadcrumbs(lang:Language,page:Page,title:string,labels:{home:string;properties:string;living:string},reference?:string):Crumb[]{
  if(page==='home')return [];
  const home={name:labels.home,path:route(lang,'home')};
- if(page==='property'&&reference)return [home,{name:labels.properties,path:route(lang,'buy')},{name:title,path:route(lang,'property',reference)}];
+ if(page==='property'&&reference)return [home,{name:labels.properties,path:route(lang,'properties')},{name:title,path:route(lang,'property',reference)}];
  if(page==='area'&&reference)return [home,{name:labels.living,path:route(lang,'living')},{name:title,path:route(lang,'area',reference as AreaId)}];
  return [home,{name:title,path:route(lang,page,reference)}];
 }

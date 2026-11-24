@@ -1497,3 +1497,18 @@ details.language-menu summary::after,details.language-menu[open] summary::after{
 @media(max-width:760px){.buy-intro{padding-top:var(--space-xl)}}
 .buy-intro{padding-top:var(--space-2xl);padding-bottom:0}
 .buy-intro+.collection-page{padding-top:var(--space-xl)}
+/* How I work (24 Nov): two parts, each with a large heading; the old page headings become sub-headings at the same sizes. */
+h4{margin:0;font-family:var(--font-display);font-weight:400;letter-spacing:var(--tracking-display);text-wrap:balance}
+.how-subhead{font-size:var(--text-h2);line-height:1.08}
+.steps h4{font:400 var(--text-md)/1.4 var(--font-text);letter-spacing:0}
+.why-grid h4{font-size:1.75rem;margin-bottom:var(--space-sm)}
+.why .how-subhead{font-size:clamp(2.25rem,3.4vw,3rem);margin-bottom:var(--space-xl)}
+.private-band .how-subhead{grid-column:1/8;font-size:var(--text-statement);line-height:1.05;max-width:16ch}
+.how-jump{display:flex;flex-wrap:wrap;gap:var(--space-md) var(--space-xl);margin-top:var(--space-xl)}
+.how-part{scroll-margin-top:88px}
+.how-part-head{padding-top:var(--section);max-width:none}
+.how-part-head h2{font-size:var(--text-cover);line-height:1;letter-spacing:-.025em;max-width:18ch;margin:var(--space-sm) 0 var(--space-md)}
+.how-part-head .lead{max-width:640px}
+.how-part-head+.steps-section{margin-top:var(--space-2xl)}
+#selling .how-part-head{border-top:1px solid var(--rule);margin-top:var(--section)}
+#selling .how-part-head{margin-top:0;border-top:0}

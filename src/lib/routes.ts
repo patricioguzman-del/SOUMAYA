@@ -1,11 +1,11 @@
 export const languages = ['en', 'es', 'fr'] as const;
 export type Language = typeof languages[number];
-export type Page = 'home' | 'properties' | 'property' | 'buy' | 'sell' | 'rentals' | 'about' | 'living' | 'area' | 'contact' | 'legal' | 'privacy' | 'cookies';
+export type Page = 'home' | 'properties' | 'property' | 'how' | 'buy' | 'sell' | 'rentals' | 'about' | 'living' | 'area' | 'contact' | 'legal' | 'privacy' | 'cookies';
 type Section = Exclude<Page,'property'|'area'>;
 const slugs: Record<Language, Record<Section,string>> = {
- en:{home:'',properties:'properties',buy:'buy',sell:'sell',rentals:'holiday-rentals',about:'about',living:'ibiza-perspective',contact:'contact',legal:'legal-notice',privacy:'privacy',cookies:'cookies'},
- es:{home:'',properties:'propiedades',buy:'comprar',sell:'vender',rentals:'alquiler-vacacional',about:'sobre-soumaya',living:'perspectiva-ibiza',contact:'contacto',legal:'aviso-legal',privacy:'privacidad',cookies:'cookies'},
- fr:{home:'',properties:'proprietes',buy:'acheter',sell:'vendre',rentals:'locations-de-vacances',about:'a-propos',living:'regard-sur-ibiza',contact:'contact',legal:'mentions-legales',privacy:'confidentialite',cookies:'cookies'}
+ en:{home:'',properties:'properties',how:'how-i-work',buy:'buy',sell:'sell',rentals:'holiday-rentals',about:'about',living:'ibiza-perspective',contact:'contact',legal:'legal-notice',privacy:'privacy',cookies:'cookies'},
+ es:{home:'',properties:'propiedades',how:'como-trabajo',buy:'comprar',sell:'vender',rentals:'alquiler-vacacional',about:'sobre-soumaya',living:'perspectiva-ibiza',contact:'contacto',legal:'aviso-legal',privacy:'privacidad',cookies:'cookies'},
+ fr:{home:'',properties:'proprietes',how:'ma-methode',buy:'acheter',sell:'vendre',rentals:'locations-de-vacances',about:'a-propos',living:'regard-sur-ibiza',contact:'contact',legal:'mentions-legales',privacy:'confidentialite',cookies:'cookies'}
 };
 // The six areas of the island, each its own page under Ibiza Perspective, with a slug in each language.
 // Their words and photographs are in src/data/ibiza.ts, keyed by the same ids.
@@ -20,9 +20,9 @@ export const areaSlugs = {
 export type AreaId = keyof typeof areaSlugs;
 export function route(lang:Language,page:Page,reference='ses-calas'){
  const slug=page==='property'?`${slugs[lang].properties}/${encodeURIComponent(reference)}`:page==='area'?`${slugs[lang].living}/${areaSlugs[(reference in areaSlugs?reference:'heart') as AreaId][lang]}`:slugs[lang][page];
- // Homes for sale now live inside Buy (24 Nov): links to 'properties' land on the homes there.
- // Property pages keep their /properties/ address, so shared links still work.
- if(page==='properties')return `/${lang}/${slugs[lang].buy}/#homes`;
+ // Buying and selling are two parts of How I work (24 Nov): links to 'buy' and 'sell' land on their part.
+ // The old /buy/ and /sell/ addresses redirect there (vercel.json).
+ if(page==='buy'||page==='sell')return `/${lang}/${slugs[lang].how}/#${page==='buy'?'buying':'selling'}`;
  return `/${lang}/${slug}${page==='home'?'':'/'}`;
 }
 export function propertyReference(lang:Language,slug:string):string|undefined{

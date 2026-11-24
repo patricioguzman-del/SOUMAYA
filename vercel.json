@@ -9,18 +9,33 @@
   },
   "redirects": [
     {
-      "source": "/en/properties/",
-      "destination": "/en/buy/#homes",
+      "source": "/en/buy/",
+      "destination": "/en/how-i-work/#buying",
       "permanent": true
     },
     {
-      "source": "/es/propiedades/",
-      "destination": "/es/comprar/#homes",
+      "source": "/en/sell/",
+      "destination": "/en/how-i-work/#selling",
       "permanent": true
     },
     {
-      "source": "/fr/proprietes/",
-      "destination": "/fr/acheter/#homes",
+      "source": "/es/comprar/",
+      "destination": "/es/como-trabajo/#buying",
+      "permanent": true
+    },
+    {
+      "source": "/es/vender/",
+      "destination": "/es/como-trabajo/#selling",
+      "permanent": true
+    },
+    {
+      "source": "/fr/acheter/",
+      "destination": "/fr/ma-methode/#buying",
+      "permanent": true
+    },
+    {
+      "source": "/fr/vendre/",
+      "destination": "/fr/ma-methode/#selling",
       "permanent": true
     }
   ]

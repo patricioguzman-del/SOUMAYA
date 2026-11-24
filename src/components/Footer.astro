@@ -3,8 +3,8 @@
 import {route,languages,type Language,type Page} from '../lib/routes';import {ui} from '../data/ui';import ArrowLink from './ArrowLink.astro';import {whatsappLink} from '../lib/enquiry';import {legal} from '../data/legal';import {brand} from '../data/brand';
 interface Props{lang:Language;page:Page;reference?:string;}
 const {lang,page,reference}=Astro.props;const t=ui[lang];
-const nav=['buy','sell','rentals','living','about','contact'] as const;
-const labels={buy:t.navBuy,sell:t.navSell,rentals:t.navRent,properties:t.properties,living:t.navLiving,about:t.about,contact:t.startSearch};
+const nav=['properties','rentals','how','living','about','contact'] as const;
+const labels={how:t.navHow,rentals:t.navRent,properties:t.properties,living:t.navLiving,about:t.about,contact:t.startSearch};
 const year=new Date().getFullYear();
 ---
 <footer class="footer">

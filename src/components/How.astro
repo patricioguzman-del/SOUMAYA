@@ -1,0 +1,51 @@
+---
+// How I work (24 Nov): one page for the story of working with Soumaya, so it is not lost under the listings.
+// Two parts, Buying with me (#buying) and Selling with me (#selling), then one letter. The homepage doors and
+// the old /buy/ and /sell/ addresses land on the right part; the letter follows (buy or sell). No fees on the site.
+import Photo from './Photo.astro';import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';
+import {ui} from '../data/ui';import {type Language} from '../lib/routes';import {homepage} from '../data/homepage';
+interface Props{lang:Language;}
+const {lang}=Astro.props;const t=ui[lang];
+---
+<section class="opener door-opener wrap" aria-labelledby="how-title">
+ <div class="opener-title"><p class="eyebrow">{t.howEyebrow}</p><h1 id="how-title">{t.howHeading}</h1><p class="lead">{t.howIntro}</p>
+  <nav class="how-jump" aria-label={t.navHow}><ArrowLink class="small-link" href="#buying">{t.howBuyingLink}</ArrowLink><ArrowLink class="small-link" href="#selling">{t.howSellingLink}</ArrowLink></nav></div>
+ <Photo image={homepage.interior} class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
+</section>
+
+<div id="buying" class="how-part">
+ <header class="how-part-head wrap"><p class="eyebrow">{t.howBuyingLink.toUpperCase()}</p><h2>{t.buyHeading}</h2><p class="lead">{t.buyIntro}</p></header>
+ <section class="steps-section wrap" aria-labelledby="buy-steps">
+  <div><h3 id="buy-steps" class="how-subhead">{t.buyStepsHeading}</h3></div>
+  <ol class="steps">{t.buySteps.map(([title,text],i)=><li><span class="step-number" aria-hidden="true">{i+1}</span><div><h4>{title}</h4><p>{text}</p></div></li>)}</ol>
+ </section>
+ <section class="why wrap" aria-labelledby="buy-why">
+  <h3 id="buy-why" class="how-subhead">{t.buyWhyHeading}</h3>
+  <div class="why-grid four">{t.buyWhy.map(([title,text])=><div><h4>{title}</h4><p>{text}</p></div>)}</div>
+ </section>
+ <section class="private-band" aria-labelledby="advice-heading"><div class="wrap private-band-inner"><h3 id="advice-heading" class="how-subhead">{t.adviceHeading}</h3><div><p>{t.aboutAdvice}</p><ArrowLink class="small-link" href="#contact" data-intent="buy">{t.doors[0][2]}</ArrowLink></div></div></section>
+</div>
+
+<div id="selling" class="how-part">
+ <header class="how-part-head wrap"><p class="eyebrow">{t.howSellingLink.toUpperCase()}</p><h2>{t.sellPageHeading}</h2><p class="lead">{t.sellPageIntro}</p></header>
+ <section class="steps-section wrap" aria-labelledby="sell-steps">
+  <div><h3 id="sell-steps" class="how-subhead">{t.sellStepsHeading}</h3>{t.sellIntro&&<p>{t.sellIntro}</p>}</div>
+  <ol class="steps">{t.sellSteps.map(([title,text],i)=><li><span class="step-number" aria-hidden="true">{i+1}</span><div><h4>{title}</h4><p>{text}</p></div></li>)}</ol>
+ </section>
+ <section class="why wrap" aria-labelledby="sell-why">
+  <h3 id="sell-why" class="how-subhead">{t.sellWhyHeading}</h3>
+  <div class="why-grid">{t.sellWhy.map(([title,text])=><div><h4>{title}</h4><p>{text}</p></div>)}</div>
+ </section>
+ <section class="private-band sell-discreet" aria-labelledby="discreet-heading"><div class="wrap private-band-inner"><h3 id="discreet-heading" class="how-subhead">{t.sellDiscreetHeading}</h3><div><p>{t.sellDiscreetCopy}</p><ArrowLink class="small-link" href="#contact" data-intent="sell" data-discreet={t.discreetLine}>{t.sellStart}</ArrowLink></div></div></section>
+</div>
+
+<Enquiry lang={lang} intent="buy" heading={t.howFormHeading} alone/>
+
+<script>
+// The letter follows the part the visitor came for: arriving at #selling, or pressing a selling link, sets it to sell.
+const intent=document.querySelector<HTMLSelectElement>('#intent');
+const choose=(value:string)=>{if(intent&&intent.value!==value){intent.value=value;intent.dispatchEvent(new Event('change',{bubbles:true}));}};
+const follow=()=>{if(location.hash==='#selling')choose('sell');else if(location.hash==='#buying')choose('buy');};
+follow();addEventListener('hashchange',follow);
+document.querySelectorAll<HTMLAnchorElement>('a[data-intent]').forEach(link=>link.addEventListener('click',()=>choose(link.dataset.intent!)));
+</script>

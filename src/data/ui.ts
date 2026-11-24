@@ -203,6 +203,14 @@ export const ui = {
   "frenchPending": "",
   "navBuy": "Buy",
   "navSell": "Sell",
+  "howFormHeading": "Tell me about your plans.",
+  "howSellingLink": "Selling with me",
+  "howBuyingLink": "Buying with me",
+  "howIntro": "Here is what working together looks like, step by step, whether you are buying a home on the island or selling yours.",
+  "howEyebrow": "HOW I WORK",
+  "howMeta": "How I work with buyers and sellers in Ibiza, personally, from the first conversation to the notary.",
+  "howTitle": "How I work · Buying and selling in Ibiza",
+  "navHow": "How I work",
   "navRent": "Holiday rentals",
   "navLiving": "Ibiza",
   "startSearch": "Speak with Soumaya",
@@ -223,7 +231,7 @@ export const ui = {
     "Plan your stay"
    ]
   ],
-  "howHeading": "How I work with buyers",
+  "howHeading": "Buying or selling, you deal with me.",
   "howSteps": [
    [
     "Listen",
@@ -565,6 +573,14 @@ export const ui = {
   "frenchPending": "",
   "navBuy": "Comprar",
   "navSell": "Vender",
+  "howFormHeading": "Cuéntame tus planes.",
+  "howSellingLink": "Vender conmigo",
+  "howBuyingLink": "Comprar conmigo",
+  "howIntro": "Así es trabajar juntos, paso a paso, tanto si compras una casa en la isla como si vendes la tuya.",
+  "howEyebrow": "CÓMO TRABAJO",
+  "howMeta": "Cómo trabajo con compradores y vendedores en Ibiza, de forma personal, desde la primera conversación hasta el notario.",
+  "howTitle": "Cómo trabajo · Comprar y vender en Ibiza",
+  "navHow": "Cómo trabajo",
   "navRent": "Alquiler vacacional",
   "navLiving": "Ibiza",
   "startSearch": "Habla con Soumaya",
@@ -585,7 +601,7 @@ export const ui = {
     "Organiza tu estancia"
    ]
   ],
-  "howHeading": "Cómo trabajo con compradores",
+  "howHeading": "Compres o vendas, tratas conmigo.",
   "howSteps": [
    [
     "Escuchar",
@@ -927,6 +943,14 @@ export const ui = {
   "frenchPending": "Le texte détaillé de cette maison est pour l’instant en anglais.",
   "navBuy": "Acheter",
   "navSell": "Vendre",
+  "howFormHeading": "Parlez-moi de vos projets.",
+  "howSellingLink": "Vendre avec moi",
+  "howBuyingLink": "Acheter avec moi",
+  "howIntro": "Voici comment nous travaillons ensemble, étape par étape, que vous achetiez une maison sur l’île ou que vous vendiez la vôtre.",
+  "howEyebrow": "MA MÉTHODE",
+  "howMeta": "Comment je travaille avec acheteurs et vendeurs à Ibiza, personnellement, de la première conversation jusqu’au notaire.",
+  "howTitle": "Ma méthode · Acheter et vendre à Ibiza",
+  "navHow": "Ma méthode",
   "navRent": "Locations de vacances",
   "navLiving": "Ibiza",
   "startSearch": "Parler à Soumaya",
@@ -947,7 +971,7 @@ export const ui = {
     "Préparer votre séjour"
    ]
   ],
-  "howHeading": "Comment je travaille avec les acheteurs",
+  "howHeading": "Acheter ou vendre : c’est avec moi que vous traitez.",
   "howSteps": [
    [
     "Écouter",

@@ -29,13 +29,13 @@ test('a name and one way to reply are required',()=>{
  assert.deepEqual(validateEnquiry(base),{});
 });
 test('every page has an address in all three languages, and back again',()=>{
- for(const page of ['home','buy','sell','rentals','about','living','contact','legal','privacy','cookies'])for(const lang of languages){
+ for(const page of ['home','properties','how','rentals','about','living','contact','legal','privacy','cookies'])for(const lang of languages){
   const path=route(lang,page);const slug=path.slice(lang.length+2).replace(/\/$/,'');
   assert.equal(resolvePage(lang,slug),page,`${lang} ${page}`);
  }
 });
-test('homes for sale live inside Buy',()=>{
- for(const lang of languages)assert.equal(route(lang,'properties'),route(lang,'buy')+'#homes',lang);
+test('buying and selling are the two parts of How I work',()=>{
+ for(const lang of languages){assert.equal(route(lang,'buy'),route(lang,'how')+'#buying',lang);assert.equal(route(lang,'sell'),route(lang,'how')+'#selling',lang);}
 });
 test('the bare address follows the browser language',()=>{
  assert.equal(languageHome('fr-FR,fr;q=0.9,en;q=0.8'),'/fr/');
