@@ -8,7 +8,7 @@ interface Props{lang:Language;listing:Listing;}
 const {lang,listing:p}=Astro.props;const t=ui[lang];const c=p[lang];
 const built=(c as {builtShort?:string}).builtShort??t.builtShort;
 // Card areas are rounded to whole metres; the property page keeps the exact figure.
-// A plot of 0 means the figure is not yet known, so it is left out rather than shown as nothing.
-const facts=[`${p.bedrooms} ${t.factBedrooms.toLowerCase()}`,`${p.bathrooms} ${t.factBathrooms.toLowerCase()}`,`${number(Math.round(p.builtArea),lang)} m² ${built}`,...(p.plotArea?[`${number(Math.round(p.plotArea),lang)} m² ${t.plotShort}`]:[])];
+// Any figure of 0 means it is not known yet, so it is left out rather than shown as 0 (audit, 24 Nov).
+const facts=[...(p.bedrooms?[`${p.bedrooms} ${t.factBedrooms.toLowerCase()}`]:[]),...(p.bathrooms?[`${p.bathrooms} ${t.factBathrooms.toLowerCase()}`]:[]),...(p.builtArea?[`${number(Math.round(p.builtArea),lang)} m² ${built}`]:[]),...(p.plotArea?[`${number(Math.round(p.plotArea),lang)} m² ${t.plotShort}`]:[])];
 ---
 <p class="facts">{facts.map((fact,i)=><Fragment><span class="fact">{fact}</span>{i<facts.length-1&&' '}</Fragment>)}</p>

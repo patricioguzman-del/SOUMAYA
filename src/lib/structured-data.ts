@@ -25,11 +25,11 @@ export function listingData(listing:Listing,lang:Language,image:string){
  const plot=listing.reference.startsWith('plot-');
  const place={'@type':plot?'Place':'SingleFamilyResidence',name:copy.name,
   address:{'@type':'PostalAddress',addressLocality:locality(copy.location),addressRegion:'Illes Balears',addressCountry:'ES'},
-  ...(plot?{}:{numberOfBedrooms:listing.bedrooms,numberOfBathroomsTotal:listing.bathrooms,
-   floorSize:{'@type':'QuantitativeValue',value:listing.builtArea,unitCode:'MTK'}})};
+  ...(plot?{}:{...(listing.bedrooms?{numberOfBedrooms:listing.bedrooms}:{}),...(listing.bathrooms?{numberOfBathroomsTotal:listing.bathrooms}:{}),
+   ...(listing.builtArea?{floorSize:{'@type':'QuantitativeValue',value:listing.builtArea,unitCode:'MTK'}}:{})})};
  return {'@type':'RealEstateListing','@id':`${page}#listing`,url:page,name:copy.name,description:copy.summary,image:url(image),inLanguage:lang,
   about:place,
-  offers:{'@type':'Offer',price:listing.price,priceCurrency:'EUR',
+  offers:{'@type':'Offer',...(listing.price>0?{price:listing.price,priceCurrency:'EUR'}:{}),
    availability:listing.status==='for-sale'?'https://schema.org/InStock':'https://schema.org/SoldOut',
    seller:{'@id':agentId}}};
 }

@@ -2,7 +2,7 @@
 import Photo from './Photo.astro';
 import type {Language} from '../lib/routes';import {route} from '../lib/routes';
 import type {Listing} from '../lib/listings';
-import {money,number} from '../lib/format';
+import {priceOf,number} from '../lib/format';
 import {ui} from '../data/ui';
 import ArrowLink from './ArrowLink.astro';
 import dimensions from '../data/auba/images.json';
@@ -26,11 +26,11 @@ const size=(dimensions as Record<string,{width:number;height:number}>)[hero.imag
   <a class="back-link" href={route(lang,'properties')}><span aria-hidden="true">←</span> {t.back}</a>
   <h1 id="property-title">{c.name}</h1><p class="place">{c.location}</p>
   <div class="glance">
-   <div class="glance-price"><p class="glance-label">{t.askingPrice}</p><p class="glance-figure">{money(p.price,lang)}</p></div>
+   <div class="glance-price"><p class="glance-label">{t.askingPrice}</p><p class="glance-figure">{priceOf(p.price,lang)}</p></div>
    <dl class="property-essential">
-    <div><dt>{t.factBedrooms}</dt><dd>{p.bedrooms}</dd></div>
-    <div><dt>{t.factBathrooms}</dt><dd>{p.bathrooms}</dd></div>
-    <div><dt>{builtLabel}</dt><dd>{number(p.builtArea,lang)}<span class="unit">m²</span></dd></div>
+    {p.bedrooms>0&&<div><dt>{t.factBedrooms}</dt><dd>{p.bedrooms}</dd></div>}
+    {p.bathrooms>0&&<div><dt>{t.factBathrooms}</dt><dd>{p.bathrooms}</dd></div>}
+    {p.builtArea>0&&<div><dt>{builtLabel}</dt><dd>{number(p.builtArea,lang)}<span class="unit">m²</span></dd></div>}
     {p.plotArea>0&&<div><dt>{t.plot}</dt><dd>{number(p.plotArea,lang)}<span class="unit">m²</span></dd></div>}
    </dl>
    <ArrowLink href="#contact" class="button solid">{t.enquire}</ArrowLink>

@@ -1466,3 +1466,18 @@ h1 em,h2 em{font-style:italic}
 .header:has(.language-menu[open]){clip-path:none;z-index:60}
 .header .language-menu ul{z-index:61}
 details.language-menu summary::after,details.language-menu[open] summary::after{content:none}
+/* ── Audit, 24 Nov 2026 ── */
+/* Button labels were 10.5px against 17px text: 12px, same button size. */
+.button{font-size:.75rem;letter-spacing:.09em}
+/* Mobile home: a landscape crop of the house, so the headline, the lead and "Speak with Soumaya" fit the first screen. */
+@media(max-width:860px){
+ .hero-portrait{height:auto;max-height:none;aspect-ratio:16/10}
+ .hero-copy{padding:var(--space-xl) var(--gutter) var(--space-2xl)}
+ .hero-copy h1{font-size:clamp(2.5rem,10vw,3.25rem);margin:var(--space-sm) 0 var(--space-md)}
+ .hero-buttons{margin-top:var(--space-lg)}
+}
+@media(max-width:480px){.hero-buttons{gap:8px}.hero-buttons .button{min-height:48px;padding-block:12px}}
+/* Meet Soumaya now comes straight after the three doors; on phones a compact portrait beside the start of her text. */
+.meet-band{padding-block:var(--section) 0}
+@media(max-width:760px){.meet-band{gap:var(--space-lg)}.meet-band .meet-photo{max-width:13rem}.meet-band .meet-text h2{font-size:clamp(2.25rem,9vw,2.75rem)}}
+.field label .message-prompt{font-size:inherit;color:inherit}
