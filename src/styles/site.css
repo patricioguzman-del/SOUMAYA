@@ -1484,7 +1484,7 @@ details.language-menu summary::after,details.language-menu[open] summary::after{
 /* Her portrait, smaller (24 Nov): homepage and About. */
 .meet-band{grid-template-columns:minmax(0,280px) minmax(0,1fr)}
 .meet-band .meet-photo{max-width:280px}
-.about-story{grid-template-columns:minmax(0,300px) minmax(0,1fr)}
+@media(min-width:861px){.about-story{grid-template-columns:minmax(0,300px) minmax(0,1fr)}}
 .about-portrait{max-width:300px}
 @media(max-width:860px){.about-portrait{max-width:220px}}
 @media(max-width:760px){.meet-band{grid-template-columns:1fr}.meet-band .meet-photo{max-width:10rem}}
