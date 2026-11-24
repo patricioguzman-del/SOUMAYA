@@ -1,6 +1,6 @@
 ---
 import '@fontsource/cormorant-garamond/400.css';import '@fontsource/cormorant-garamond/500.css';import '@fontsource/cormorant-garamond/400-italic.css';
-import '@fontsource/manrope/400.css';import '@fontsource/manrope/500.css';import '@fontsource/manrope/600.css';import '@fontsource/manrope/700.css';
+import '@fontsource/manrope/400.css';
 import '../styles/site.css';import Header from '../components/Header.astro';import Footer from '../components/Footer.astro';
 import {route,languages,type Language,type Page} from '../lib/routes';import {brand} from '../data/brand';import {listings} from '../lib/listings';import {agent,listingData,breadcrumbs,breadcrumbData,jsonLd} from '../lib/structured-data';import {locale} from '../lib/format';import own from '../data/images-own.json';import {ui} from '../data/ui';
 interface Props {lang:Language;page:Page;title:string;description:string;bodyClass?:string;notFound?:boolean;reference?:string;heroImage?:string;galleryTitle?:string;}
