@@ -4,7 +4,7 @@ import {route,resolvePage,propertyReference,areaReference,areaSlugs,languages,ty
 // Every page is generated at build time: each language's pages, each listing and each area.
 // Unknown addresses fall through to src/pages/404.astro.
 export async function getStaticPaths(){
- const pages:Exclude<Page,'property'|'area'>[]=['home','properties','buy','sell','rentals','about','living','contact','legal','privacy','cookies'];
+ const pages:Exclude<Page,'property'|'area'>[]=['home','buy','sell','rentals','about','living','contact','legal','privacy','cookies'];
  const all=await listings.all();
  return languages.flatMap(lang=>[...pages.map(page=>route(lang,page)),...all.map(listing=>hrefOf(listing,lang)),...(Object.keys(areaSlugs) as AreaId[]).map(id=>route(lang,'area',id))]
   .map(path=>({params:{lang,slug:path.slice(lang.length+2).replace(/\/$/,'')||undefined}})));
@@ -21,13 +21,12 @@ const heroImage=listing?.heroImage??(areaId?areaById(areaId).image:page==='livin
 ---
 <Site reference={listing?.reference??areaId} heroImage={heroImage} galleryTitle={listing?`${listing[lang].name} · Ibiza`:undefined} lang={lang} page={page} title={title} description={description} bodyClass={page==='property'?'property-story':page==='home'?'home-editorial':''}>
 {page==='home'&&<Home lang={lang} properties={properties}/>}
-{page==='buy'&&<Buy lang={lang}/>}
+{page==='buy'&&<Buy lang={lang} properties={properties}/>}
 {page==='sell'&&<Sell lang={lang}/>}
 {page==='rentals'&&<Rentals lang={lang}/>}
 {(page==='legal'||page==='privacy'||page==='cookies')&&<LegalPage lang={lang} id={page}/>}
 {page==='property'&&listing&&lang==='fr'&&listing.frenchPending&&<p class="language-note wrap" lang="fr">{t.frenchPending}</p>}
 {page==='property'&&listing&&<PropertyStory lang={lang} listing={listing} next={nextListing}/>}
-{page==='properties'&&<Collection lang={lang} properties={properties}/>}
 {page==='living'&&<Living lang={lang}/>}
 {page==='area'&&areaId&&<Area lang={lang} id={areaId}/>}
 {page==='about'&&<section class="about-page wrap" aria-labelledby="about-title">

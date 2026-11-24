@@ -1,15 +1,17 @@
 ---
-// Buy: Soumaya as the buyer's advisor. Her promise, the journey from brief to keys, why a personal advisor,
-// and the letter with the buyer's brief. No fees on the site: those are discussed in person.
-import Photo from './Photo.astro';import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';
-import {ui} from '../data/ui';import {route,type Language} from '../lib/routes';import {homepage} from '../data/homepage';
-interface Props{lang:Language;}
-const {lang}=Astro.props;const t=ui[lang];
+// Buy: one page for buyers (24 Nov). Her promise in two lines, then the homes for sale straight away (visitors who
+// click Buy expect houses), then the journey from brief to keys, why a personal advisor, and the letter with the
+// buyer's brief. No fees on the site: those are discussed in person.
+import Collection from './Collection.astro';import Enquiry from './Enquiry.astro';import ArrowLink from './ArrowLink.astro';
+import {ui} from '../data/ui';import {route,type Language} from '../lib/routes';import type {Listing} from '../lib/listings';
+interface Props{lang:Language;properties:Listing[];}
+const {lang,properties}=Astro.props;const t=ui[lang];
 ---
-<section class="opener door-opener wrap" aria-labelledby="buy-title">
- <div class="opener-title"><p class="eyebrow">{t.buyEyebrow}</p><h1 id="buy-title">{t.buyHeading}</h1><p class="lead">{t.buyIntro}</p><div class="hero-buttons"><ArrowLink class="button solid" href="#contact">{t.doors[0][2]}</ArrowLink><a class="button" href={route(lang,'properties')}>{t.buyHomesLink}</a></div></div>
- <Photo image={homepage.interior} class="opener-photo" imageClass="opener-image" alt="" eager sizes="(max-width:760px) 100vw, 40vw"/>
+<section class="buy-intro wrap" aria-labelledby="buy-title">
+ <p class="eyebrow">{t.buyEyebrow}</p><h1 id="buy-title">{t.buyHeading}</h1><p class="lead">{t.buyIntro}</p>
+ <ArrowLink class="small-link" href="#contact">{t.doors[0][2]}</ArrowLink>
 </section>
+<Collection lang={lang} properties={properties}/>
 <section class="steps-section wrap" aria-labelledby="buy-steps">
  <div><h2 id="buy-steps">{t.buyStepsHeading}</h2></div>
  <ol class="steps">{t.buySteps.map(([title,text],i)=><li><span class="step-number" aria-hidden="true">{i+1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>

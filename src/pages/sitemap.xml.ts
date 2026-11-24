@@ -3,7 +3,7 @@ import {languages,route,areaSlugs,type AreaId,type Page} from '../lib/routes';
 import {listings} from '../lib/listings';import {brand} from '../data/brand';
 export const GET:APIRoute=async()=>{
  const live=import.meta.env.PUBLIC_SITE_LIVE==='true';
- const pages:Page[]=['home','properties','buy','sell','rentals','about','living','contact','legal','privacy','cookies'];
+ const pages:Page[]=['home','buy','sell','rentals','about','living','contact','legal','privacy','cookies'];
  const properties=live?await listings.all():[];
  const entries=live?languages.flatMap(lang=>[
   ...pages.map(page=>route(lang,page)),...properties.map(listing=>route(lang,'property',listing.reference)),...(Object.keys(areaSlugs) as AreaId[]).map(id=>route(lang,'area',id))

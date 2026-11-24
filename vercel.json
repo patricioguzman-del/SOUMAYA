@@ -6,5 +6,22 @@
     "api/enquiry.mjs": {
       "includeFiles": "src/**"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/en/properties/",
+      "destination": "/en/buy/#homes",
+      "permanent": true
+    },
+    {
+      "source": "/es/propiedades/",
+      "destination": "/es/comprar/#homes",
+      "permanent": true
+    },
+    {
+      "source": "/fr/proprietes/",
+      "destination": "/fr/acheter/#homes",
+      "permanent": true
+    }
+  ]
 }

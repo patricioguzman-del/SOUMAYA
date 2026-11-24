@@ -20,6 +20,9 @@ export const areaSlugs = {
 export type AreaId = keyof typeof areaSlugs;
 export function route(lang:Language,page:Page,reference='ses-calas'){
  const slug=page==='property'?`${slugs[lang].properties}/${encodeURIComponent(reference)}`:page==='area'?`${slugs[lang].living}/${areaSlugs[(reference in areaSlugs?reference:'heart') as AreaId][lang]}`:slugs[lang][page];
+ // Homes for sale now live inside Buy (24 Nov): links to 'properties' land on the homes there.
+ // Property pages keep their /properties/ address, so shared links still work.
+ if(page==='properties')return `/${lang}/${slugs[lang].buy}/#homes`;
  return `/${lang}/${slug}${page==='home'?'':'/'}`;
 }
 export function propertyReference(lang:Language,slug:string):string|undefined{

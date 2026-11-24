@@ -1488,3 +1488,12 @@ details.language-menu summary::after,details.language-menu[open] summary::after{
 .about-portrait{max-width:300px}
 @media(max-width:860px){.about-portrait{max-width:220px}}
 @media(max-width:760px){.meet-band{grid-template-columns:1fr}.meet-band .meet-photo{max-width:10rem}}
+/* Buy with the homes inside it (24 Nov): a short introduction, then the homes straight away. */
+.buy-intro{padding-top:var(--space-3xl);padding-bottom:var(--space-xl);max-width:none}
+.buy-intro h1{font-size:var(--text-cover);line-height:1;letter-spacing:-.025em;max-width:16ch;margin:var(--space-sm) 0 var(--space-md)}
+.buy-intro .lead{max-width:640px;margin-bottom:var(--space-md)}
+.collection-page .collection-heading{font-size:var(--text-section, 2.25rem);line-height:1.1;margin:0 0 var(--space-lg);padding-top:var(--space-xl);border-top:1px solid var(--line, rgba(0,0,0,.12))}
+#homes{scroll-margin-top:96px}
+@media(max-width:760px){.buy-intro{padding-top:var(--space-xl)}}
+.buy-intro{padding-top:var(--space-2xl);padding-bottom:0}
+.buy-intro+.collection-page{padding-top:var(--space-xl)}

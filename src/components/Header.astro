@@ -1,13 +1,13 @@
 ---
-// Header: the wordmark, the three doors (Buy, Sell, Holiday rentals) then Properties, Ibiza and About inline from
+// Header: the wordmark, the three doors (Buy, Sell, Holiday rentals) then Ibiza and About inline from
 // 1180px, the language menu and one button, Start your search. Below that a Menu button opens the full-screen list.
 import {route,languages,languageNames,type Language,type Page} from '../lib/routes';
 import {ui} from '../data/ui';import {brand} from '../data/brand';import {whatsappLink} from '../lib/enquiry';
 interface Props{lang:Language;page:Page;reference?:string;}
 const {lang,page,reference}=Astro.props;const t=ui[lang];
-const nav=['buy','sell','rentals','properties','living','about'] as const;
+const nav=['buy','sell','rentals','living','about'] as const;
 const labels={buy:t.navBuy,sell:t.navSell,rentals:t.navRent,properties:t.properties,living:t.navLiving,about:t.about,contact:t.startSearch};
-const current=(item:string)=>page===item||page==='property'&&item==='properties'||page==='area'&&item==='living'?'page':undefined;
+const current=(item:string)=>page===item||page==='property'&&item==='buy'||page==='area'&&item==='living'?'page':undefined;
 const label={en:'Main navigation',es:'Navegación principal',fr:'Navigation principale'}[lang];
 ---
 <a class="skip" href="#main">{t.skip}</a>

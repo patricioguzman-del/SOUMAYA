@@ -7,7 +7,9 @@ import PropertyCard from './PropertyCard.astro';import ArrowLink from './ArrowLi
 import {ui} from '../data/ui';import {areas} from '../data/ibiza';import {route,type Language} from '../lib/routes';
 import {areaOf,type Listing} from '../lib/listings';
 interface Props{lang:Language;properties:Listing[];}
-const {lang,properties}=Astro.props;const t=ui[lang];
+const {lang,properties}=Astro.props;
+// Shown inside Buy (24 Nov): the homes come straight after her short introduction, under a plain heading.
+const t=ui[lang];
 const forSale=properties.filter(property=>property.status==='for-sale');
 const countIn=(id:string)=>forSale.filter(property=>areaOf(property.reference)===id).length;
 // Price bands in euros, written as min-max (max 0 = no upper limit).
@@ -19,8 +21,8 @@ const inBand=(value:string)=>{const [min,max]=value.split('-').map(Number);retur
 const showSearch=forSale.length>=8;
 const words={en:{home:'home',homes:'homes',of:'of'},es:{home:'casa',homes:'casas',of:'de'},fr:{home:'maison',homes:'maisons',of:'sur'}}[lang];
 ---
-<section class="collection-page wrap" aria-labelledby="collection-title">
- <div class="page-intro"><p class="eyebrow">{t.tagline}</p><h1 id="collection-title">{t.selected}</h1><p>{t.collectionIntro}</p></div>
+<section class="collection-page wrap" id="homes" aria-labelledby="collection-title">
+ <h2 id="collection-title" class="collection-heading">{t.properties}</h2>
  {showSearch&&<Fragment>
  <form class="search-tools" data-search role="search" aria-label={t.forSaleTitle} data-words={JSON.stringify(words)}>
   <div class="search-field"><label for="search-area">{t.filterArea}</label><select id="search-area" name="area"><option value="">{t.filterAnyArea}</option>{areas.filter(area=>countIn(area.id)>0).map(area=><option value={area.id}>{area[lang].title} ({countIn(area.id)})</option>)}</select></div>
