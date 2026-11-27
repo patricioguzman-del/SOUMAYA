@@ -1514,6 +1514,10 @@ h4{margin:0;font-family:var(--font-display);font-weight:400;letter-spacing:var(-
 #selling .how-part-head{margin-top:0;border-top:0}
 
 /* Nothing in bold (24 Nov): one weight for all text, so the site stays quiet and minimal.
-   Only the SOUMAYA wordmark keeps its own weight. Small capitals are a touch larger to stay readable. */
+   Only the SOLERA | IBIZA wordmark keeps its own weight. Small capitals are a touch larger to stay readable. */
 b,strong,th,dt,legend,summary,optgroup{font-weight:400}
 .eyebrow{font-size:.6875rem}
+
+/* Wordmark SOLERA | IBIZA (27 Nov): a thin, lighter rule between the two words. */
+.wordmark-sep{display:inline-block;margin:0 .45em;font-weight:300;opacity:.45;transform:translateY(-.04em)}
+@media(max-width:420px){.header .wordmark{font-size:1.3rem;letter-spacing:.06em}}

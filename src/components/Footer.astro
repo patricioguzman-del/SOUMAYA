@@ -9,7 +9,7 @@ const year=new Date().getFullYear();
 ---
 <footer class="footer">
  <div class="wrap footer-grid">
-  <div class="footer-brand"><a class="wordmark" href={route(lang,'home')}>{brand.wordmark}</a><p class="eyebrow">{t.tagline}</p><p>{t.footer}</p></div>
+  <div class="footer-brand"><a class="wordmark" href={route(lang,'home')} aria-label={brand.agency}>{brand.wordmark.map((word,i)=><>{i>0&&<span class="wordmark-sep" aria-hidden="true">|</span>}{word}</>)}</a><p class="eyebrow">{t.tagline}</p><p>{t.footer}</p></div>
   <nav class="footer-pages" aria-label={({en:'Pages',es:'Páginas',fr:'Pages'})[lang]}>{nav.map(item=><a href={route(lang,item)}>{labels[item]}</a>)}</nav>
   <div class="footer-contact" role="group" aria-label={t.contact}><a href={`mailto:${brand.email}`}>{brand.email}</a><a href={`tel:${brand.phoneHref}`}>{brand.phone}</a><a href={whatsappLink(lang)} target="_blank" rel="noopener">WhatsApp <span aria-hidden="true">↗</span></a></div>
   <div class="footer-last"><p>© {year} {brand.agency}. {t.rights}</p><nav class="footer-legal" aria-label="Legal">{(['legal','privacy','cookies'] as const).map(item=><a href={route(lang,item)}>{legal[lang][item].title}</a>)}</nav><div class="footer-last-links"><span class="footer-language">{languages.map((code,i)=><Fragment>{i>0&&' / '}<a href={route(code,page,reference)} lang={code} hreflang={code} aria-current={code===lang?'true':undefined}>{code.toUpperCase()}</a></Fragment>)}</span><ArrowLink class="text-link" href="#main" arrow="↑">{t.top}</ArrowLink></div></div>

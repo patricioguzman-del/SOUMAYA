@@ -5,7 +5,7 @@ export const brand={
  agency:'Solera', // the website and the business
  name:'Soumaya', // the advisor
  fullName:'Soumaya',
- wordmark:'SOLERA',
+ wordmark:['SOLERA','IBIZA'], // shown as SOLERA | IBIZA (27 Nov)
  tagline:{en:'PERSONAL PROPERTY ADVISOR · IBIZA',es:'ASESORA INMOBILIARIA PERSONAL · IBIZA',fr:'CONSEILLÈRE IMMOBILIÈRE PERSONNELLE · IBIZA'},
  domain:'https://solera-ibiza.com',
  email:'hello@soumaya.example', // placeholder
