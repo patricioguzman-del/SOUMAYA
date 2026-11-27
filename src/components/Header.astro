@@ -11,7 +11,7 @@ const current=(item:string)=>page===item||page==='property'&&item==='properties'
 const label={en:'Main navigation',es:'Navegación principal',fr:'Navigation principale'}[lang];
 ---
 <a class="skip" href="#main">{t.skip}</a>
-<header class="header wrap"><a class="wordmark" href={route(lang,'home')} aria-label={`${brand.name}, ${t.tagline.toLowerCase()}`}>{brand.wordmark}</a>
+<header class="header wrap"><a class="wordmark" href={route(lang,'home')} aria-label={`${brand.agency}, ${t.tagline.toLowerCase()}`}>{brand.wordmark}</a>
 <nav id="navigation" aria-label={label}>{[...nav,'contact' as const].map(item=><a class="header-nav-link" href={route(lang,item)} aria-current={current(item)}>{labels[item]}</a>)}<div class="menu-contact"><a href={`mailto:${brand.email}`}>{brand.email}</a><a href={`tel:${brand.phoneHref}`}>{brand.phone}</a><a href={whatsappLink(lang)} target="_blank" rel="noopener">WhatsApp <span aria-hidden="true">↗</span></a><div class="menu-languages">{languages.map(code=><a href={route(code,page,reference)} lang={code} hreflang={code} aria-current={code===lang?'true':undefined}>{code.toUpperCase()}</a>)}</div></div></nav>
 <nav class="header-inline" aria-label={label}>{nav.map(item=><a href={route(lang,item)} aria-current={current(item)}>{labels[item]}</a>)}</nav>
 <div class="header-actions">

@@ -37,7 +37,7 @@ export function enquiryText(data:Enquiry,lang:Lang){
  return lines.join('\n\n');
 }
 export function emailLink(text:string,property:string|undefined,lang:Lang){
- const subject=property?`${property} · ${brand.name}`:`${words[lang].enquiry} · ${brand.name}`;
+ const subject=property?`${property} · ${brand.agency}`:`${words[lang].enquiry} · ${brand.agency}`;
  return `mailto:${brand.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
 }
 // WhatsApp: a first line (or a finished letter) the visitor can edit before sending.

@@ -9,7 +9,8 @@ const url=(path:string)=>new URL(path,site).href;
 const agentId=`${site}/#agent`;
 
 export function agent(lang:Language){
- return {'@type':'RealEstateAgent','@id':agentId,name:brand.name,url:url(route(lang,'home')),
+ return {'@type':'RealEstateAgent','@id':agentId,name:brand.agency,
+  employee:{'@type':'Person',name:brand.fullName,jobTitle:brand.role[lang]},url:url(route(lang,'home')),
   image:url('/media/soumaya-portrait-960.webp'),
   email:brand.email,telephone:brand.phone,
   areaServed:{'@type':'Place',name:'Ibiza, Balearic Islands, Spain'},

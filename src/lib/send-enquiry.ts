@@ -18,11 +18,11 @@ export async function sendEnquiry(input:unknown,env:SendEnv,send:typeof fetch=fe
   details:Array.isArray(raw.details)?raw.details.slice(0,12).filter((pair):pair is [unknown,unknown]=>Array.isArray(pair)&&pair.length===2).map(([label,value])=>[text(label,60),text(value,200)] as [string,string]).filter(([label,value])=>label&&value):undefined};
  if(Object.keys(validateEnquiry(data)).length)return {status:400,body:{ok:false,error:'invalid'}};
  if(!env.RESEND_API_KEY)return {status:503,body:{ok:false,error:'not-configured'}};
- const subject=(data.writingFor==='client'?L.client:'')+(data.property?`${data.property} · ${L.enquiry} · ${brand.name}`:`${L[data.intent]} · ${brand.name}`);
+ const subject=(data.writingFor==='client'?L.client:'')+(data.property?`${data.property} · ${L.enquiry} · ${brand.agency}`:`${L[data.intent]} · ${brand.agency}`);
  const email=data.email.trim();
  try{
   const response=await send('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
-   body:JSON.stringify({from:env.ENQUIRY_FROM||`${brand.name} website <onboarding@resend.dev>`,to:[env.ENQUIRY_TO||brand.email],...(email?{reply_to:email}:{}),subject,text:`${enquiryText(data,lang)}
+   body:JSON.stringify({from:env.ENQUIRY_FROM||`${brand.agency} website <onboarding@resend.dev>`,to:[env.ENQUIRY_TO||brand.email],...(email?{reply_to:email}:{}),subject,text:`${enquiryText(data,lang)}
 
 —
 ${L.sent}`})});
