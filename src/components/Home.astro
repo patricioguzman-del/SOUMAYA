@@ -1,6 +1,6 @@
 ---
-// The homepage of a personal property advisor (order from the audit, 24 Nov): the promise and three doors
-// (buy, sell, holiday rentals), Meet Soumaya, selected homes, the island, then a private conversation, so the
+// The homepage of a personal property advisor (order from the audit, 24 Nov; Meet Soumaya moved up 28 Nov): the promise,
+// Meet Soumaya with a large portrait, three doors (buy, sell, holiday rentals), selected homes, the island, then a private conversation, so the
 // page ends with the invitation to speak. How she works lives on Buy; the full rental pitch on Holiday rentals.
 import Photo from './Photo.astro';import ArrowLink from './ArrowLink.astro';import ServiceIcon from './ServiceIcon.astro';
 import {priceOf} from '../lib/format';import {ui} from '../data/ui';import {route,type Language} from '../lib/routes';
@@ -25,13 +25,13 @@ const doorPages=['buy','sell','rentals'] as const;const doorIcons=[0,1,3];
  </div>
 </section>
 
-<section class="doors wrap" aria-label={`${t.navBuy} · ${t.navSell} · ${t.navRent}`}>
- {t.doors.map(([title,text,action],i)=><a class="door" href={route(lang,doorPages[i])}><ServiceIcon index={doorIcons[i]}/><h2>{title}</h2><p>{text}</p><span class="small-link door-link">{action} <span aria-hidden="true">→</span></span></a>)}
+<section class="meet-band wrap" aria-labelledby="meet-title">
+ <Photo image={homepage.portrait} alt={({en:'Portrait of Soumaya',es:'Retrato de Soumaya',fr:'Portrait de Soumaya'})[lang]} class="meet-photo meet-portrait" sizes="(max-width:760px) 92vw, 45vw"/>
+ <div class="meet-text"><p class="eyebrow">{t.founderRole.toUpperCase()}</p><h2 id="meet-title">{t.meetHeading}</h2><p>{t.meetCopy}</p><ArrowLink class="small-link" href={route(lang,'about')}>{t.myStory}</ArrowLink></div>
 </section>
 
-<section class="meet-band wrap" aria-labelledby="meet-title">
- <Photo image={homepage.portrait} alt={({en:'Portrait of Soumaya',es:'Retrato de Soumaya',fr:'Portrait de Soumaya'})[lang]} class="meet-photo meet-portrait" sizes="(max-width:760px) 60vw, 30vw"/>
- <div class="meet-text"><p class="eyebrow">{t.founderRole.toUpperCase()}</p><h2 id="meet-title">{t.meetHeading}</h2><p>{t.meetCopy}</p><ArrowLink class="small-link" href={route(lang,'about')}>{t.myStory}</ArrowLink></div>
+<section class="doors wrap" aria-label={`${t.navBuy} · ${t.navSell} · ${t.navRent}`}>
+ {t.doors.map(([title,text,action],i)=><a class="door" href={route(lang,doorPages[i])}><ServiceIcon index={doorIcons[i]}/><h2>{title}</h2><p>{text}</p><span class="small-link door-link">{action} <span aria-hidden="true">→</span></span></a>)}
 </section>
 
 <section class="curated wrap" aria-labelledby="curated-title">

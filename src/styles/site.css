@@ -1527,3 +1527,22 @@ b,strong,th,dt,legend,summary,optgroup{font-weight:400}
  a:hover{text-decoration-thickness:1px}
  .wordmark:hover{text-decoration-thickness:.5px;text-underline-offset:8px;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent)}
 }
+
+/* Homepage, more personal (28 Nov): Meet Soumaya comes straight after the hero, with a large portrait,
+   then the three doors. Small capitals on the homepage are a little larger to read easily.
+   On phones the three doors become a compact list, so visitors reach Soumaya and the homes sooner. */
+.home-editorial .meet-band{grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);padding-block:clamp(64px,8vw,112px) clamp(40px,5vw,72px)}
+.home-editorial .meet-band .meet-photo{width:100%;max-width:none;aspect-ratio:4/5}
+.home-editorial .doors{margin-top:0}
+.home-editorial .eyebrow,.home-editorial .meet-band .meet-text p.eyebrow,.home-editorial .small-link,.home-editorial .curated-meta{font-size:.8125rem}
+.home-editorial main .button{font-size:.75rem}
+@media(max-width:760px){
+ .home-editorial .meet-band{grid-template-columns:1fr;gap:var(--space-lg);padding-block:48px 32px}
+ .home-editorial .meet-band .meet-photo{max-width:none;aspect-ratio:4/4.6}
+ .home-editorial .doors{gap:0;border-top:1px solid var(--rule)}
+ .home-editorial .door{display:grid;grid-template-columns:28px 1fr;column-gap:14px;row-gap:6px;padding:22px 0;border:0;border-bottom:1px solid var(--rule);background:transparent}
+ .home-editorial .door .service-icon{grid-row:1;align-self:center}
+ .home-editorial .door h2{font-size:1.75rem;grid-column:2}
+ .home-editorial .door p,.home-editorial .door .door-link{grid-column:2}
+ .home-editorial .door .door-link{min-height:36px}
+}
