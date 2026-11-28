@@ -19,7 +19,7 @@ Patricio Guzman runs this project. He is not a developer or designer: explain re
 - Names, email, phone, domain: `src/data/brand.ts` (`agency` = Solera, `name` = Soumaya, `wordmark`, `email` = soumaya@solera-ibiza.com).
 - Island guide (six areas): `src/data/ibiza.ts`. Legal and privacy: `src/data/legal.ts`. Homepage images: `src/data/homepage.ts`.
 - Styles: `src/styles/site.css` (later rules at the end override earlier ones). Pages: `src/pages/[lang]/[...slug].astro`, routes in `src/lib/routes.ts`, redirects in `vercel.json`.
-- Listings are synced at build time from the AUBA repo (`scripts/sync-auba.mjs`; Vercel uses `AUBA_GITHUB_TOKEN`, set for Production only, so branch previews fail to build). Don't edit `src/data/auba/`.
+- Listings are synced at build time from the AUBA repo (`scripts/sync-auba.mjs`; Vercel uses `AUBA_GITHUB_TOKEN`: one key for Production, a second read-only key "Solera previews" for Preview, added 28 Nov 2026, expires after one year: renew it on GitHub then, or branch previews stop building). Don't edit `src/data/auba/`.
 
 ## Rules that must not be broken
 
