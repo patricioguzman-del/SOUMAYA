@@ -3,7 +3,7 @@
 // filled from the rest of the collection.
 export const homepage={
  featured:['casa-bloom','villa-miramar','sun-valley'],
- portrait:'soumaya-portrait', // her portrait (sent 23 Nov 2026); only in Meet Soumaya and About
+ portrait:'soumaya-portrait', // her portrait (new photo chosen by her, 28 Nov 2026); only in Meet Soumaya and About
  interior:'soumaya-interior',
  perspective:'ibiza-cover'
 } as const;
