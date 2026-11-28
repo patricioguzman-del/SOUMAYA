@@ -1,6 +1,6 @@
 // The agency and its advisor, in one place. Every page, the letter, WhatsApp and search data read from here.
 // The agency is Solera (27 Nov 2026); Soumaya is the advisor, so letters, bio and 'Speak with Soumaya' use her name.
-// PLACEHOLDER still to confirm: email.
+// Contact confirmed 28 Nov: soumaya@solera-ibiza.com.
 export const brand={
  agency:'Solera', // the website and the business
  name:'Soumaya', // the advisor
@@ -8,7 +8,7 @@ export const brand={
  wordmark:['SOLERA','IBIZA'], // shown as SOLERA | IBIZA (27 Nov)
  tagline:{en:'PERSONAL PROPERTY ADVISOR · IBIZA',es:'ASESORA INMOBILIARIA PERSONAL · IBIZA',fr:'CONSEILLÈRE IMMOBILIÈRE PERSONNELLE · IBIZA'},
  domain:'https://solera-ibiza.com',
- email:'hello@soumaya.example', // placeholder
+ email:'soumaya@solera-ibiza.com',
  phone:'+33 6 22 71 00 71',
  phoneHref:'+33622710071',
  whatsapp:'33622710071', // digits only
