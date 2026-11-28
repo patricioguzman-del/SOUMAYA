@@ -6,7 +6,7 @@ export const brand={
  name:'Soumaya', // the advisor
  fullName:'Soumaya',
  wordmark:['SOLERA','IBIZA'], // shown as SOLERA | IBIZA (27 Nov)
- tagline:{en:'PERSONAL PROPERTY ADVISOR · IBIZA',es:'ASESORA INMOBILIARIA PERSONAL · IBIZA',fr:'CONSEILLÈRE IMMOBILIÈRE PERSONNELLE · IBIZA'},
+ tagline:{en:'PERSONAL PROPERTY ADVISOR · IBIZA',es:'ASESORAMIENTO INMOBILIARIO A MEDIDA · IBIZA',fr:'CONSEIL IMMOBILIER SUR MESURE · IBIZA'},
  domain:'https://solera-ibiza.com',
  email:'soumaya@solera-ibiza.com',
  phone:'+33 6 22 71 00 71',
