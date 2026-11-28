@@ -50,7 +50,6 @@ Warm, calm, personal, never salesy. She takes the client by the hand. Avoid agen
 
 ## Still pending
 
-- Connect solera-ibiza.com to Vercel (domain + DNS).
 - Direct email delivery with Resend (built, switched off; the form opens the visitor's email app for now).
 - Legal company details; French texts for the listings; one line per selected home on why she chose it.
 - Logo: options "IBIZA small underneath" and "Ibiza in italic" were shown on 27 Nov; not decided.
