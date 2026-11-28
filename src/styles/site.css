@@ -1521,3 +1521,9 @@ b,strong,th,dt,legend,summary,optgroup{font-weight:400}
 /* Wordmark SOLERA | IBIZA (27 Nov): a thin, lighter rule between the two words. */
 .wordmark-sep{display:inline-block;margin:0 .45em;font-weight:300;opacity:.45;transform:translateY(-.04em)}
 @media(max-width:420px){.header .wordmark{font-size:1.3rem;letter-spacing:.06em}}
+/* Hover underline (28 Nov): 'text-decoration:underline' on hover reset the thickness to the font's own, which is
+   heavy at logo size. Links keep a 1px line; the SOLERA | IBIZA wordmark gets a hairline in a softer tone. */
+@media(hover:hover) and (pointer:fine){
+ a:hover{text-decoration-thickness:1px}
+ .wordmark:hover{text-decoration-thickness:.5px;text-underline-offset:8px;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent)}
+}
