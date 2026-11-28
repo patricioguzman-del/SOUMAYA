@@ -1546,3 +1546,11 @@ b,strong,th,dt,legend,summary,optgroup{font-weight:400}
  .home-editorial .door p,.home-editorial .door .door-link{grid-column:2}
  .home-editorial .door .door-link{min-height:36px}
 }
+
+/* About (28 Nov): her portrait the same size and crop as in Meet Soumaya on the homepage. */
+@media(min-width:861px){.about-story{grid-template-columns:minmax(0,400px) minmax(0,1fr)}}
+.about-portrait{position:relative;width:100%;max-width:400px;aspect-ratio:4/5}
+.about-portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+@media(min-width:861px){.about-portrait{position:sticky}}
+@media(max-width:860px){.about-portrait{max-width:400px}}
+@media(max-width:760px){.about-portrait{max-width:none;aspect-ratio:4/4.6}}
